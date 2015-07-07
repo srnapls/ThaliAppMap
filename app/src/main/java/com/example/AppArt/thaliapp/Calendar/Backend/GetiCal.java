@@ -110,6 +110,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
                 summary));
     }
 
+    //TODO Frank: Add pruning of passed events?
     public List<ThaliaEvent> getNewEvents() {
         return newEvents;
     }
