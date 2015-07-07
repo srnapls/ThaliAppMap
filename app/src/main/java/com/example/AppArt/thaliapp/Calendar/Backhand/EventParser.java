@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /*
 Post-Lisa interventie series:
-Gitcomment: test 1
+Gitcomment: test 2
  */
 
 /**
