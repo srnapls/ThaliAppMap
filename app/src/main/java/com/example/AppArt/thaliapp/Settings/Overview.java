@@ -1,8 +1,6 @@
 package com.example.AppArt.thaliapp.Settings;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,15 +17,15 @@ import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
 public class Overview extends ActionBarActivity {
-    String[] info;
-    SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +36,11 @@ public class Overview extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        info = new String[sharedpreferences.getInt("length", 0)];
-        for (int i = 0; i < info.length; i++) {
-            info[i] = sharedpreferences.getString("all_" + i, null);
-        }
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
-
-    public String[] getInfo() {
-        return info;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,12 +62,7 @@ public class Overview extends ActionBarActivity {
             startActivity(i);
         }
         if (id == R.id.action_clear) {
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putInt("length", 0);
-            for (int i = 0; i < sharedpreferences.getInt("length", 0); i++) {
-                editor.putString("all_" + i, null);
-            }
-            editor.commit();
+            Database.getDatabase().emptyReceipts();
             Intent i = new Intent(this, Overview.class);
             startActivity(i);
         }
@@ -92,6 +75,7 @@ public class Overview extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends ListFragment {
         String[] info;
+        List<String[]> receipts = new ArrayList<>();
 
         public PlaceholderFragment() {
         }
@@ -99,8 +83,19 @@ public class Overview extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Overview o = (Overview) getActivity();
-            info = o.getInfo();
+            receipts = Database.getDatabase().getReceipts();
+            int length = 0;
+            for (int i = 0; i < receipts.size(); i++) {
+                length += receipts.get(i).length;
+            }
+            int place = 0;
+            info = new String[length];
+            for (int i = 0; i < receipts.size(); i++) {
+                for (int j = 0; j < receipts.get(i).length; j++) {
+                    info[place] = receipts.get(i)[j];
+                    place++;
+                }
+            }
             if (info.length == 0) {
                 Toast.makeText(getActivity(), "There have been no submission as of yet", Toast.LENGTH_SHORT).show();
             }

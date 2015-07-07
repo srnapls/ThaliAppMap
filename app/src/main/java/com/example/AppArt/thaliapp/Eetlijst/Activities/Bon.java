@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Database;
 
 /**
  *
@@ -43,7 +44,6 @@ public class Bon extends ActionBarActivity {
                     .commit();
         }
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
             chosen = extras.getStringArray("chosen");
             bedrag = extras.getDouble("bedrag", 0.0);
@@ -66,20 +66,12 @@ public class Bon extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
-    public String[] getChosen() {
-        return chosen;
-    }
-
-    public Double getBedrag() {
-        return bedrag;
-    }
-
-    public String getNaam() {
-        return naam;
+    public String[] getAll() {
+        return all;
     }
 
     public void send(View v) {
-        saveInformation();
+        Database.getDatabase().addReceipt(chosen);
         Intent intent = getIntent();
         chosen = null;
         intent.putExtra("chosen", chosen);
@@ -97,23 +89,11 @@ public class Bon extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void saveInformation() {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("length", size);
-        for (int i = 0; i < size; i++) {
-            editor.putString("all_" + i, all[i]);
-        }
-        editor.commit();
-    }
-
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class BonFragment extends ListFragment {
-        public String[] chosen;
-        public Double bedrag;
         private String[] all;
-        public String naam;
 
         public BonFragment() {
         }
@@ -122,19 +102,7 @@ public class Bon extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             Bon b = (Bon) getActivity();
-            bedrag = b.getBedrag();
-            chosen = b.getChosen();
-            naam = b.getNaam();
-            int size;
-            if (chosen == null) {
-                size = 2;
-            } else {
-                size = chosen.length + 2;
-            }
-            all = new String[size];
-            all[0] = naam;
-            System.arraycopy(chosen != null ? chosen : new String[0], 0, all, 1, size - 1 - 1);
-            all[size - 1] = Double.toString(bedrag);
+            all = b.getAll();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
                     all);

@@ -38,7 +38,7 @@ public class Database {
 
     public void updateProducts() {
         ProductParser productParser = new ProductParser();
-
+//TODO
     }
 
     public void addReceipt(String[] receipt) {
