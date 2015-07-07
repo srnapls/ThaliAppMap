@@ -15,8 +15,13 @@ import java.util.ArrayList;
  */
 public class Database {
     private static Database database = null;
+
     private ArrayList<ThaliaEvent> events = new ArrayList<>();
-    private ArrayList<Product> products = new ArrayList<>();
+
+    private ArrayList<Product> productsFries = new ArrayList<>();
+    private ArrayList<Product> productsPizza = new ArrayList<>();
+    private ArrayList<Product> productsSandwich = new ArrayList<>();
+    private ArrayList<Product> productsSnacks = new ArrayList<>();
 
 
     private Database(){
@@ -36,9 +41,7 @@ public class Database {
     }
 
     public void updateProducts(){
-        ProductParser productParser = new ProductParser();
-        // Ik weet niet hoe je dit precies wil hebben Serena.
-        //  Wil je de lijsten per categorie of alles op een hoop?
+
     }
 
     public ArrayList<ThaliaEvent> getEvents(){return events;}
