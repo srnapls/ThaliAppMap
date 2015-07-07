@@ -86,7 +86,7 @@ public class Settings extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class ListFragment extends android.support.v4.app.ListFragment {
-        String[] lijst = new String[]{"Notifications", "Login"};
+        String[] menuList = new String[]{"Notifications", "Login"};
         SharedPreferences sharedpreferences;
 
         public ListFragment() {
@@ -121,7 +121,7 @@ public class Settings extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             Settings s = (Settings) getActivity();
             sharedpreferences = s.getSharedpreferences();
-            ArrayAdapter<String> adapt = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, lijst);
+            ArrayAdapter<String> adapt = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, menuList);
             setListAdapter(adapt);
             return super.onCreateView(inflater, container, savedInstanceState);
         }

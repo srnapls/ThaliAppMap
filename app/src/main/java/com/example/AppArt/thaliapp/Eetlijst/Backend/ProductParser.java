@@ -25,6 +25,7 @@ public class ProductParser {
      *
      */
     public void Parsing() {
+        // TODO: fix dubbelheid
         parsedFries.clear();
         parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
         parsedPizza.clear();

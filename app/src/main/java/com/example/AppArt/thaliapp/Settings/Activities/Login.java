@@ -26,7 +26,7 @@ import com.example.AppArt.thaliapp.R;
 public class Login extends ActionBarActivity {
     private final String inlog = "admin";
     private final String wachtwoord = "admin";
-    private EditText naam;
+    private EditText name;
     private EditText password;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "Settings";
@@ -35,7 +35,7 @@ public class Login extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inlog);
-        naam = (EditText) findViewById(R.id.Inlognaam);
+        name = (EditText) findViewById(R.id.Inlognaam);
         password = (EditText) findViewById(R.id.Wachtwoord);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         ActionBar actionBar = getSupportActionBar();
@@ -84,7 +84,7 @@ public class Login extends ActionBarActivity {
     public void send(View v) {
         String s1, s2;
 
-        s1 = naam.getText().toString();
+        s1 = name.getText().toString();
         s2 = password.getText().toString();
         if (s1.equals(inlog) && s2.equals(wachtwoord)) {
             SharedPreferences.Editor editor = sharedpreferences.edit();

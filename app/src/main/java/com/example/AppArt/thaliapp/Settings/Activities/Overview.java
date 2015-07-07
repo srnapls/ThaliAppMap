@@ -87,7 +87,7 @@ public class Overview extends ActionBarActivity {
             receipts = Database.getDatabase().getReceipts();
             fillInfo();
             if (info.length == 0) {
-                Toast.makeText(getActivity(), "There have been no submission as of yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "De bon is leeg", Toast.LENGTH_SHORT).show();
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
