@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="Base.V21.Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColorPrimary">#000000</item>
         <item name="colorPrimary">#ED1B9B</item>
         <item name="android:colorPrimaryDark">#D01177</item>
@@ -9,22 +9,10 @@
 
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
+    
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:colorBackground">#ED1B9B</item>
-        <item name="android:textColor">#FFFFFF</item>
-
-        <item name="titleTextStyle">@style/MyTitleText</item>
-        
-        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButton</item>
-    </style>
-
-    <style name="MyTitleText" parent="Base.TextAppearance.AppCompat.Title">
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-    <style name="MyOverflowButton" parent="Base.Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:icon">@drawable/overflowbutton</item>
     </style>
 
 </resources>
