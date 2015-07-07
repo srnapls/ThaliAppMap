@@ -36,12 +36,6 @@ public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
     SparseArray<Group> groups = new SparseArray<Group>();
     public ArrayList<ThaliaEvent> evenementen = new ArrayList<>();
-    public ArrayList<ThaliaEvent> parties = new ArrayList<>();
-    public ArrayList<ThaliaEvent> workshops = new ArrayList<>();
-    public ArrayList<ThaliaEvent> ALVs = new ArrayList<>();
-    public ArrayList<ThaliaEvent> borrel = new ArrayList<>();
-    public ArrayList<ThaliaEvent> lezing = new ArrayList<>();
-    public ArrayList<ThaliaEvent> overig = new ArrayList<>();
     private String[] soort;
 
     @Override
@@ -63,44 +57,6 @@ public class Calendar extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
-    private void sort() {
-        for (int i = 0; i < evenementen.size(); i++) {
-            switch (evenementen.get(i).getCategory()) {
-                case BORREL:
-                    borrel.add(evenementen.get(i));
-                    break;
-                case LECTURE:
-                    lezing.add(evenementen.get(i));
-                    break;
-                case ALV:
-                    ALVs.add(evenementen.get(i));
-                    break;
-                case PARTY:
-                    parties.add(evenementen.get(i));
-                    break;
-                case WORKSHOP:
-                    workshops.add(evenementen.get(i));
-                    break;
-                case DEFAULT:
-                    overig.add(evenementen.get(i));
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private String Inhoud(ThaliaEvent t) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(t.getSummary());
-        sb.append("\n");
-        sb.append(t.duration());
-        sb.append("\n");
-
-        sb.append(t.getLocation());
-        return sb.toString();
-    }
-
     public void getData() {
         GetiCal getiCal = new GetiCal();
         getiCal.execute();
@@ -111,7 +67,6 @@ public class Calendar extends ActionBarActivity {
         }
         evenementen = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
         Collections.sort(evenementen);
-        sort();
         if (evenementen.size() != 0) removeLast();
     }
 
@@ -120,10 +75,10 @@ public class Calendar extends ActionBarActivity {
         while (i < evenementen.size()) {
             ThaliaEvent t = evenementen.get(i);
             Group groep = new Group(t.getDatumString());
-            groep.children.add(Inhoud(evenementen.get(i)));
+            groep.children.add(evenementen.get(i).makeSummary());
             i++;
             while (i < evenementen.size() && evenementen.get(i).getDatumString().equals(t.getDatumString())) {
-                groep.children.add(Inhoud(evenementen.get(i)));
+                groep.children.add(evenementen.get(i).makeSummary());
                 i++;
             }
             groups.append(j, groep);

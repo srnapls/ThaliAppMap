@@ -187,6 +187,16 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return catIcon;
     }
 
+    public String makeSummary() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(summary);
+        sb.append("\n");
+        sb.append(duration());
+        sb.append("\n");
+        sb.append(location);
+        return sb.toString();
+    }
+
     /**
      * @return Gregorian Calendar format of the StringDate format
      */
