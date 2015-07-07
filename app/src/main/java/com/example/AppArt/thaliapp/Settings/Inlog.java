@@ -9,14 +9,16 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
+import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.R;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -41,12 +43,12 @@ public class Inlog extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+      public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_calendar, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_calendar, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -54,14 +56,22 @@ public class Inlog extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.menu1:
+                Intent intent1 = new Intent(this, Calendar.class);
+                startActivity(intent1);
+                break;
+            case R.id.menu2:
+                Intent intent2 = new Intent(this, Eetlijst.class);
+                startActivity(intent2);
+                break;
+            case R.id.menu4:
+                Intent intent4 = new Intent(this, Settings.class);
+                startActivity(intent4);
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void send(View v) {
