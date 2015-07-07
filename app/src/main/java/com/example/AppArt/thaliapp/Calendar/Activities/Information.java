@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Database;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -89,11 +90,9 @@ public class Information extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Calendar calendar = new Calendar();
-            calendar.getData();
             Bundle b = getActivity().getIntent().getExtras();
             index = b.getInt("index");
-            event = calendar.events.get(index);
+            event = Database.getDatabase().getEvents().get(index);
             fillString();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,

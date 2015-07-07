@@ -22,7 +22,6 @@ import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
 import com.example.AppArt.thaliapp.R;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -82,6 +81,7 @@ public class Settings extends ActionBarActivity {
         }
         return true;
     }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -109,7 +109,7 @@ public class Settings extends ActionBarActivity {
                         Intent i = new Intent(getActivity(), Overview.class);
                         startActivity(i);
                     } else {
-                        Intent i = new Intent(getActivity(), Inlog.class);
+                        Intent i = new Intent(getActivity(), Login.class);
                         startActivity(i);
                     }
                     break;
