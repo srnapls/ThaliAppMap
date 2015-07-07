@@ -14,10 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Database;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -41,8 +40,8 @@ public class Receipt extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             chosen = extras.getStringArray("chosen");
-            bedrag = extras.getDouble("bedrag", 0.0);
-            name = extras.getString("name", "Test");
+            bedrag = extras.getDouble("amount", 0.0);
+            name = extras.getString("name", " ");
         }
         if (chosen == null) {
             size = 2;
@@ -68,9 +67,8 @@ public class Receipt extends ActionBarActivity {
     public void send(View v) {
         Database.getDatabase().addReceipt(chosen);
         Intent intent = getIntent();
-        chosen = null;
-        intent.putExtra("chosen", chosen);
-        intent.putExtra("bedrag", 0.0);
+        intent.putExtra("chosen", (String[]) null);
+        intent.putExtra("amount", 0.0);
         intent.putExtra("name", (String) null);
         startActivity(intent);
     }
@@ -78,7 +76,7 @@ public class Receipt extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            startActivity(new Intent(this, Eetlijst.class));
+            startActivity(new Intent(this, Restaurant.class));
             return true;
         }
         return super.onKeyDown(keyCode, event);

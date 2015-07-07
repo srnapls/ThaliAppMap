@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
+import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 
 /**
@@ -28,7 +28,7 @@ import com.example.AppArt.thaliapp.R;
 
 public class Settings extends ActionBarActivity {
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES = "Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class Settings extends ActionBarActivity {
                 startActivity(intent1);
                 break;
             case R.id.menu2:
-                Intent intent2 = new Intent(this, Eetlijst.class);
+                Intent intent2 = new Intent(this, Restaurant.class);
                 startActivity(intent2);
                 break;
             case R.id.menu4:

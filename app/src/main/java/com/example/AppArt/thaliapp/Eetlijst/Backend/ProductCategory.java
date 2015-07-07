@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Backhand;
+package com.example.AppArt.thaliapp.Eetlijst.Backend;
 
 /**
  * Defines all possible categories that a product can have.

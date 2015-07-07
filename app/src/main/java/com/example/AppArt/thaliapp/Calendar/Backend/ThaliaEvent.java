@@ -2,6 +2,7 @@ package com.example.AppArt.thaliapp.Calendar.Backhand;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.example.AppArt.thaliapp.R;
 
@@ -83,23 +84,21 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /**
      * Uses the description of an ThaliaEvent to figure out what category it is.
      *
-     * @param description
-     * @return
+     * @param description a string in where the category is given
+     * @return an EventCategory
      */
     private EventCategory categoryFinder(String description) {
-        EventCategory EvCat = EventCategory.DEFAULT;
         if (description.contains("borrel")) {
-            EvCat = EventCategory.BORREL;
+            return EventCategory.BORREL;
         } else if (description.contains("lezing")) {
-            EvCat = EventCategory.LECTURE;
+            return EventCategory.LECTURE;
         } else if (description.contains("feest") || description.contains("party")) {
-            EvCat = EventCategory.PARTY;
+            return EventCategory.PARTY;
         } else if (description.contains("alv") || description.contains("ALV")) {
-            EvCat = EventCategory.ALV;
+            return EventCategory.ALV;
         } else if (description.contains("workshop")) {
-            EvCat = EventCategory.WORKSHOP;
-        }
-        return EvCat;
+            return EventCategory.WORKSHOP;
+        } else return EventCategory.DEFAULT;
     }
 
     /**
@@ -107,7 +106,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * @return A .png file that represents the category of this event
      */
     private int catIconFinder(EventCategory cat) {
-        int catIcon = R.drawable.overigicoon;
+        int catIcon;
         switch (cat) {
             case ALV:
                 catIcon = R.drawable.alvicoon;
@@ -133,7 +132,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /**
      * Printfunction, useful when you're debugging
      *
-     * @return
+     * @return a string of the event
      */
     @Override
     public String toString() {
@@ -174,13 +173,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     public String makeSummary() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(summary);
-        sb.append("\n");
-        sb.append(duration());
-        sb.append("\n");
-        sb.append(location);
-        return sb.toString();
+        return summary + "\n" + duration() + "\n" + location;
     }
 
     /**
@@ -242,7 +235,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     // TODO Greg Cal is er uit gesloopd, dus nu fixen op basis van Strings
     @Override
-    public int compareTo(ThaliaEvent another) {
+    public int compareTo(@NonNull ThaliaEvent another) {
         return startDate.compareTo(another.startDate);
     }
 

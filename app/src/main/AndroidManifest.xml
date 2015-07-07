@@ -44,13 +44,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Settings.Settings"
+            android:name=".Settings.Activities.Settings"
             android:label="@string/title_activity_instellingen" />
         <activity
-            android:name=".Eetlijst.Activities.Eetlijst"
+            android:name=".Eetlijst.Activities.Restaurant"
             android:label="@string/title_activity_eetlijst" />
         <activity
-            android:name=".Settings.Notifications"
+            android:name=".Settings.Activities.Notifications"
             android:label="@string/title_activity_notifications" />
         <activity
             android:name=".Calendar.Activities.Information"
@@ -59,13 +59,13 @@
             android:name=".Eetlijst.Activities.Receipt"
             android:label="@string/title_activity_bon" />
         <activity
-            android:name=".Settings.Login"
+            android:name=".Settings.Activities.Login"
             android:label="@string/title_activity_inlog" />
         <activity
-            android:name=".Settings.Overview"
+            android:name=".Settings.Activities.Overview"
             android:label="@string/title_activity_overzicht" />
 
-        <receiver android:name=".Settings.AlarmReceiver" />
+        <receiver android:name=".Settings.Backend.AlarmReceiver" />
 
         <activity
             android:name=".Eetlijst.Activities.FoodList"

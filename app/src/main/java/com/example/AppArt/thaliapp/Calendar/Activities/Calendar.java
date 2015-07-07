@@ -14,19 +14,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
-import com.example.AppArt.thaliapp.Calendar.Backhand.Group;
-import com.example.AppArt.thaliapp.Calendar.Backhand.MyExpandableListAdapter;
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
+import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
+import com.example.AppArt.thaliapp.Calendar.Backend.Group;
+import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
+import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Database;
-import com.example.AppArt.thaliapp.Settings.Settings;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
+import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -36,19 +33,18 @@ import java.util.List;
 public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
     SparseArray<Group> groups = new SparseArray<>();
-    public List<ThaliaEvent> events;
-    private String[] kindOfEvent;
+    public ArrayList<ThaliaEvent> events = new ArrayList<>();
+    private EventCategory[] kindOfEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
-        events = Database.getDatabase().getEvents();
+        events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         createData();
         makeCategories();
         adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-        adapter.addCategories(kindOfEvent);
         adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         listView.setAdapter(adapter);
         listView.setClickable(true);
@@ -60,20 +56,20 @@ public class Calendar extends ActionBarActivity {
     }
 
     /**
-     * Function to fill the ArrayList
+     * Function to fill the ArrayList, such that it is sorted on day
      */
     private void createData() {
         int j = 0, i = 0;
         while (i < events.size()) {
             ThaliaEvent t = events.get(i);
-            Group groep = new Group(t.getDatumString());
-            groep.children.add(events.get(i).makeSummary());
+            Group group = new Group(t.getDatumString());
+            group.children.add(events.get(i).makeSummary());
             i++;
             while (i < events.size() && events.get(i).getDatumString().equals(t.getDatumString())) {
-                groep.children.add(events.get(i).makeSummary());
+                group.children.add(events.get(i).makeSummary());
                 i++;
             }
-            groups.append(j, groep);
+            groups.append(j, group);
             j++;
         }
     }
@@ -98,7 +94,7 @@ public class Calendar extends ActionBarActivity {
                 startActivity(intent1);
                 break;
             case R.id.menu2:
-                Intent intent2 = new Intent(this, Eetlijst.class);
+                Intent intent2 = new Intent(this, Restaurant.class);
                 startActivity(intent2);
                 break;
             case R.id.menu4:
@@ -113,9 +109,9 @@ public class Calendar extends ActionBarActivity {
      * Makes a stringarray and fills it with the Categories
      */
     private void makeCategories() {
-        kindOfEvent = new String[events.size()];
+        kindOfEvent = new EventCategory[events.size()];
         for (int i = 0; i < kindOfEvent.length; i++) {
-            kindOfEvent[i] = events.get(i).getCategory().toString();
+            kindOfEvent[i] = events.get(i).getCategory();
         }
     }
 }
