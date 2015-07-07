@@ -26,6 +26,7 @@ import com.example.AppArt.thaliapp.Settings.Settings;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -35,7 +36,7 @@ import java.util.Date;
 public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
     SparseArray<Group> groups = new SparseArray<>();
-    public ArrayList<ThaliaEvent> events = new ArrayList<>();
+    public List<ThaliaEvent> events;
     private String[] kindOfEvent;
 
     @Override

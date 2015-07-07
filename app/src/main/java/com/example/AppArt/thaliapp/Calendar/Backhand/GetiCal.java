@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,8 +26,9 @@ import java.util.logging.Logger;
  *         (s4182804)
  */
 public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
-    private final String icalAddress = "http://www.thalia.nu/nieuws/agenda/vcal.php";
-    private List<ThaliaEvent> newEvents = new ArrayList<ThaliaEvent>();
+    private final String icalAddress
+            = "https://www.thalia.nu/events/ical/feed.ics";
+    private List<ThaliaEvent> newEvents;
 
     /**
      * Opens an URL stream with the iCalendaradress and extracts a list of
@@ -41,25 +43,72 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
             URL iCalURL = new URL(resource_location);
             Reader iCalSource = new BufferedReader(
                     new InputStreamReader(iCalURL.openStream()));
-            EventParser parse = new EventParser();
-            this.newEvents = parse.Parsing(iCalSource);
+            this.newEvents = this.Parsing(iCalSource);
         } catch (IOException ex) {
-            Logger.getLogger(EventParser.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(GetiCal.class.getName()).log(Level.SEVERE,
                     "The URL wasn't found or couldn't be opened.", ex);
         }
         return newEvents;
     }
 
-    public List<ThaliaEvent> getNewEvents() {
-        Date nu = new Date();
-        int i = 0;
-        while (i < newEvents.size()) {
-            while (newEvents.get(i).getGregCalFormat(newEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
-                newEvents.remove(i);
-            }
-            i++;
+    /**
+     * Parses an iCalendar file to a List of Events
+     *
+     * @param iCalendar Reader containing a list of ThaliaEvents in
+     *                  iCalendarformat
+     * @return List of all ThaliaEvents read from the Reader
+     * @throws java.io.IOException
+     */
+    private List<ThaliaEvent> Parsing(Reader iCalendar) throws IOException {
+        List parsedEvents = new ArrayList<>();
+        Scanner scan = new Scanner(iCalendar);
+        scan.useDelimiter(":");
+        scan.findWithinHorizon("X-PUBLISHED-TTL:P1W", 200);
+        while(!(scan.findWithinHorizon("END:VCALENDAR", 200) == null)){
+            parsedEvents.add(ParseThaliaEvent(scan));
         }
-        Collections.sort(newEvents);
+        scan.close();
+        return parsedEvents;
+    }
+
+    /**
+     * Scans one ThaliaEvent
+     * @param scan a scanner opened on a text in iCalendar format,
+     * @return the scanned ThaliaEvent
+     */
+    private ThaliaEvent ParseThaliaEvent(Scanner scan){
+        String startDate;
+        String endDate;
+        String location;
+        String description;
+        String summary;
+
+        scan.findWithinHorizon("BEGIN:VEVENT", 500);
+
+        scan.findWithinHorizon("DTSTART:", 50);
+        startDate = scan.nextLine();
+        System.out.println(startDate);
+        scan.findWithinHorizon("DTEND:", 50);
+        endDate = scan.nextLine();
+
+        scan.findWithinHorizon("LOCATION:", 50);
+        location = scan.nextLine();
+        summary = scan.nextLine();
+        scan.findWithinHorizon("DESCRIPTION:", 200);
+
+        description = scan.nextLine();
+        // Injectionsensitive
+        while (!summary.contains("DTSTAMP:")) {
+            description = description.concat(summary);
+            summary = scan.nextLine();
+        }
+        scan.findWithinHorizon("END:VEVENT", 50);
+
+        return (new ThaliaEvent(startDate, endDate, location, description,
+                summary));
+    }
+
+    public List<ThaliaEvent> getNewEvents() {
         return newEvents;
     }
 }
