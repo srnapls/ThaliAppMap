@@ -191,13 +191,13 @@ public class Notifications extends ActionBarActivity {
     public void createNotification() {
         // There is no event to notify
         if(nextEventToWarn == null){
-            Toast.makeText(this, "No events meet the requirements.\n " +
-                            "No notification is set.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Er zijn geen activiteiten die voldoen aan de " +
+                    "eisen.\n Er is geen notificatie gemaakt.", Toast.LENGTH_SHORT).show();
+            return;
         }
+
         amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
         // TODO Frank: add unityOfTime through dropdown thingy
-
-        // TODO Frank: don't forget to remove the sout's
         GregorianCalendar eventStart = nextEventToWarn.getGregCalFormat(nextEventToWarn.getStartDate());
         System.out.println("eventStart" + eventStart);
         GregorianCalendar now = new GregorianCalendar();
@@ -216,12 +216,14 @@ public class Notifications extends ActionBarActivity {
 
         // Schedule the alarm
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 36954, intent,
-                0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 36954, intent, 0);
 
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + miliseconds, alarmIntent);
+        long timeOfAlert = SystemClock.elapsedRealtime() + miliseconds;
+        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, timeOfAlert, alarmIntent);
         System.out.println("To be notified: " + nextEventToWarn);
+        // TODO Frank: Convert timeOfAlert to something readable
+        Toast.makeText(this, "Er is op " + timeOfAlert + " voor " +
+                nextEventToWarn.getSummary() + " gezet.", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -238,9 +240,7 @@ public class Notifications extends ActionBarActivity {
             database.updateEvents();
             allEvents = database.getEvents();
         }
-        // If it still equals null, there are no events in the calendar, so no
-        // notification will be placed
-        // TODO Frank: Make this comment tell the truth
+        // If it still equals null, there are no events in the calendar
         if (allEvents != null) {
             // Adding all possible ThaliaEvents that meet the requirements
             for (int i = 0; i < allEvents.size(); i++) {
@@ -281,13 +281,13 @@ public class Notifications extends ActionBarActivity {
             }
             Collections.sort(interestedEvents);
         }
+
         // If there are no ThaliaEvents that meet the requirements, null is returned
         if(interestedEvents == null || interestedEvents.size() == 0){
             return null;
         }else {
             return nextEventToWarn = interestedEvents.get(0);
         }
-
     }
 
 }

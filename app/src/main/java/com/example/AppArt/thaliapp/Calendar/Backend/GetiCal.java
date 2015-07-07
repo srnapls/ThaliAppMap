@@ -110,6 +110,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
     }
 
     //TODO Frank: Add pruning of passed events?
+    //Watch out! In the calendar, the end time is needed, in Notifications the begin time is needed
     public List<ThaliaEvent> getNewEvents() {
         return newEvents;
     }
