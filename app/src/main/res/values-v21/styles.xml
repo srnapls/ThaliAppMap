@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="Base.V21.Theme.AppCompat">
-        <!-- Main theme colors -->
-        <!--   your app branding color for the app bar -->
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="colorPrimary">#FF2BFF</item>
-        <!--   darker variant for the status bar and contextual app bars -->
+    <style name="AppTheme" parent="Base.V21.Theme.AppCompat.Light">
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="colorPrimary">#ED1B9B</item>
         <item name="android:colorPrimaryDark">#D01177</item>
-        <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">#FF99FF</item>
+
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:colorBackground">#ED1B9B</item>
+        <item name="android:textColor">#FFFFFF</item>
+
         <item name="titleTextStyle">@style/MyTitleText</item>
+        
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButton</item>
     </style>
 
     <style name="MyTitleText" parent="Base.TextAppearance.AppCompat.Title">
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="MyOverflowButton" parent="Base.Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:icon">@drawable/overflowbutton</item>
+    </style>
 
 </resources>
