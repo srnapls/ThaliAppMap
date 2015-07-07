@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.Calendar.Backend.Group;
@@ -37,11 +38,22 @@ public class Calendar extends ActionBarActivity {
     private EventCategory[] kindOfEvent;
 
     @Override
+    protected void onStart(){
+        Database database = Database.getDatabase();
+        database.updateEvents();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        if(events == null){
+            Toast.makeText(this, "There seem to be no events",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         createData();
         makeCategories();
         adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
