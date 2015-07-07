@@ -37,19 +37,19 @@ public class ProductParser {
         parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
     }
 
-    public List<Product> FriesParsing() {
+    public List<Product> getParsedFries() {
         return parsedFries;
     }
 
-    public List<Product> PizzaParsing() {
+    public List<Product> getParsedPizza() {
         return parsedPizza;
     }
 
-    public List<Product> SandwichParsing() {
+    public List<Product> getParsedSandwich() {
         return parsedSandwich;
     }
 
-    public List<Product> SnackParsing() {
+    public List<Product> getParsedSnacks() {
         return parsedSnacks;
     }
 

@@ -1,5 +1,6 @@
 package com.example.AppArt.thaliapp.Settings;
 
+import com.example.AppArt.thaliapp.Calendar.Backhand.EventParser;
 import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
 import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Backhand.Product;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
  */
 public class Database {
     private static Database database = null;
+    private final GetiCal getiCal;
+    private final ProductParser productParser;
 
     private ArrayList<ThaliaEvent> events = new ArrayList<>();
 
@@ -25,7 +28,8 @@ public class Database {
 
 
     private Database(){
-        // Hier de dummy db's parsen of doen we dat via update functies?;
+        getiCal = new GetiCal();
+        productParser = new ProductParser();
     }
 
     public static Database getDatabase(){
@@ -36,14 +40,21 @@ public class Database {
     }
 
     public void updateEvents(){
-        GetiCal getiCal = new GetiCal();
-        events = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
+        events = (ArrayList) getiCal.getNewEvents();
     }
 
     public void updateProducts(){
+        productParser.Parsing();
+        productsFries = (ArrayList) productParser.getParsedFries();
+        productsPizza = (ArrayList) productParser.getParsedPizza();
+        productsSandwich = (ArrayList) productParser.getParsedSandwich();
+        productsSnacks = (ArrayList) productParser.getParsedSnacks();
 
     }
 
     public ArrayList<ThaliaEvent> getEvents(){return events;}
-    public ArrayList<Product> getProducts(){return products;}
+    public ArrayList<Product> getProductsFries(){return productsFries;}
+    public ArrayList<Product> getProductsPizza(){return productsPizza;}
+    public ArrayList<Product> getProductsSandwich(){return productsSandwich;}
+    public ArrayList<Product> getProductsSnacks(){return productsSnacks;}
 }
