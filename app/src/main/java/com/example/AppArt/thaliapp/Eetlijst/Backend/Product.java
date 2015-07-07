@@ -35,7 +35,12 @@ public class Product {
         this.ingredients = new ArrayList<>(ingredients);
     }
 
-    public StringBuilder ingredientsPrinter() {
+    /**
+     * Makes a string of all of the ingredients
+     *
+     * @return all ingredients
+     */
+    public String ingredientsPrinter() {
         StringBuilder ingredientsPrinted = new StringBuilder();
         for (int i = 0; i < ingredients.size(); i++) {
             ingredientsPrinted.append(ingredients.get(i));
@@ -43,7 +48,7 @@ public class Product {
                 ingredientsPrinted.append(", ");
             }
         }
-        return ingredientsPrinted;
+        return ingredientsPrinted.toString();
     }
 
     /**
@@ -66,40 +71,9 @@ public class Product {
         return sb.toString();
     }
 
-    /**
-     * A String containing the name of the product.
-     *
-     * @return
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * A double containing the price of the product in EUR.
-     *
-     * @return
-     */
-    public double getPrice() {
-        return price;
-    }
 
-    /**
-     * A List of Strings with each String containing the name of an ingredient
-     * of the product.
-     *
-     * @return
-     */
-    public List<String> getIngredients() {
-        return ingredients;
-    }
-
-    /**
-     * The ProductCategories under which this Product falls.
-     *
-     * @return
-     */
-    public ProductCategory getCategory() {
-        return category;
-    }
 }
