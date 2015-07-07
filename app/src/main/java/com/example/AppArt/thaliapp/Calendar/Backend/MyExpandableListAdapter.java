@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.content.Intent;
 import android.util.SparseArray;
@@ -14,7 +14,6 @@ import com.example.AppArt.thaliapp.Calendar.Activities.Information;
 import com.example.AppArt.thaliapp.R;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -50,7 +49,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(final int grouppos, final int childpos, boolean isLastChild, View convertView, final ViewGroup parent) {
         final String children = (String) getChild(grouppos, childpos);
-        TextView text = null;
+        TextView text;
         if (convertView == null) {
             convertView = i.inflate(R.layout.listrow_details, null);
         }

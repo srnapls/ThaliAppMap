@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Backend;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 
 /**
  *
@@ -17,9 +17,6 @@ import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
-    public static final String TITLE_KEY = "TITLE_KEY";
-    public static final String BODY_KEY = "body_key";
-    public static final String SUBJECT_KEY = "subject_key";
 
     @Override
     public void onReceive(Context context, Intent intent) {

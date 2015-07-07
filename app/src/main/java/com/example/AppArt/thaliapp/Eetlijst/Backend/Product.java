@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Backhand;
+package com.example.AppArt.thaliapp.Eetlijst.Backend;
 
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class Product {
 
     public StringBuilder ingredientsPrinter() {
         StringBuilder ingredientsPrinted = new StringBuilder();
-        for(int i=0;i<ingredients.size();i++) {
+        for (int i = 0; i < ingredients.size(); i++) {
             ingredientsPrinted.append(ingredients.get(i));
             if (i != ingredients.size() - 1) {
                 ingredientsPrinted.append(", ");
@@ -59,8 +59,10 @@ public class Product {
         sb.append(": ");
         sb.append(price);
         sb.append(" EUR");
-        if(category==ProductCategory.PIZZA){sb.append("\nIngredients:");
-        sb.append(ingredientsPrinter());}
+        if (category == ProductCategory.PIZZA) {
+            sb.append("\nIngredients:");
+            sb.append(ingredientsPrinter());
+        }
         return sb.toString();
     }
 

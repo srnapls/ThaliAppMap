@@ -16,9 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Database;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen

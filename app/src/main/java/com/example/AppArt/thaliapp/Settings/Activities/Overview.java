@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import java.util.ArrayList;
 import java.util.List;

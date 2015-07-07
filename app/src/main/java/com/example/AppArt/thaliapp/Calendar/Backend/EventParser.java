@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 
 import java.io.IOException;
@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/*
-Post-Lisa interventie series:
-Gitcomment: test 2
- */
 
 /**
  * Generates a list of Events using an iCalendar inputstream
@@ -64,7 +60,7 @@ public class EventParser {
             location = scan.nextLine();
             scan.findWithinHorizon("DESCRIPTION;LANGUAGE=nl:", 200);
 
-            description =scan.nextLine();
+            description = scan.nextLine();
             summary = scan.nextLine();
             // Injectionsensitive
             while (!summary.contains("SUMMARY;LANGUAGE=nl:")) {

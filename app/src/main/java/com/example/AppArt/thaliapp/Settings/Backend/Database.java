@@ -1,10 +1,11 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Backend;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
-import com.example.AppArt.thaliapp.Eetlijst.Backhand.Product;
-import com.example.AppArt.thaliapp.Eetlijst.Backhand.ProductParser;
+import com.example.AppArt.thaliapp.Calendar.Backend.GetiCal;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
+import com.example.AppArt.thaliapp.Eetlijst.Backend.Product;
+import com.example.AppArt.thaliapp.Eetlijst.Backend.ProductParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class Database {
     private List<Product> productsSandwich;
     private List<Product> productsSnacks;
 
-    private List<String[]> receipts;
+    private List<String[]> receipts = new ArrayList<>();
 
     /**
      * Creates Parsers

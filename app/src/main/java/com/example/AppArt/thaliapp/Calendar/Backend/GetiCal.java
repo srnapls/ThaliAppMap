@@ -1,8 +1,4 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
-
-/**
- * Created by Srna on 28-5-2015.
- */
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.AsyncTask;
 
@@ -26,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
     private final String icalAddress = "http://www.thalia.nu/nieuws/agenda/vcal.php";
-    private List<ThaliaEvent> newEvents = new ArrayList<ThaliaEvent>();
+    private List<ThaliaEvent> newEvents = new ArrayList<>();
 
     /**
      * Opens an URL stream with the iCalendaradress and extracts a list of

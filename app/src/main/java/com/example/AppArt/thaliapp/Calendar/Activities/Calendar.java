@@ -14,18 +14,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
-import com.example.AppArt.thaliapp.Calendar.Backhand.Group;
-import com.example.AppArt.thaliapp.Calendar.Backhand.MyExpandableListAdapter;
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.Group;
+import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Database;
-import com.example.AppArt.thaliapp.Settings.Settings;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
+import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -43,7 +40,7 @@ public class Calendar extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
-        events = Database.getDatabase().getEvents();
+        events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         createData();
         makeCategories();
         adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);

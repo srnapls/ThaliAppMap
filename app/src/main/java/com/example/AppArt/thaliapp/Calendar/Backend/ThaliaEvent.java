@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -114,7 +113,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * @return A .png file that represents the category of this event
      */
     private int catIconFinder(EventCategory cat) {
-        int catIcon = R.drawable.overigicoon;
+        int catIcon;
         switch (cat) {
             case ALV:
                 catIcon = R.drawable.alvicoon;
@@ -150,21 +149,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
                 + "\nsummary = " + summary);
     }
 
-    // Getters for all attributes
-    public String getOrganizer() {
-        return organizer;
-    }
-
-    public String getOrganizerMail() {
-        return organizerMail;
-    }
-
     public String getStartDate() {
         return startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
     }
 
     public String getLocation() {
@@ -188,13 +174,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     public String makeSummary() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(summary);
-        sb.append("\n");
-        sb.append(duration());
-        sb.append("\n");
-        sb.append(location);
-        return sb.toString();
+        return summary + "\n" + duration() + "\n" + location;
     }
 
     /**

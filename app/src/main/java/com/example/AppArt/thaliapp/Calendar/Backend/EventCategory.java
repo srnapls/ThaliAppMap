@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 /**
  * An enumeration of all the types of Events Thalia organizes.

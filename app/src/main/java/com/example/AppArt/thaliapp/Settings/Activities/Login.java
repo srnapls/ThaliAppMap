@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
 import android.content.Context;
 import android.content.Intent;

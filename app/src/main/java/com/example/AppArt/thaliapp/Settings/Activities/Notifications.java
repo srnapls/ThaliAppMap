@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -20,9 +20,10 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.GetiCal;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +31,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -64,6 +64,7 @@ public class Notifications extends ActionBarActivity {
         lbox = (CheckBox) findViewById(R.id.Lezingcheck);
         obox = (CheckBox) findViewById(R.id.Overigcheck);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
