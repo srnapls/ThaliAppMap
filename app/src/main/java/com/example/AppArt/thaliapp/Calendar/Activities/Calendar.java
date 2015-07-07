@@ -18,7 +18,7 @@ import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.Calendar.Backend.Group;
 import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
+import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
@@ -94,7 +94,7 @@ public class Calendar extends ActionBarActivity {
                 startActivity(intent1);
                 break;
             case R.id.menu2:
-                Intent intent2 = new Intent(this, Eetlijst.class);
+                Intent intent2 = new Intent(this, Restaurant.class);
                 startActivity(intent2);
                 break;
             case R.id.menu4:

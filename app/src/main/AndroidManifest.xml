@@ -47,7 +47,7 @@
             android:name=".Settings.Activities.Settings"
             android:label="@string/title_activity_instellingen" />
         <activity
-            android:name=".Eetlijst.Activities.Eetlijst"
+            android:name=".Eetlijst.Activities.Restaurant"
             android:label="@string/title_activity_eetlijst" />
         <activity
             android:name=".Settings.Activities.Notifications"

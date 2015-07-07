@@ -25,11 +25,11 @@ import java.util.Collections;
  *         (s4182804)
  */
 
-public class Eetlijst extends ActionBarActivity {
+public class Restaurant extends ActionBarActivity {
     private String name;
     private EditText editName;
     private ArrayList<String> chosen = new ArrayList<>();
-    private double totaalbedrag = 0;
+    private double amount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstancesharedpreferences) {
@@ -49,7 +49,7 @@ public class Eetlijst extends ActionBarActivity {
             if (food != null) {
                 Collections.addAll(chosen, food);
             }
-            totaalbedrag += extras.getDouble("chosenamount");
+            amount += extras.getDouble("chosenamount");
         }
     }
 
@@ -73,7 +73,7 @@ public class Eetlijst extends ActionBarActivity {
                 startActivity(intent1);
                 break;
             case R.id.menu2:
-                Intent intent2 = new Intent(this, Eetlijst.class);
+                Intent intent2 = new Intent(this, Restaurant.class);
                 startActivity(intent2);
                 break;
             case R.id.menu4:
@@ -88,7 +88,7 @@ public class Eetlijst extends ActionBarActivity {
         Intent intentpizza = new Intent(this, FoodList.class);
         intentpizza.putExtra("foodlist", (String[]) Database.getDatabase().getProductsPizza().toArray());
         intentpizza.putExtra("chosen", chosenToString());
-        intentpizza.putExtra("amount", totaalbedrag);
+        intentpizza.putExtra("amount", amount);
         startActivity(intentpizza);
     }
 
@@ -96,7 +96,7 @@ public class Eetlijst extends ActionBarActivity {
         Intent intentfriet = new Intent(this, FoodList.class);
         intentfriet.putExtra("chosen", chosenToString());
         intentfriet.putExtra("foodlist", (String[]) Database.getDatabase().getProductsFries().toArray());
-        intentfriet.putExtra("amount", totaalbedrag);
+        intentfriet.putExtra("amount", amount);
         startActivity(intentfriet);
     }
 
@@ -104,7 +104,7 @@ public class Eetlijst extends ActionBarActivity {
         Intent intentbr = new Intent(this, FoodList.class);
         intentbr.putExtra("chosen", chosenToString());
         intentbr.putExtra("foodlist", (String[]) Database.getDatabase().getProductsSandwich().toArray());
-        intentbr.putExtra("amount", totaalbedrag);
+        intentbr.putExtra("amount", amount);
         startActivity(intentbr);
     }
 
@@ -112,7 +112,7 @@ public class Eetlijst extends ActionBarActivity {
         Intent intentsnacks = new Intent(this, FoodList.class);
         intentsnacks.putExtra("foodlist", (String[]) Database.getDatabase().getProductsSnacks().toArray());
         intentsnacks.putExtra("chosen", chosenToString());
-        intentsnacks.putExtra("amount", totaalbedrag);
+        intentsnacks.putExtra("amount", amount);
         startActivity(intentsnacks);
     }
 
@@ -121,10 +121,15 @@ public class Eetlijst extends ActionBarActivity {
         Intent intent = new Intent(this, Receipt.class);
         intent.putExtra("chosen", chosenToString());
         intent.putExtra("naam", name);
-        intent.putExtra("bedrag", totaalbedrag);
+        intent.putExtra("bedrag", amount);
         startActivity(intent);
     }
 
+    /**
+     * A stringbuilder to make a stringarray of all the chosen food
+     *
+     * @return stringarray of food thats chosen
+     */
     private String[] chosenToString() {
         String[] chosenstring = new String[chosen.size()];
         for (int i = 0; i < chosen.size(); i++) {

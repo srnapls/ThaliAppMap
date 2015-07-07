@@ -67,8 +67,7 @@ public class Receipt extends ActionBarActivity {
     public void send(View v) {
         Database.getDatabase().addReceipt(chosen);
         Intent intent = getIntent();
-        chosen = null;
-        intent.putExtra("chosen", chosen);
+        intent.putExtra("chosen", (String[]) null);
         intent.putExtra("bedrag", 0.0);
         intent.putExtra("name", (String) null);
         startActivity(intent);
@@ -77,7 +76,7 @@ public class Receipt extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            startActivity(new Intent(this, Eetlijst.class));
+            startActivity(new Intent(this, Restaurant.class));
             return true;
         }
         return super.onKeyDown(keyCode, event);
