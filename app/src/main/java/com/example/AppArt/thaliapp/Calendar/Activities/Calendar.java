@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.Date;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -53,6 +52,7 @@ public class Calendar extends ActionBarActivity {
         listView.setClickable(true);
         listView.setGroupIndicator(null);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -137,6 +137,9 @@ public class Calendar extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Makes a stringarray and fills it with the Categories
+     */
     private void makeCategories() {
         kindOfEvent = new String[events.size()];
         for (int i = 0; i < kindOfEvent.length; i++) {

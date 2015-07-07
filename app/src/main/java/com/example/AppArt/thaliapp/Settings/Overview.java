@@ -20,12 +20,11 @@ import android.widget.Toast;
 import com.example.AppArt.thaliapp.R;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
-public class Overzicht extends ActionBarActivity {
+public class Overview extends ActionBarActivity {
     String[] info;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
@@ -45,6 +44,7 @@ public class Overzicht extends ActionBarActivity {
             info[i] = sharedpreferences.getString("all_" + i, null);
         }
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -80,7 +80,7 @@ public class Overzicht extends ActionBarActivity {
                 editor.putString("all_" + i, null);
             }
             editor.commit();
-            Intent i = new Intent(this,Overzicht.class);
+            Intent i = new Intent(this, Overview.class);
             startActivity(i);
         }
 
@@ -99,12 +99,12 @@ public class Overzicht extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Overzicht o = (Overzicht) getActivity();
+            Overview o = (Overview) getActivity();
             info = o.getInfo();
-            String message = "There have been no submission as of yet";
-            CharSequence cs = message;
-            if(info.length==0){Toast.makeText(getActivity(),cs,Toast.LENGTH_SHORT).show(); }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            if (info.length == 0) {
+                Toast.makeText(getActivity(), "There have been no submission as of yet", Toast.LENGTH_SHORT).show();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
                     info);
             setListAdapter(adapter);

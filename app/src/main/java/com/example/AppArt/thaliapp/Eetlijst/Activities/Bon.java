@@ -57,10 +57,11 @@ public class Bon extends ActionBarActivity {
         all = new String[size];
         all[0] = naam;
         for (int i = 1; i < size - 1; i++) {
-            all[i] = chosen[i - 1];
+            all[i] = chosen != null ? chosen[i - 1] : null;
         }
         all[size - 1] = Double.toString(bedrag);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -79,8 +80,8 @@ public class Bon extends ActionBarActivity {
 
     public void send(View v) {
         saveInformation();
-        chosen = null;
         Intent intent = getIntent();
+        chosen = null;
         intent.putExtra("chosen", chosen);
         intent.putExtra("bedrag", 0.0);
         intent.putExtra("naam", (String) null);
@@ -90,11 +91,7 @@ public class Bon extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent i = new Intent(this, Eetlijst.class);
-            i.putExtra("chosen", (String) null);
-            i.putExtra("bedrag", 0.0);
-            i.putExtra("naam", "Name");
-            startActivity(i);
+            startActivity(new Intent(this, Eetlijst.class));
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -128,7 +125,7 @@ public class Bon extends ActionBarActivity {
             bedrag = b.getBedrag();
             chosen = b.getChosen();
             naam = b.getNaam();
-            int size = 0;
+            int size;
             if (chosen == null) {
                 size = 2;
             } else {
@@ -136,11 +133,9 @@ public class Bon extends ActionBarActivity {
             }
             all = new String[size];
             all[0] = naam;
-            for (int i = 1; i < size - 1; i++) {
-                all[i] = chosen[i - 1];
-            }
+            System.arraycopy(chosen != null ? chosen : new String[0], 0, all, 1, size - 1 - 1);
             all[size - 1] = Double.toString(bedrag);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
                     all);
             setListAdapter(adapter);

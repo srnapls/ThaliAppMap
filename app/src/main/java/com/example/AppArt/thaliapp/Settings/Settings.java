@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -39,10 +38,11 @@ public class Settings extends ActionBarActivity {
         setContentView(R.layout.activity_instellingen);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LijstFragment())
+                    .add(R.id.container, new ListFragment())
                     .commit();
         }
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -85,30 +85,34 @@ public class Settings extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class LijstFragment extends ListFragment {
+    public static class ListFragment extends android.support.v4.app.ListFragment {
         String[] lijst = new String[]{"Notifications", "Login"};
         SharedPreferences sharedpreferences;
 
-        public LijstFragment() {
+        public ListFragment() {
         }
 
         public void onListItemClick(ListView l, View v, int position, long id) {
             super.onListItemClick(l, v, position, id);
             String s = l.getItemAtPosition(position).toString();
-            if (s == "Notifications") {
-                Intent intent;
-                intent = new Intent(getActivity(), Notifications.class);
-                startActivity(intent);
-            } else if (s == "Party Mode") {
-
-            } else if (s == "Login") {
-                boolean b = sharedpreferences.getBoolean("access", false);
-                if (b) { Intent i = new Intent(getActivity(),Overzicht.class);
-                    startActivity(i);
-                } else {
-                    Intent i = new Intent(getActivity(), Inlog.class);
-                    startActivity(i);
-                }
+            switch (s) {
+                case "Notifications":
+                    Intent intent;
+                    intent = new Intent(getActivity(), Notifications.class);
+                    startActivity(intent);
+                    break;
+                case "Party Mode":
+                    break;
+                case "Login":
+                    boolean b = sharedpreferences.getBoolean("access", false);
+                    if (b) {
+                        Intent i = new Intent(getActivity(), Overview.class);
+                        startActivity(i);
+                    } else {
+                        Intent i = new Intent(getActivity(), Inlog.class);
+                        startActivity(i);
+                    }
+                    break;
             }
         }
 
@@ -117,7 +121,7 @@ public class Settings extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             Settings s = (Settings) getActivity();
             sharedpreferences = s.getSharedpreferences();
-            ArrayAdapter<String> adapt = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, lijst);
+            ArrayAdapter<String> adapt = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, lijst);
             setListAdapter(adapt);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
