@@ -93,9 +93,9 @@ public class Information extends ActionBarActivity {
             calendar.getData();
             Bundle b = getActivity().getIntent().getExtras();
             index = b.getInt("index");
-            event = calendar.evenementen.get(index);
+            event = calendar.events.get(index);
             fillString();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
                     information);
             setListAdapter(adapter);
