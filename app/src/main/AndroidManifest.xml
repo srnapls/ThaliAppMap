@@ -50,18 +50,6 @@
             android:name=".Eetlijst.Activities.Eetlijst"
             android:label="@string/title_activity_eetlijst" />
         <activity
-            android:name=".Eetlijst.Activities.Pizza"
-            android:label="@string/title_activity_pizza" />
-        <activity
-            android:name=".Eetlijst.Activities.Fries"
-            android:label="@string/title_activity_fries" />
-        <activity
-            android:name=".Eetlijst.Activities.Snack"
-            android:label="@string/title_activity_snack" />
-        <activity
-            android:name=".Eetlijst.Activities.Broodjes"
-            android:label="@string/title_activity_broodjes" />
-        <activity
             android:name=".Settings.Notifications"
             android:label="@string/title_activity_notifications" />
         <activity
@@ -81,7 +69,7 @@
 
         <activity
             android:name=".Eetlijst.Activities.FoodList"
-            android:label="@string/title_activity_foodlist"></activity>
+            android:label="@string/title_activity_foodlist" />
     </application>
 
 </manifest>
