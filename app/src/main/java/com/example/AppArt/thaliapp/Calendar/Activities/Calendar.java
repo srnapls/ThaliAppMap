@@ -34,9 +34,9 @@ import java.util.Date;
 
 public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
-    SparseArray<Group> groups = new SparseArray<Group>();
-    public ArrayList<ThaliaEvent> evenementen = new ArrayList<>();
-    private String[] soort;
+    SparseArray<Group> groups = new SparseArray<>();
+    public ArrayList<ThaliaEvent> events = new ArrayList<>();
+    private String[] kindOfEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,8 @@ public class Calendar extends ActionBarActivity {
         getData();
         createData();
         makeCategories();
-        adapter = new MyExpandableListAdapter(this, groups,soort);
-        adapter.addCategories(soort);
+        adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
+        adapter.addCategories(kindOfEvent);
         adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         listView.setAdapter(adapter);
         listView.setClickable(true);
@@ -57,6 +57,9 @@ public class Calendar extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * A function to receive all the data from the iCalendar
+     */
     public void getData() {
         GetiCal getiCal = new GetiCal();
         getiCal.execute();
@@ -65,20 +68,23 @@ public class Calendar extends ActionBarActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        evenementen = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
-        Collections.sort(evenementen);
-        if (evenementen.size() != 0) removeLast();
+        events = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
+        Collections.sort(events);
+        if (events.size() != 0) removeLast();
     }
 
+    /**
+     * Function to fill the ArrayList
+     */
     private void createData() {
         int j = 0, i = 0;
-        while (i < evenementen.size()) {
-            ThaliaEvent t = evenementen.get(i);
+        while (i < events.size()) {
+            ThaliaEvent t = events.get(i);
             Group groep = new Group(t.getDatumString());
-            groep.children.add(evenementen.get(i).makeSummary());
+            groep.children.add(events.get(i).makeSummary());
             i++;
-            while (i < evenementen.size() && evenementen.get(i).getDatumString().equals(t.getDatumString())) {
-                groep.children.add(evenementen.get(i).makeSummary());
+            while (i < events.size() && events.get(i).getDatumString().equals(t.getDatumString())) {
+                groep.children.add(events.get(i).makeSummary());
                 i++;
             }
             groups.append(j, groep);
@@ -86,12 +92,15 @@ public class Calendar extends ActionBarActivity {
         }
     }
 
+    /**
+     * Removes events that already happened
+     */
     private void removeLast() {
         Date nu = new Date();
         int i = 0;
-        while (i < evenementen.size()) {
-            while (evenementen.get(i).getGregCalFormat(evenementen.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
-                evenementen.remove(i);
+        while (i < events.size()) {
+            while (events.get(i).getGregCalFormat(events.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
+                events.remove(i);
             }
             i++;
         }
@@ -129,9 +138,9 @@ public class Calendar extends ActionBarActivity {
     }
 
     private void makeCategories() {
-        soort = new String[evenementen.size()];
-        for (int i = 0; i < soort.length; i++) {
-            soort[i] = evenementen.get(i).getCategory().toString();
+        kindOfEvent = new String[events.size()];
+        for (int i = 0; i < kindOfEvent.length; i++) {
+            kindOfEvent[i] = events.get(i).getCategory().toString();
         }
     }
 }
