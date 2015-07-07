@@ -29,7 +29,6 @@ import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -67,11 +66,11 @@ public class Notifications extends ActionBarActivity {
         setContentView(R.layout.activity_notifications);
         minutesBefore = (EditText) findViewById(R.id.time);
         bbox = (CheckBox) findViewById(R.id.BoxBorrel);
-        abox = (CheckBox) findViewById(R.id.ALVcheck);
-        pbox = (CheckBox) findViewById(R.id.Feestcheck);
-        wbox = (CheckBox) findViewById(R.id.Workshopcheck);
-        lbox = (CheckBox) findViewById(R.id.Lezingcheck);
-        obox = (CheckBox) findViewById(R.id.Overigcheck);
+        abox = (CheckBox) findViewById(R.id.BoxALV);
+        pbox = (CheckBox) findViewById(R.id.BoxParty);
+        wbox = (CheckBox) findViewById(R.id.BoxWorkshop);
+        lbox = (CheckBox) findViewById(R.id.BoxLecture);
+        obox = (CheckBox) findViewById(R.id.BoxDefault);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -142,10 +141,11 @@ public class Notifications extends ActionBarActivity {
         finish();
     }
 
-    //TODO Serena: Javadoc
+    //TODO Frank: javadoc
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //TODO: frank: 'equals()' between objects of inconvertible types String and Editable
             if (minutesBefore.getText() == null || minutesBefore.getText().equals("")) {
                 amountOfTime = 60;
             } else {
@@ -168,7 +168,7 @@ public class Notifications extends ActionBarActivity {
         return true;
     }
 
-    //TODO Serena: Javadoc
+    //TODO Frank: Javadoc
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -234,7 +234,7 @@ public class Notifications extends ActionBarActivity {
      * requirements.
      */
     private ThaliaEvent select() {
-        List<ThaliaEvent> interestedEvents = new ArrayList();
+        List<ThaliaEvent> interestedEvents = new ArrayList<>();
         // Events might not have been parsed yet
         if (allEvents == null) {
             database.updateEvents();
@@ -283,6 +283,7 @@ public class Notifications extends ActionBarActivity {
         }
 
         // If there are no ThaliaEvents that meet the requirements, null is returned
+        //TODO Frank: Condition 'interestedEvents == null' is always false
         if(interestedEvents == null || interestedEvents.size() == 0){
             return null;
         }else {

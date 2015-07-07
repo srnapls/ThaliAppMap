@@ -5,8 +5,6 @@ package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.AsyncTask;
 
-import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,7 +33,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
      * Opens an URL stream with the iCalendaradress and extracts a list of
      * Events out of it
      *
-     * @return
+     * @return complete list of all events
      */
     @Override
     protected List<ThaliaEvent> doInBackground(Void... params) {
@@ -60,7 +58,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
      * @return List of all ThaliaEvents read from the Reader
      * @throws java.io.IOException
      */
-    private List<ThaliaEvent> Parsing(Reader iCalendar) throws IOException {
+    private List Parsing(Reader iCalendar) throws IOException {
         List parsedEvents = new ArrayList<>();
         Scanner scan = new Scanner(iCalendar);
         scan.useDelimiter(":");
@@ -109,9 +107,17 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
                 summary));
     }
 
-    //TODO Frank: Add pruning of passed events?
     //Watch out! In the calendar, the end time is needed, in Notifications the begin time is needed
     public List<ThaliaEvent> getNewEvents() {
+        Date nu = new Date();
+        int i = 0;
+        while (i < newEvents.size()) {
+            while (newEvents.get(i).getGregCalFormat(newEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
+                newEvents.remove(i);
+            }
+            i++;
+        }
+        Collections.sort(newEvents);
         return newEvents;
     }
 }
