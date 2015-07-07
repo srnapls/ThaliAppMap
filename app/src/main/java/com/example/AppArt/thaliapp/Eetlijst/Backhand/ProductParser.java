@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Generates a list of products. This needs to be reworked once a real database
- * is provided.
+ * Generates lists of products per category. This needs to be reworked once a
+ * real database is provided.
  *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
@@ -15,43 +15,41 @@ import java.util.Scanner;
 public class ProductParser {
 
     private final ProductDummyDb Db = new ProductDummyDb();
-    // Absolutely maximum amount of foodkinds that could be within the database
-    private final int bigConstant = 100;
-    private List<Product> parsedProducts = new ArrayList<>();
+
     private List<Product> parsedFries = new ArrayList<>();
     private List<Product> parsedPizza = new ArrayList<>();
     private List<Product> parsedSandwich = new ArrayList<>();
     private List<Product> parsedSnacks = new ArrayList<>();
 
     /**
-     * Parses a productdatabase to a list of products
+     * Parses a productdatabase to lists of products
      *
      * @return A list of the parsed products.
      */
     public void Parsing() {
-        parsedProducts.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
+        parsedFries.clear();
         parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
-        parsedProducts.addAll(PizzaParsing(Db.pizzaList));
+        parsedPizza.clear();
         parsedPizza.addAll(PizzaParsing(Db.pizzaList));
-        parsedProducts.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
+        parsedSandwich.clear();
         parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
-        parsedProducts.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
+        parsedSnacks.clear();
         parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
     }
 
-    public List<Product> FriesParsing() {
+    public List<Product> getParsedFries() {
         return parsedFries;
     }
 
-    public List<Product> PizzaParsing() {
+    public List<Product> getParsedPizza() {
         return parsedPizza;
     }
 
-    public List<Product> SandwichParsing() {
+    public List<Product> getParsedSandwich() {
         return parsedSandwich;
     }
 
-    public List<Product> SnackParsing() {
+    public List<Product> getParsedSnacks() {
         return parsedSnacks;
     }
 

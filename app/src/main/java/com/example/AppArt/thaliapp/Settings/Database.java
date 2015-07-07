@@ -15,13 +15,22 @@ import java.util.ArrayList;
  */
 public class Database {
     private static Database database = null;
+    private final GetiCal getiCal;
+    private final ProductParser productParser;
+
     private ArrayList<ThaliaEvent> events = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<String[]> receipts = new ArrayList<>();
 
+    private ArrayList<Product> productsFries = new ArrayList<>();
+    private ArrayList<Product> productsPizza = new ArrayList<>();
+    private ArrayList<Product> productsSandwich = new ArrayList<>();
+    private ArrayList<Product> productsSnacks = new ArrayList<>();
 
-    private Database() {
-        // Hier de dummy db's parsen of doen we dat via update functies?;
+
+    private Database(){
+        getiCal = new GetiCal();
+        productParser = new ProductParser();
     }
 
     public static Database getDatabase() {
@@ -31,14 +40,17 @@ public class Database {
         return database;
     }
 
-    public void updateEvents() {
-        GetiCal getiCal = new GetiCal();
-        events = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
+    public void updateEvents(){
+        events = (ArrayList) getiCal.getNewEvents();
     }
 
-    public void updateProducts() {
-        ProductParser productParser = new ProductParser();
-//TODO
+    public void updateProducts(){
+        productParser.Parsing();
+        productsFries = (ArrayList) productParser.getParsedFries();
+        productsPizza = (ArrayList) productParser.getParsedPizza();
+        productsSandwich = (ArrayList) productParser.getParsedSandwich();
+        productsSnacks = (ArrayList) productParser.getParsedSnacks();
+
     }
 
     public void addReceipt(String[] receipt) {
@@ -60,4 +72,9 @@ public class Database {
     public void emptyReceipts() {
         receipts.clear();
     }
+    public ArrayList<ThaliaEvent> getEvents(){return events;}
+    public ArrayList<Product> getProductsFries(){return productsFries;}
+    public ArrayList<Product> getProductsPizza(){return productsPizza;}
+    public ArrayList<Product> getProductsSandwich(){return productsSandwich;}
+    public ArrayList<Product> getProductsSnacks(){return productsSnacks;}
 }
