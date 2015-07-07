@@ -5,33 +5,44 @@ import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Backhand.Product;
 import com.example.AppArt.thaliapp.Eetlijst.Backhand.ProductParser;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class using Singleton pattern that stores all parsed data.
  * Makes parsed data accessible for every class in the project.
- * <p/>
+ * Data in three categories: Events, Products and Receipts
+ *
  * Created by AppArt on 4-7-2015.
  */
 public class Database {
     private static Database database = null;
+
     private final GetiCal getiCal;
     private final ProductParser productParser;
 
-    private ArrayList<ThaliaEvent> events = new ArrayList<>();
-    private ArrayList<String[]> receipts = new ArrayList<>();
+    private List<ThaliaEvent> events;
 
-    private ArrayList<Product> productsFries = new ArrayList<>();
-    private ArrayList<Product> productsPizza = new ArrayList<>();
-    private ArrayList<Product> productsSandwich = new ArrayList<>();
-    private ArrayList<Product> productsSnacks = new ArrayList<>();
+    private List<Product> productsFries;
+    private List<Product> productsPizza;
+    private List<Product> productsSandwich;
+    private List<Product> productsSnacks;
 
+    private List<String[]> receipts;
 
-    private Database(){
+    /**
+     * Creates Parsers
+     */
+    private Database() {
         getiCal = new GetiCal();
         productParser = new ProductParser();
     }
 
+    /**
+     * Singleton pattern: returns current database, if none existent,
+     * it creates one.
+     *
+     * @return The one and only Database of the ThaliApp
+     */
     public static Database getDatabase() {
         if (database == null) {
             database = new Database();
@@ -39,41 +50,95 @@ public class Database {
         return database;
     }
 
-    public void updateEvents(){
-        events = (ArrayList) getiCal.getNewEvents();
+    /*****************************************************************
+     Part handling Events
+     *****************************************************************/
+
+    /**
+     * @return Last updated ThaliaEvents of Thalia.nu
+     */
+    public List<ThaliaEvent> getEvents() {
+        return events;
     }
 
-    public void updateProducts(){
-        productParser.Parsing();
-        productsFries = (ArrayList) productParser.getParsedFries();
-        productsPizza = (ArrayList) productParser.getParsedPizza();
-        productsSandwich = (ArrayList) productParser.getParsedSandwich();
-        productsSnacks = (ArrayList) productParser.getParsedSnacks();
+    /**
+     * Downloads a new list of ThaliaEvents
+     */
+    public void updateEvents() {
+        events = getiCal.getNewEvents();
+    }
+
+    /*****************************************************************
+     Part handling Products
+     *****************************************************************/
+
+    /**
+     *
+     * @return a List of all Fries Product objects in the DummyDb
+     */
+    public List<Product> getProductsFries() {
+        return productsFries;
+    }
+
+    /**
+     *
+     * @return a List of all Pizza Product objects in the DummyDb
+     */
+    public List<Product> getProductsPizza() {
+        return productsPizza;
+    }
+
+    /**
+     *
+     * @return a List of all Sandwich Product objects in the DummyDb
+     */
+    public List<Product> getProductsSandwich() {
+        return productsSandwich;
+    }
+
+    /**
+     *
+     * @return a List of all Snacks Product objects in the DummyDb
+     */
+    public List<Product> getProductsSnacks() {
+        return productsSnacks;
+    }
+
+    /**
+     * Updates the lists of Products of all categories using the DummyDb
+     */
+    public void updateProducts() {
+        productsFries = productParser.getParsedFries();
+        productsPizza = productParser.getParsedPizza();
+        productsSandwich = productParser.getParsedSandwich();
+        productsSnacks = productParser.getParsedSnacks();
 
     }
 
+    /*****************************************************************
+     Part handling Receipts
+     *****************************************************************/
+
+    /**
+     * Add a Receipt to the database
+     * @param receipt the to-be-added Receipt
+     */
     public void addReceipt(String[] receipt) {
         receipts.add(receipt);
     }
 
-    public ArrayList<ThaliaEvent> getEvents() {
-        return events;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public ArrayList<String[]> getReceipts() {
+    /**
+     *
+     * @return all currently stored Receipts
+     */
+    public List<String[]> getReceipts() {
         return receipts;
     }
 
+    /**
+     * Clears all Receipts
+     */
     public void emptyReceipts() {
         receipts.clear();
     }
-    public ArrayList<ThaliaEvent> getEvents(){return events;}
-    public ArrayList<Product> getProductsFries(){return productsFries;}
-    public ArrayList<Product> getProductsPizza(){return productsPizza;}
-    public ArrayList<Product> getProductsSandwich(){return productsSandwich;}
-    public ArrayList<Product> getProductsSnacks(){return productsSnacks;}
 }
