@@ -20,6 +20,7 @@ import com.example.AppArt.thaliapp.Calendar.Backhand.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Database;
 import com.example.AppArt.thaliapp.Settings.Settings;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Calendar extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
-        getData();
+        events = Database.getDatabase().getEvents();
         createData();
         makeCategories();
         adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
@@ -55,22 +56,6 @@ public class Calendar extends ActionBarActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
-    }
-
-    /**
-     * A function to receive all the data from the iCalendar
-     */
-    public void getData() {
-        GetiCal getiCal = new GetiCal();
-        getiCal.execute();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        events = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
-        Collections.sort(events);
-        if (events.size() != 0) removeLast();
     }
 
     /**
@@ -89,20 +74,6 @@ public class Calendar extends ActionBarActivity {
             }
             groups.append(j, groep);
             j++;
-        }
-    }
-
-    /**
-     * Removes events that already happened
-     */
-    private void removeLast() {
-        Date nu = new Date();
-        int i = 0;
-        while (i < events.size()) {
-            while (events.get(i).getGregCalFormat(events.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
-                events.remove(i);
-            }
-            i++;
         }
     }
 

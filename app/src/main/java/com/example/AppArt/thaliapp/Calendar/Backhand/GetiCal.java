@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +51,15 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
     }
 
     public List<ThaliaEvent> getNewEvents() {
+        Date nu = new Date();
+        int i = 0;
+        while (i < newEvents.size()) {
+            while (newEvents.get(i).getGregCalFormat(newEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
+                newEvents.remove(i);
+            }
+            i++;
+        }
+        Collections.sort(newEvents);
         return newEvents;
     }
 }
