@@ -14,8 +14,8 @@ import android.widget.EditText;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import java.util.ArrayList;
 import java.util.Collections;

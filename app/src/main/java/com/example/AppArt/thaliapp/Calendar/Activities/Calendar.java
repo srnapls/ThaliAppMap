@@ -21,8 +21,8 @@ import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import java.util.ArrayList;
 
@@ -34,11 +34,11 @@ import java.util.ArrayList;
 public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
     SparseArray<Group> groups = new SparseArray<>();
-    public ArrayList<ThaliaEvent> events = new ArrayList<>();
+    public ArrayList<ThaliaEvent> events;
     private EventCategory[] kindOfEvent;
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         Database database = Database.getDatabase();
         database.updateEvents();
     }
@@ -48,19 +48,21 @@ public class Calendar extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
+        System.out.println("check1");
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
-        if(events == null){
-            Toast.makeText(this, "There seem to be no events",
-                    Toast.LENGTH_SHORT).show();
+        System.out.println("check2");
+        if (events == null) {
+            Toast.makeText(this, "There seem to be no events", Toast.LENGTH_SHORT).show();
             return;
+        } else {
+            createData();
+            makeCategories();
+            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
+            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+            listView.setAdapter(adapter);
+            listView.setClickable(true);
+            listView.setGroupIndicator(null);
         }
-        createData();
-        makeCategories();
-        adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-        adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
-        listView.setGroupIndicator(null);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
