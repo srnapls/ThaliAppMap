@@ -39,12 +39,13 @@ public class Inlog extends ActionBarActivity {
         password = (EditText) findViewById(R.id.Wachtwoord);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
     @Override
-      public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_calendar, menu);
@@ -74,6 +75,12 @@ public class Inlog extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Function that is called when you click on the button Send,
+     * It checks whether you are allowed to enter the class with all of the receipts
+     *
+     * @param v: the view of the Inlog activity
+     */
     public void send(View v) {
         String s1, s2;
 
@@ -83,7 +90,7 @@ public class Inlog extends ActionBarActivity {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putBoolean("access", true);
             editor.commit();
-            Intent i = new Intent(this, Overzicht.class);
+            Intent i = new Intent(this, Overview.class);
             startActivity(i);
             finish();
         }

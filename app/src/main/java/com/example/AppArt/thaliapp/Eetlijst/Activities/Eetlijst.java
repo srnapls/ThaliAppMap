@@ -21,6 +21,8 @@ import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Settings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,13 +34,8 @@ import java.util.List;
 public class Eetlijst extends ActionBarActivity {
     public static final String MyPREFERENCES = "Eten";
     private String naam;
-    private EditText name;
-    private ArrayList<String> friet = new ArrayList<>();
-    private ArrayList<String> pizza = new ArrayList<>();
-    private ArrayList<String> snacks = new ArrayList<>();
-    private ArrayList<String> broodjes = new ArrayList<>();
+    private EditText editName;
     private ArrayList<String> chosen = new ArrayList<>();
-    private String test;
     SharedPreferences sharedpreferences;
 
     private String[] f;
@@ -47,39 +44,24 @@ public class Eetlijst extends ActionBarActivity {
     private String[] b;
     private double totaalbedrag = 0;
 
-    protected void addFries(String f) {
-        friet.add(f);
-    }
-
-    protected void addPizza(String p) {
-        pizza.add(p);
-    }
-
-    protected void addSnack(String s) {
-        snacks.add(s);
-    }
-
-    public void addOverig(String o) {
-        broodjes.add(o);
-    }
 
     private void saveList() {
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt(f + "_size", s.length);
+        editor.putInt(Arrays.toString(f) + "_size", s.length);
         for (int i = 0; i < f.length; i++)
-            editor.putString(f + "_" + i, f[i]);
+            editor.putString(Arrays.toString(f) + "_" + i, f[i]);
 
-        editor.putInt(p + "_size", p.length);
+        editor.putInt(Arrays.toString(p) + "_size", p.length);
         for (int i = 0; i < p.length; i++)
-            editor.putString(p + "_" + i, p[i]);
+            editor.putString(Arrays.toString(p) + "_" + i, p[i]);
 
-        editor.putInt(s + "_size", s.length);
+        editor.putInt(Arrays.toString(s) + "_size", s.length);
         for (int i = 0; i < s.length; i++)
-            editor.putString(s + "_" + i, s[i]);
+            editor.putString(Arrays.toString(s) + "_" + i, s[i]);
 
-        editor.putInt(b + "_size", b.length);
+        editor.putInt(Arrays.toString(b) + "_size", b.length);
         for (int i = 0; i < b.length; i++)
-            editor.putString(b + "_" + i, b[i]);
+            editor.putString(Arrays.toString(b) + "_" + i, b[i]);
     }
 
     @Override
@@ -90,10 +72,11 @@ public class Eetlijst extends ActionBarActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
 
-        name = (EditText) findViewById(R.id.editText);
+        editName = (EditText) findViewById(R.id.editText);
 
         f = new String[sharedpreferences.getInt("f_size", 10)];
         for (int i = 0; i < f.length; i++) {
@@ -120,30 +103,22 @@ public class Eetlijst extends ActionBarActivity {
         if (extras != null) {
             String[] pizzas = extras.getStringArray("pizzas");
             if (pizzas != null) {
-                for (int i = 0; i < pizzas.length; i++) {
-                    chosen.add(pizzas[i]);
-                }
+                Collections.addAll(chosen, pizzas);
             }
             totaalbedrag += extras.getDouble("pbedrag");
             String[] snack = extras.getStringArray("snacks");
             if (snack != null) {
-                for (int i = 0; i < snack.length; i++) {
-                    chosen.add(snack[i]);
-                }
+                Collections.addAll(chosen, snack);
             }
             totaalbedrag += extras.getDouble("sbedrag");
             String[] broodje = extras.getStringArray("broodjes");
             if (broodje != null) {
-                for (int i = 0; i < broodje.length; i++) {
-                    chosen.add(broodje[i]);
-                }
+                Collections.addAll(chosen, broodje);
             }
             totaalbedrag += extras.getDouble("bbedrag");
             String[] friets = extras.getStringArray("frieten");
             if (friets != null) {
-                for (int i = 0; i < friets.length; i++) {
-                    chosen.add(friets[i]);
-                }
+                Collections.addAll(chosen, friets);
             }
             totaalbedrag += extras.getDouble("fbedrag");
         }
@@ -254,7 +229,7 @@ public class Eetlijst extends ActionBarActivity {
         for (int i = 0; i < chosen.size(); i++) {
             ch[i] = chosen.get(i);
         }
-        naam = name.getText().toString();
+        naam = editName.getText().toString();
         Intent intent = new Intent(this, Bon.class);
         intent.putExtra("chosen", ch);
         intent.putExtra("naam", naam);

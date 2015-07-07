@@ -20,7 +20,6 @@ import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -37,6 +36,7 @@ public class Information extends ActionBarActivity {
                     .commit();
         }
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -102,14 +102,13 @@ public class Information extends ActionBarActivity {
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
+        /**
+         * Fills the screen/ListActivity with the information given from Calendar
+         */
         private void fillString() {
             information = new String[4];
             information[0] = htmlConverter.fromHtml(event.getSummary()).toString();
-            StringBuilder tijd = new StringBuilder();
-            tijd.append(event.getBeginTime());
-            tijd.append(" - ");
-            tijd.append(event.getEndTime());
-            information[1] = tijd.toString();
+            information[1] = event.getBeginTime() + " - " + event.getEndTime();
             information[2] = htmlConverter.fromHtml(event.getLocation()).toString();
             information[3] = htmlConverter.fromHtml(event.getDescription()).toString();
         }
