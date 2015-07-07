@@ -1,8 +1,7 @@
 package com.example.AppArt.thaliapp.Calendar.Backend;
 
-/**
- * Created by Srna on 28-5-2015.
- */
+// TODO Frank: Show progress/show that there actually is activity instead of
+// just a boring loadingscreen
 
 import android.os.AsyncTask;
 
@@ -110,6 +109,8 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
                 summary));
     }
 
+    //TODO Frank: Add pruning of passed events?
+    //Watch out! In the calendar, the end time is needed, in Notifications the begin time is needed
     public List<ThaliaEvent> getNewEvents() {
         return newEvents;
     }

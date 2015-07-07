@@ -89,15 +89,15 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * @return an EventCategory
      */
     private EventCategory categoryFinder(String description) {
-        if (description.contains("borrel")) {
+        if (description.contains("checkBorrel")) {
             return EventCategory.BORREL;
-        } else if (description.contains("lezing")) {
+        } else if (description.contains("checkLecture")) {
             return EventCategory.LECTURE;
-        } else if (description.contains("feest") || description.contains("party")) {
+        } else if (description.contains("feest") || description.contains("checkParty")) {
             return EventCategory.PARTY;
-        } else if (description.contains("alv") || description.contains("ALV")) {
+        } else if (description.contains("checkALV") || description.contains("ALV")) {
             return EventCategory.ALV;
-        } else if (description.contains("workshop")) {
+        } else if (description.contains("checkWorkshop")) {
             return EventCategory.WORKSHOP;
         } else return EventCategory.DEFAULT;
     }
