@@ -84,6 +84,21 @@ public class Overview extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             receipts = Database.getDatabase().getReceipts();
+            fillInfo();
+            if (info.length == 0) {
+                Toast.makeText(getActivity(), "There have been no submission as of yet", Toast.LENGTH_SHORT).show();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    inflater.getContext(), android.R.layout.simple_list_item_1,
+                    info);
+            setListAdapter(adapter);
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
+
+        /**
+         * A function to fill the stringarray info;
+         */
+        private void fillInfo() {
             int length = 0;
             for (int i = 0; i < receipts.size(); i++) {
                 length += receipts.get(i).length;
@@ -96,14 +111,6 @@ public class Overview extends ActionBarActivity {
                     place++;
                 }
             }
-            if (info.length == 0) {
-                Toast.makeText(getActivity(), "There have been no submission as of yet", Toast.LENGTH_SHORT).show();
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    inflater.getContext(), android.R.layout.simple_list_item_1,
-                    info);
-            setListAdapter(adapter);
-            return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
 }
