@@ -1,0 +1,67 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:id="@+id/notifications"
+    tools:context=".Notifications"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/Notificationsdeel1"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/time"
+            android:layout_weight="1"
+            android:text="60"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="fill_parent"
+            android:text="@string/Notificationsdeel2"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+    <CheckBox
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:text="@string/Borrel"
+        android:id="@+id/Borrelcheck" />
+    <CheckBox
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:text="@string/ALV"
+        android:id="@+id/ALVcheck" />
+    <CheckBox
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:text="@string/Feest"
+        android:id="@+id/Feestcheck" />
+    <CheckBox
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:text="@string/Workshop"
+        android:id="@+id/Workshopcheck" />
+    <CheckBox
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:text="@string/Lezing"
+        android:id="@+id/Lezingcheck"/>
+    <CheckBox
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:text="@string/Overig"
+        android:id="@+id/Overigcheck"/>
+</LinearLayout>
