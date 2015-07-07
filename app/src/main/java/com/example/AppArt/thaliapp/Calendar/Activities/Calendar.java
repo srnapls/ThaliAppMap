@@ -33,14 +33,19 @@ import java.util.ArrayList;
 
 public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
-    SparseArray<Group> groups = new SparseArray<>();
-    public ArrayList<ThaliaEvent> events;
+    private SparseArray<Group> groups = new SparseArray<>();
+    private ArrayList<ThaliaEvent> events;
     private EventCategory[] kindOfEvent;
 
     @Override
     protected void onStart() {
-        Database database = Database.getDatabase();
-        database.updateEvents();
+        super.onStart();
+        Database.getDatabase();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

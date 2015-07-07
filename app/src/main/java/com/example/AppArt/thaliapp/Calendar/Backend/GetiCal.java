@@ -42,7 +42,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
             URL iCalURL = new URL(resource_location);
             Reader iCalSource = new BufferedReader(
                     new InputStreamReader(iCalURL.openStream()));
-            this.newEvents = this.Parsing(iCalSource);
+            newEvents = this.Parsing(iCalSource);
         } catch (IOException ex) {
             Logger.getLogger(GetiCal.class.getName()).log(Level.SEVERE,
                     "The URL wasn't found or couldn't be opened.", ex);
@@ -59,7 +59,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
      * @throws java.io.IOException
      */
     private List Parsing(Reader iCalendar) throws IOException {
-        List parsedEvents = new ArrayList<>();
+        List<ThaliaEvent> parsedEvents = new ArrayList<>();
         Scanner scan = new Scanner(iCalendar);
         scan.useDelimiter(":");
         scan.findWithinHorizon("X-PUBLISHED-TTL:P1W", 200);

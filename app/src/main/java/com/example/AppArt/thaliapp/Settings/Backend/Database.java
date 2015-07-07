@@ -36,6 +36,8 @@ public class Database {
     private Database() {
         getiCal = new GetiCal();
         productParser = new ProductParser();
+        productParser.Parsing();
+        updateProducts();
     }
 
     /**
@@ -73,34 +75,18 @@ public class Database {
      Part handling Products
      *****************************************************************/
 
-    /**
-     *
-     * @return a List of all Fries Product objects in the DummyDb
-     */
     public List<Product> getProductsFries() {
         return productsFries;
     }
 
-    /**
-     *
-     * @return a List of all Pizza Product objects in the DummyDb
-     */
     public List<Product> getProductsPizza() {
         return productsPizza;
     }
 
-    /**
-     *
-     * @return a List of all Sandwich Product objects in the DummyDb
-     */
     public List<Product> getProductsSandwich() {
         return productsSandwich;
     }
 
-    /**
-     *
-     * @return a List of all Snacks Product objects in the DummyDb
-     */
     public List<Product> getProductsSnacks() {
         return productsSnacks;
     }
@@ -113,7 +99,6 @@ public class Database {
         productsPizza = productParser.getParsedPizza();
         productsSandwich = productParser.getParsedSandwich();
         productsSnacks = productParser.getParsedSnacks();
-
     }
 
     /*****************************************************************
