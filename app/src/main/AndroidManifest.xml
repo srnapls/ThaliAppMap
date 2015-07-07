@@ -22,21 +22,20 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.AppArt.thaliapp.Calendar.Activities.Calendar"
+            android:name=".Calendar.Activities.Calendar"
             android:label="@string/app_name"
-            android:uiOptions="splitActionBarWhenNarrow" >
-
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Settings"
-            android:label="@string/title_activity_instellingen" >
+            android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Settings.Activities.Settings"
+            android:label="@string/title_activity_instellingen" />
         <activity
             android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst"
             android:label="@string/title_activity_eetlijst" >

@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -13,30 +13,28 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
 public class Notifications extends ActionBarActivity {
-    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES = "Settings";
     private EditText minutesBefore;
     private int minutes = 60;
     public boolean borrel = true;
@@ -64,8 +62,16 @@ public class Notifications extends ActionBarActivity {
         lbox = (CheckBox) findViewById(R.id.Lezingcheck);
         obox = (CheckBox) findViewById(R.id.Overigcheck);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
+        setBoxes();
+    }
+
+    /**
+     * Function to read all the stored values for the boxes and set the boxes accordingly.
+     */
+    private void setBoxes() {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         borrel = sharedpreferences.getBoolean("borrel", true);
         alv = sharedpreferences.getBoolean("alv", true);
@@ -80,7 +86,8 @@ public class Notifications extends ActionBarActivity {
         wbox.setChecked(workshop);
         lbox.setChecked(lezing);
         obox.setChecked(overig);
-        getData();
+        allEvents = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        select();
     }
 
     /**
@@ -191,45 +198,12 @@ public class Notifications extends ActionBarActivity {
         System.out.println("To be notified: " + nextEventToWarn);
     }
 
-
-    /**
-     * Initialises the allEvents list and makes a first interestedEvents list
-     */
-    public void getData() {
-        Log.d("Notifications.getData", "started");
-        GetiCal getiCal = new GetiCal();
-        Log.d("Notifications.getData", "created GetiCal");
-        getiCal.execute();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        allEvents = (ArrayList<ThaliaEvent>) getiCal.getNewEvents();
-        Collections.sort(allEvents);
-        select();
-        if (allEvents.size() != 0) removeLast();
-    }
-
-    /**
-     * Removes all events that have already passed the current date
-     */
-    private void removeLast() {
-        Date nu = new Date();
-        for (int i = 0; i < allEvents.size(); i++) {
-            if (allEvents.get(i).getGregCalFormat(allEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
-                allEvents.remove(i);
-            }
-        }
-    }
-
     /**
      * Selects the interested events out of the allEvents list of events and puts them in the interestedEvents list
      */
     private void select() {
         if (allEvents != null) {
             for (int i = 0; i < allEvents.size(); i++) {
-
                 switch (allEvents.get(i).getCategory()) {
                     case BORREL:
                         if (borrel) {

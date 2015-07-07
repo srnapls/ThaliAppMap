@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -19,18 +18,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst;
+import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
 public class Settings extends ActionBarActivity {
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES = "Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +37,11 @@ public class Settings extends ActionBarActivity {
         setContentView(R.layout.activity_instellingen);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LijstFragment())
+                    .add(R.id.container, new ListFragment())
                     .commit();
         }
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -72,7 +71,7 @@ public class Settings extends ActionBarActivity {
                 startActivity(intent1);
                 break;
             case R.id.menu2:
-                Intent intent2 = new Intent(this, Eetlijst.class);
+                Intent intent2 = new Intent(this, Restaurant.class);
                 startActivity(intent2);
                 break;
             case R.id.menu4:
@@ -82,33 +81,38 @@ public class Settings extends ActionBarActivity {
         }
         return true;
     }
+
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class LijstFragment extends ListFragment {
+    public static class ListFragment extends android.support.v4.app.ListFragment {
         String[] lijst = new String[]{"Notifications", "Login"};
         SharedPreferences sharedpreferences;
 
-        public LijstFragment() {
+        public ListFragment() {
         }
 
         public void onListItemClick(ListView l, View v, int position, long id) {
             super.onListItemClick(l, v, position, id);
             String s = l.getItemAtPosition(position).toString();
-            if (s == "Notifications") {
-                Intent intent;
-                intent = new Intent(getActivity(), Notifications.class);
-                startActivity(intent);
-            } else if (s == "Party Mode") {
-
-            } else if (s == "Login") {
-                boolean b = sharedpreferences.getBoolean("access", false);
-                if (b) { Intent i = new Intent(getActivity(),Overzicht.class);
-                    startActivity(i);
-                } else {
-                    Intent i = new Intent(getActivity(), Inlog.class);
-                    startActivity(i);
-                }
+            switch (s) {
+                case "Notifications":
+                    Intent intent;
+                    intent = new Intent(getActivity(), Notifications.class);
+                    startActivity(intent);
+                    break;
+                case "Party Mode":
+                    break;
+                case "Login":
+                    boolean b = sharedpreferences.getBoolean("access", false);
+                    if (b) {
+                        Intent i = new Intent(getActivity(), Overview.class);
+                        startActivity(i);
+                    } else {
+                        Intent i = new Intent(getActivity(), Login.class);
+                        startActivity(i);
+                    }
+                    break;
             }
         }
 
@@ -117,7 +121,7 @@ public class Settings extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             Settings s = (Settings) getActivity();
             sharedpreferences = s.getSharedpreferences();
-            ArrayAdapter<String> adapt = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, lijst);
+            ArrayAdapter<String> adapt = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, lijst);
             setListAdapter(adapt);
             return super.onCreateView(inflater, container, savedInstanceState);
         }

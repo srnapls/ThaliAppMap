@@ -1,8 +1,4 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
-
-/**
- * Created by Srna on 28-5-2015.
- */
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.AsyncTask;
 
@@ -12,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
     private final String icalAddress = "http://www.thalia.nu/nieuws/agenda/vcal.php";
-    private List<ThaliaEvent> newEvents = new ArrayList<ThaliaEvent>();
+    private List<ThaliaEvent> newEvents = new ArrayList<>();
 
     /**
      * Opens an URL stream with the iCalendaradress and extracts a list of
@@ -49,6 +47,15 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
     }
 
     public List<ThaliaEvent> getNewEvents() {
+        Date nu = new Date();
+        int i = 0;
+        while (i < newEvents.size()) {
+            while (newEvents.get(i).getGregCalFormat(newEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
+                newEvents.remove(i);
+            }
+            i++;
+        }
+        Collections.sort(newEvents);
         return newEvents;
     }
 }

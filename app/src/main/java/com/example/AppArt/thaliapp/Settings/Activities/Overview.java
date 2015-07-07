@@ -1,8 +1,6 @@
-package com.example.AppArt.thaliapp.Settings;
+package com.example.AppArt.thaliapp.Settings.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,17 +16,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
-public class Overzicht extends ActionBarActivity {
-    String[] info;
-    SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
+public class Overview extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +37,11 @@ public class Overzicht extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        info = new String[sharedpreferences.getInt("length", 0)];
-        for (int i = 0; i < info.length; i++) {
-            info[i] = sharedpreferences.getString("all_" + i, null);
-        }
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
-
-    public String[] getInfo() {
-        return info;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,13 +63,8 @@ public class Overzicht extends ActionBarActivity {
             startActivity(i);
         }
         if (id == R.id.action_clear) {
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putInt("length", 0);
-            for (int i = 0; i < sharedpreferences.getInt("length", 0); i++) {
-                editor.putString("all_" + i, null);
-            }
-            editor.commit();
-            Intent i = new Intent(this,Overzicht.class);
+            Database.getDatabase().emptyReceipts();
+            Intent i = new Intent(this, Overview.class);
             startActivity(i);
         }
 
@@ -92,6 +76,7 @@ public class Overzicht extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends ListFragment {
         String[] info;
+        List<String[]> receipts = new ArrayList<>();
 
         public PlaceholderFragment() {
         }
@@ -99,16 +84,34 @@ public class Overzicht extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Overzicht o = (Overzicht) getActivity();
-            info = o.getInfo();
-            String message = "There have been no submission as of yet";
-            CharSequence cs = message;
-            if(info.length==0){Toast.makeText(getActivity(),cs,Toast.LENGTH_SHORT).show(); }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            receipts = Database.getDatabase().getReceipts();
+            fillInfo();
+            if (info.length == 0) {
+                Toast.makeText(getActivity(), "There have been no submission as of yet", Toast.LENGTH_SHORT).show();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
                     info);
             setListAdapter(adapter);
             return super.onCreateView(inflater, container, savedInstanceState);
+        }
+
+        /**
+         * A function to fill the string array info;
+         */
+        private void fillInfo() {
+            int length = 0;
+            for (int i = 0; i < receipts.size(); i++) {
+                length += receipts.get(i).length;
+            }
+            int place = 0;
+            info = new String[length];
+            for (int i = 0; i < receipts.size(); i++) {
+                for (int j = 0; j < receipts.get(i).length; j++) {
+                    info[place] = receipts.get(i)[j];
+                    place++;
+                }
+            }
         }
     }
 }

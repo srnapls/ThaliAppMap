@@ -16,11 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
- *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -37,6 +37,7 @@ public class Information extends ActionBarActivity {
                     .commit();
         }
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
@@ -89,27 +90,24 @@ public class Information extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Calendar calendar = new Calendar();
-            calendar.getData();
             Bundle b = getActivity().getIntent().getExtras();
             index = b.getInt("index");
-            event = calendar.evenementen.get(index);
+            event = Database.getDatabase().getEvents().get(index);
             fillString();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
                     information);
             setListAdapter(adapter);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
+        /**
+         * Fills the screen/ListActivity with the information given from Calendar
+         */
         private void fillString() {
             information = new String[4];
             information[0] = htmlConverter.fromHtml(event.getSummary()).toString();
-            StringBuilder tijd = new StringBuilder();
-            tijd.append(event.getBeginTime());
-            tijd.append(" - ");
-            tijd.append(event.getEndTime());
-            information[1] = tijd.toString();
+            information[1] = event.getBeginTime() + " - " + event.getEndTime();
             information[2] = htmlConverter.fromHtml(event.getLocation()).toString();
             information[3] = htmlConverter.fromHtml(event.getDescription()).toString();
         }

@@ -1,68 +1,88 @@
-package com.example.AppArt.thaliapp.Eetlijst.Backhand;
+package com.example.AppArt.thaliapp.Eetlijst.Backend;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Generates a list of products. This needs to be reworked once a real database
- * is provided.
+ * Generates lists of products per category. This needs to be reworked once a
+ * real database is provided.
  *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
-
 public class ProductParser {
 
     private final ProductDummyDb Db = new ProductDummyDb();
-    // Absolutely maximum amount of foodkinds that could be within the database
-    private final int bigConstant = 100;
-    private List<Product> parsedProducts = new ArrayList<>();
+
     private List<Product> parsedFries = new ArrayList<>();
     private List<Product> parsedPizza = new ArrayList<>();
     private List<Product> parsedSandwich = new ArrayList<>();
     private List<Product> parsedSnacks = new ArrayList<>();
 
     /**
-     * Parses a productdatabase to a list of products
+     * Parses a productdatabase to lists of products
      *
-     * @return A list of the parsed products.
      */
     public void Parsing() {
-        parsedProducts.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
+        parsedFries.clear();
         parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
-        parsedProducts.addAll(PizzaParsing(Db.pizzaList));
+        parsedPizza.clear();
         parsedPizza.addAll(PizzaParsing(Db.pizzaList));
-        parsedProducts.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
+        parsedSandwich.clear();
         parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
-        parsedProducts.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
+        parsedSnacks.clear();
         parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
     }
 
-    public List<Product> FriesParsing() {
+    /**
+     * Parses the dummyDb input on Fries
+     * @return List of all Fries Product objects in the dummyDb
+     */
+    public List<Product> getParsedFries() {
+        parsedFries.clear();
+        parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
         return parsedFries;
     }
 
-    public List<Product> PizzaParsing() {
+    /**
+     * Parses the dummyDb input on Pizza
+     * @return List of all Pizza Product objects in the dummyDb
+     */
+    public List<Product> getParsedPizza() {
+        parsedPizza.clear();
+        parsedPizza.addAll(PizzaParsing(Db.pizzaList));
         return parsedPizza;
     }
 
-    public List<Product> SandwichParsing() {
+    /**
+     * Parses the dummyDb input on Sandwich
+     * @return List of all Sandwich Product objects in the dummyDb
+     */
+    public List<Product> getParsedSandwich() {
+        parsedSandwich.clear();
+        parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
         return parsedSandwich;
     }
 
-    public List<Product> SnackParsing() {
+    /**
+     * Parses the dummyDb input on Snacks
+     * @return List of all Snacks Product objects in the dummyDb
+     */
+    public List<Product> getParsedSnacks() {
+        parsedSnacks.clear();
+        parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
         return parsedSnacks;
     }
 
     /**
      * Parses the Sandwich-, Fries- and SnackLists into Product objects
      *
-     * @param SFSList
-     * @param cat
-     * @return
+     * @param FSSList Descriptions of fries, sandwiches or snacks
+     * @param cat Category of the given list
+     * @return List of Product objects containing all information of FSSList
      */
-    public List<Product> ProductParsing(String[] SFSList, ProductCategory cat) {
+    public List<Product> ProductParsing(String[] FSSList, ProductCategory cat) {
         // Variables that are about to be filled
         String name;
         Double price;
@@ -71,7 +91,7 @@ public class ProductParser {
         // Scanning the stringarray and parsing it
         List<Product> newProductList = new ArrayList<>();
         Scanner scan;
-        for (String SFSString : SFSList) {
+        for (String SFSString : FSSList) {
             scan = new Scanner(SFSString);
             scan.useDelimiter("\\n");
             name = scan.next();
@@ -88,7 +108,7 @@ public class ProductParser {
     /**
      * Parses the pizzaString from the dummy database into Product objects
      *
-     * @param pizzaList
+     * @param pizzaList Descriptions of the pizzas
      * @return A list with the new pizzaproducts
      */
     public List<Product> PizzaParsing(String[] pizzaList) {
