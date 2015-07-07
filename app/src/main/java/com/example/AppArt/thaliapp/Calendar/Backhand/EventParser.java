@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+Post-Lisa interventie series:
+Gitcomment: test 2
+ */
+
 /**
  * Generates a list of Events using an iCalendar inputstream
  *

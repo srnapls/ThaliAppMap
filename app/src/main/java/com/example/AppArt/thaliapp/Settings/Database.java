@@ -1,6 +1,5 @@
 package com.example.AppArt.thaliapp.Settings;
 
-import com.example.AppArt.thaliapp.Calendar.Backhand.EventParser;
 import com.example.AppArt.thaliapp.Calendar.Backhand.GetiCal;
 import com.example.AppArt.thaliapp.Calendar.Backhand.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Backhand.Product;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Class using Singleton pattern that stores all parsed data.
  * Makes parsed data accessible for every class in the project.
- *
+ * <p/>
  * Created by AppArt on 4-7-2015.
  */
 public class Database {
@@ -20,6 +19,7 @@ public class Database {
     private final ProductParser productParser;
 
     private ArrayList<ThaliaEvent> events = new ArrayList<>();
+    private ArrayList<String[]> receipts = new ArrayList<>();
 
     private ArrayList<Product> productsFries = new ArrayList<>();
     private ArrayList<Product> productsPizza = new ArrayList<>();
@@ -32,8 +32,8 @@ public class Database {
         productParser = new ProductParser();
     }
 
-    public static Database getDatabase(){
-        if(database == null){
+    public static Database getDatabase() {
+        if (database == null) {
             database = new Database();
         }
         return database;
@@ -52,6 +52,25 @@ public class Database {
 
     }
 
+    public void addReceipt(String[] receipt) {
+        receipts.add(receipt);
+    }
+
+    public ArrayList<ThaliaEvent> getEvents() {
+        return events;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public ArrayList<String[]> getReceipts() {
+        return receipts;
+    }
+
+    public void emptyReceipts() {
+        receipts.clear();
+    }
     public ArrayList<ThaliaEvent> getEvents(){return events;}
     public ArrayList<Product> getProductsFries(){return productsFries;}
     public ArrayList<Product> getProductsPizza(){return productsPizza;}
