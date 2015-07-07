@@ -48,7 +48,7 @@ public class Notifications extends ActionBarActivity {
 
     private ArrayList<ThaliaEvent> allEvents;
     private ArrayList<ThaliaEvent> interestedEvents = new ArrayList<>();
-    private ThaliaEvent nextEventToWarn = new ThaliaEvent("Thalia", "mail", "20150611T110000Z", "20150616T113000Z", "loc", "Thalia borrel descr", "borrel");
+    private ThaliaEvent nextEventToWarn = new ThaliaEvent("20150611T110000Z", "20150616T113000Z", "loc", "Thalia borrel descr", "borrel");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,8 +242,7 @@ public class Notifications extends ActionBarActivity {
             // Onderaan notifications, in de select de regel met 'nextEventToWarn' vervangen
             Collections.sort(interestedEvents);
             if (interestedEvents.size() != 0) {
-                nextEventToWarn = new ThaliaEvent("Thalia", "info@thalia.nl",
-                        "20370609T170000Z", "20420607T170000Z", "Nergens",
+                nextEventToWarn = new ThaliaEvent("20370609T170000Z", "20420607T170000Z", "Nergens",
                         "Een hacky oplossing, maar toch best mooi gevonden",
                         "Dummy date");
             } else {

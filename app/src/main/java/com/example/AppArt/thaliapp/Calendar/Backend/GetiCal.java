@@ -1,10 +1,12 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 /**
  * Created by Srna on 28-5-2015.
  */
 
 import android.os.AsyncTask;
+
+import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,9 +1,10 @@
-package com.example.AppArt.thaliapp.Calendar.Backhand;
+package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
 
 import java.util.Calendar;
