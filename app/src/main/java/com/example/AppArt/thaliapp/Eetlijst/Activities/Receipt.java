@@ -1,8 +1,6 @@
 package com.example.AppArt.thaliapp.Eetlijst.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,19 +22,16 @@ import com.example.AppArt.thaliapp.Settings.Database;
  *         (s4182804)
  */
 
-public class Bon extends ActionBarActivity {
-    public static final String MyPREFERENCES = "MyPrefs";
+public class Receipt extends ActionBarActivity {
     private String[] chosen;
     private Double bedrag;
-    private String naam;
+    private String name;
     private String[] all;
-    SharedPreferences sharedpreferences;
     private int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         setContentView(R.layout.activity_bon);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -47,7 +42,7 @@ public class Bon extends ActionBarActivity {
         if (extras != null) {
             chosen = extras.getStringArray("chosen");
             bedrag = extras.getDouble("bedrag", 0.0);
-            naam = extras.getString("naam", "Test");
+            name = extras.getString("name", "Test");
         }
         if (chosen == null) {
             size = 2;
@@ -55,7 +50,7 @@ public class Bon extends ActionBarActivity {
             size = chosen.length + 2;
         }
         all = new String[size];
-        all[0] = naam;
+        all[0] = name;
         for (int i = 1; i < size - 1; i++) {
             all[i] = chosen != null ? chosen[i - 1] : null;
         }
@@ -76,7 +71,7 @@ public class Bon extends ActionBarActivity {
         chosen = null;
         intent.putExtra("chosen", chosen);
         intent.putExtra("bedrag", 0.0);
-        intent.putExtra("naam", (String) null);
+        intent.putExtra("name", (String) null);
         startActivity(intent);
     }
 
@@ -101,7 +96,7 @@ public class Bon extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Bon b = (Bon) getActivity();
+            Receipt b = (Receipt) getActivity();
             all = b.getAll();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,

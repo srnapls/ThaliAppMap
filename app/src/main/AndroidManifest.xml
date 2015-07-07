@@ -20,57 +20,68 @@
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.AppArt.thaliapp.Calendar.Activities.Calendar"
+            android:name=".Calendar.Activities.Calendar"
             android:label="@string/app_name"
             android:uiOptions="splitActionBarWhenNarrow">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Settings"
-            android:label="@string/title_activity_instellingen"></activity>
+            android:name=".Settings.Settings"
+            android:label="@string/title_activity_instellingen" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst"
-            android:label="@string/title_activity_eetlijst"></activity>
+            android:name=".Eetlijst.Activities.Eetlijst"
+            android:label="@string/title_activity_eetlijst" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Pizza"
-            android:label="@string/title_activity_pizza"></activity>
+            android:name=".Eetlijst.Activities.Pizza"
+            android:label="@string/title_activity_pizza" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Fries"
-            android:label="@string/title_activity_fries"></activity>
+            android:name=".Eetlijst.Activities.Fries"
+            android:label="@string/title_activity_fries" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Snack"
-            android:label="@string/title_activity_snack"></activity>
+            android:name=".Eetlijst.Activities.Snack"
+            android:label="@string/title_activity_snack" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Broodjes"
-            android:label="@string/title_activity_broodjes"></activity>
+            android:name=".Eetlijst.Activities.Broodjes"
+            android:label="@string/title_activity_broodjes" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Notifications"
-            android:label="@string/title_activity_notifications"></activity>
+            android:name=".Settings.Notifications"
+            android:label="@string/title_activity_notifications" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Calendar.Activities.Information"
-            android:label="@string/title_activity_information"></activity>
+            android:name=".Calendar.Activities.Information"
+            android:label="@string/title_activity_information" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Bon"
-            android:label="@string/title_activity_bon"></activity>
-
+            android:name=".Eetlijst.Activities.Receipt"
+            android:label="@string/title_activity_bon" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Inlog"
-            android:label="@string/title_activity_inlog"></activity>
+            android:name=".Settings.Inlog"
+            android:label="@string/title_activity_inlog" />
         <activity
             android:name=".Settings.Overview"
-            android:label="@string/title_activity_overzicht"></activity>
+            android:label="@string/title_activity_overzicht" />
 
-        <receiver android:name="com.example.AppArt.thaliapp.Settings.AlarmReceiver" />
+        <receiver android:name=".Settings.AlarmReceiver" />
+
+        <activity
+            android:name=".Eetlijst.Activities.FoodList"
+            android:label="@string/title_activity_foodlist"></activity>
     </application>
 
 </manifest>
