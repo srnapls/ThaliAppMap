@@ -26,7 +26,6 @@ public class Inlog extends ActionBarActivity {
     private final String wachtwoord = "admin";
     private EditText naam;
     private EditText password;
-    private boolean access;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
 
@@ -73,6 +72,7 @@ public class Inlog extends ActionBarActivity {
         if (s1.equals(inlog) && s2.equals(wachtwoord)) {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putBoolean("access", true);
+            editor.commit();
             Intent i = new Intent(this, Overzicht.class);
             startActivity(i);
             finish();
