@@ -1,8 +1,7 @@
 package com.example.AppArt.thaliapp.Calendar.Backend;
 
-/**
- * Created by Srna on 28-5-2015.
- */
+// TODO Frank: Show progress/show that there actually is activity instead of
+// just a boring loadingscreen
 
 import android.os.AsyncTask;
 

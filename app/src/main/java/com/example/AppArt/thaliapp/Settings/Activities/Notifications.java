@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
@@ -58,9 +59,7 @@ public class Notifications extends ActionBarActivity {
 
     private final Database database = Database.getDatabase();
     private List<ThaliaEvent> allEvents = database.getEvents();
-    private List<ThaliaEvent> interestedEvents = new ArrayList();
-    private ThaliaEvent nextEventToWarn = new ThaliaEvent("20150611T110000Z",
-            "20150616T113000Z", "loc", "Thalia checkBorrel descr", "checkBorrel");
+    private ThaliaEvent nextEventToWarn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +97,7 @@ public class Notifications extends ActionBarActivity {
         wbox.setChecked(checkWorkshop);
         lbox.setChecked(checkLecture);
         obox.setChecked(checkDefault);
-        select();
+        nextEventToWarn = select();
     }
 
     /**
@@ -121,7 +120,8 @@ public class Notifications extends ActionBarActivity {
         editor.putBoolean("checkDefault", checkDefault);
         editor.putInt("tijd", amountOfTime);
         editor.commit();
-        select();
+        //TODO Frank: Know how this can be done differently
+        nextEventToWarn = select();
     }
 
     // TODO Frank: Move this to a "confirm" button
@@ -189,6 +189,11 @@ public class Notifications extends ActionBarActivity {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void createNotification() {
+        // There is no event to notify
+        if(nextEventToWarn == null){
+            Toast.makeText(this, "No events meet the requirements.\n " +
+                            "No notification is set.", Toast.LENGTH_SHORT).show();
+        }
         amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
         // TODO Frank: add unityOfTime through dropdown thingy
 
@@ -222,9 +227,14 @@ public class Notifications extends ActionBarActivity {
     /**
      * Selects the interested events out of the allEvents list of events and
      * puts them in the interestedEvents list
+     *
+     * @return earliest event that meets requirements. Null if no event meets
+     * requirements.
      */
-    private void select() {
-        if(allEvents == null){
+    private ThaliaEvent select() {
+        List<ThaliaEvent> interestedEvents = new ArrayList();
+        // Events might not have been parsed yet
+        if (allEvents == null) {
             database.updateEvents();
             allEvents = database.getEvents();
         }
@@ -232,6 +242,7 @@ public class Notifications extends ActionBarActivity {
         // notification will be placed
         // TODO Frank: Make this comment tell the truth
         if (allEvents != null) {
+            // Adding all possible ThaliaEvents that meet the requirements
             for (int i = 0; i < allEvents.size(); i++) {
                 switch (allEvents.get(i).getCategory()) {
                     case BORREL:
@@ -269,15 +280,14 @@ public class Notifications extends ActionBarActivity {
                 }
             }
             Collections.sort(interestedEvents);
-            // TODO Frank: remove this ugliness and fix make it decent
-            if (interestedEvents.size() != 0) {
-                nextEventToWarn = new ThaliaEvent("20370609T170000Z", "20420607T170000Z", "Nergens",
-                        "Een hacky oplossing, maar het werkt...soms",
-                        "Dummy date");
-            } else {
-                nextEventToWarn = interestedEvents.get(0);
-            }
         }
+        // If there are no ThaliaEvents that meet the requirements, null is returned
+        if(interestedEvents == null || interestedEvents.size() == 0){
+            return null;
+        }else {
+            return nextEventToWarn = interestedEvents.get(0);
+        }
+
     }
 
 }
