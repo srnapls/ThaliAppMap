@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
+import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.Calendar.Backend.Group;
 import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
@@ -33,7 +34,7 @@ public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
     SparseArray<Group> groups = new SparseArray<>();
     public ArrayList<ThaliaEvent> events = new ArrayList<>();
-    private String[] kindOfEvent;
+    private EventCategory[] kindOfEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,6 @@ public class Calendar extends ActionBarActivity {
         createData();
         makeCategories();
         adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-        adapter.addCategories(kindOfEvent);
         adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         listView.setAdapter(adapter);
         listView.setClickable(true);
@@ -56,7 +56,7 @@ public class Calendar extends ActionBarActivity {
     }
 
     /**
-     * Function to fill the ArrayList
+     * Function to fill the ArrayList, such that it is sorted on day
      */
     private void createData() {
         int j = 0, i = 0;
@@ -109,9 +109,9 @@ public class Calendar extends ActionBarActivity {
      * Makes a stringarray and fills it with the Categories
      */
     private void makeCategories() {
-        kindOfEvent = new String[events.size()];
+        kindOfEvent = new EventCategory[events.size()];
         for (int i = 0; i < kindOfEvent.length; i++) {
-            kindOfEvent[i] = events.get(i).getCategory().toString();
+            kindOfEvent[i] = events.get(i).getCategory();
         }
     }
 }

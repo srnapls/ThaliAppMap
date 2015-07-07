@@ -20,14 +20,14 @@ import com.example.AppArt.thaliapp.R;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private final SparseArray<Group> groups;
-    public LayoutInflater i;
+    public LayoutInflater inflater;
     public Calendar activity;
-    private String[] info;
+    private EventCategory[] info;
 
-    public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groep, String[] info) {
+    public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groep, EventCategory[] info) {
         groups = groep;
         activity = calendar;
-        i = calendar.getLayoutInflater();
+        inflater = calendar.getLayoutInflater();
         this.info = info;
     }
 
@@ -51,7 +51,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         final String children = (String) getChild(grouppos, childpos);
         TextView text;
         if (convertView == null) {
-            convertView = i.inflate(R.layout.listrow_details, null);
+            convertView = inflater.inflate(R.layout.listrow_details, null);
         }
         int plaats = index(grouppos, childpos);
         text = (TextView) convertView.findViewById(R.id.textView1);
@@ -60,7 +60,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             text.setCompoundDrawablesWithIntrinsicBounds(picture(info[plaats]), 0, 0, 0);
         } else {
             text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.overigicoon, 0, 0, 0);
-        }
+        } //An onclicklistener when a child is pressed.
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,21 +73,27 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    private int picture(String s) {
+    /**
+     * Gives the image that corresponds with the category of the event
+     *
+     * @param s the given eventcategory
+     * @return int: the number of the needed image
+     */
+    private int picture(EventCategory s) {
         switch (s) {
-            case "BORREL": {
+            case BORREL: {
                 return R.drawable.borrelicoon;
             }
-            case "LECTURE": {
+            case LECTURE: {
                 return R.drawable.lezingicoon;
             }
-            case "ALV": {
+            case ALV: {
                 return R.drawable.alvicoon;
             }
-            case "PARTY": {
+            case PARTY: {
                 return R.drawable.feesticoon;
             }
-            case "WORKSHOP": {
+            case WORKSHOP: {
                 return R.drawable.workshopicoon;
             }
             default:
@@ -123,7 +129,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = i.inflate(R.layout.listrow_group, null);
+            convertView = inflater.inflate(R.layout.listrow_group, null);
         }
         Group group = (Group) getGroup(groupPosition);
         ((CheckedTextView) convertView).setText(group.s);
@@ -142,10 +148,17 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void setInflater(LayoutInflater inflater, Calendar calendar) {
-        this.i = inflater;
+        this.inflater = inflater;
         this.activity = calendar;
     }
 
+    /**
+     * calculates the position of the event in the ArrayList events
+     *
+     * @param grouppos , number of the group
+     * @param childpos , number of the child
+     * @return the indexposition
+     */
     private int index(int grouppos, int childpos) {
         int i = 0, j = 0, p;
         while (j < getGroupCount()) {
@@ -162,9 +175,5 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             j++;
         }
         return i;
-    }
-
-    public void addCategories(String[] info) {
-        this.info = info;
     }
 }
