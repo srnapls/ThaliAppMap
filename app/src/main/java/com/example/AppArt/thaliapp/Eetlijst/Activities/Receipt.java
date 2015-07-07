@@ -40,8 +40,8 @@ public class Receipt extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             chosen = extras.getStringArray("chosen");
-            bedrag = extras.getDouble("bedrag", 0.0);
-            name = extras.getString("name", "Test");
+            bedrag = extras.getDouble("amount", 0.0);
+            name = extras.getString("name", " ");
         }
         if (chosen == null) {
             size = 2;
@@ -68,7 +68,7 @@ public class Receipt extends ActionBarActivity {
         Database.getDatabase().addReceipt(chosen);
         Intent intent = getIntent();
         intent.putExtra("chosen", (String[]) null);
-        intent.putExtra("bedrag", 0.0);
+        intent.putExtra("amount", 0.0);
         intent.putExtra("name", (String) null);
         startActivity(intent);
     }

@@ -34,7 +34,7 @@ public class Restaurant extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstancesharedpreferences) {
         super.onCreate(savedInstancesharedpreferences);
-        setContentView(R.layout.activity_eetlijst);
+        setContentView(R.layout.activity_restaurant);
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
@@ -120,8 +120,8 @@ public class Restaurant extends ActionBarActivity {
         name = editName.getText().toString();
         Intent intent = new Intent(this, Receipt.class);
         intent.putExtra("chosen", chosenToString());
-        intent.putExtra("naam", name);
-        intent.putExtra("bedrag", amount);
+        intent.putExtra("name", name);
+        intent.putExtra("amount", amount);
         startActivity(intent);
     }
 

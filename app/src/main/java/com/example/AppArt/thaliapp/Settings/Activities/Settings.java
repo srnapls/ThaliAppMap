@@ -28,7 +28,7 @@ import com.example.AppArt.thaliapp.R;
 
 public class Settings extends ActionBarActivity {
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES = "Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

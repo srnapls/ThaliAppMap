@@ -97,7 +97,7 @@ public class Overview extends ActionBarActivity {
         }
 
         /**
-         * A function to fill the stringarray info;
+         * A function to fill the string array info;
          */
         private void fillInfo() {
             int length = 0;

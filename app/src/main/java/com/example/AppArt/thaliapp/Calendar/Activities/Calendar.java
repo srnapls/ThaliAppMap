@@ -62,14 +62,14 @@ public class Calendar extends ActionBarActivity {
         int j = 0, i = 0;
         while (i < events.size()) {
             ThaliaEvent t = events.get(i);
-            Group groep = new Group(t.getDatumString());
-            groep.children.add(events.get(i).makeSummary());
+            Group group = new Group(t.getDatumString());
+            group.children.add(events.get(i).makeSummary());
             i++;
             while (i < events.size() && events.get(i).getDatumString().equals(t.getDatumString())) {
-                groep.children.add(events.get(i).makeSummary());
+                group.children.add(events.get(i).makeSummary());
                 i++;
             }
-            groups.append(j, groep);
+            groups.append(j, group);
             j++;
         }
     }

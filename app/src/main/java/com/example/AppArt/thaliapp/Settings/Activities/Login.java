@@ -29,7 +29,7 @@ public class Login extends ActionBarActivity {
     private EditText naam;
     private EditText password;
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES = "Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

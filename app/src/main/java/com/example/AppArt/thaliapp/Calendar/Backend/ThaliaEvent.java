@@ -2,6 +2,7 @@ package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.example.AppArt.thaliapp.R;
 
@@ -36,7 +37,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * Initialises the Event object given string input.
      *
      * @param organizer     The name of the organizer
-     * @param organizerMail The e-mail adress of the organizer
+     * @param organizerMail The e-mail address of the organizer
      * @param startDate     The starting time of the event in DATE-TIME format
      * @param endDate       The ending time of the event in DATE-TIME format
      * @param location      The location of the event
@@ -89,23 +90,21 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /**
      * Uses the description of an ThaliaEvent to figure out what category it is.
      *
-     * @param description
-     * @return
+     * @param description a string in where the category is given
+     * @return an EventCategory
      */
     private EventCategory categoryFinder(String description) {
-        EventCategory EvCat = EventCategory.DEFAULT;
         if (description.contains("borrel")) {
-            EvCat = EventCategory.BORREL;
+            return EventCategory.BORREL;
         } else if (description.contains("lezing")) {
-            EvCat = EventCategory.LECTURE;
+            return EventCategory.LECTURE;
         } else if (description.contains("feest") || description.contains("party")) {
-            EvCat = EventCategory.PARTY;
+            return EventCategory.PARTY;
         } else if (description.contains("alv") || description.contains("ALV")) {
-            EvCat = EventCategory.ALV;
+            return EventCategory.ALV;
         } else if (description.contains("workshop")) {
-            EvCat = EventCategory.WORKSHOP;
-        }
-        return EvCat;
+            return EventCategory.WORKSHOP;
+        } else return EventCategory.DEFAULT;
     }
 
     /**
@@ -139,7 +138,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /**
      * Printfunction, useful when you're debugging
      *
-     * @return
+     * @return a string of the event
      */
     @Override
     public String toString() {
@@ -236,7 +235,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     // TODO Greg Cal is er uit gesloopd, dus nu fixen op basis van Strings
     @Override
-    public int compareTo(ThaliaEvent another) {
+    public int compareTo(@NonNull ThaliaEvent another) {
         return startDate.compareTo(another.startDate);
     }
 
