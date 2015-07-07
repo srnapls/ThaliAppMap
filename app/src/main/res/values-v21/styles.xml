@@ -9,7 +9,7 @@
 
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
-    
+
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:colorBackground">#ED1B9B</item>

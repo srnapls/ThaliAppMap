@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Date;
 
 /**
- * THIS IS A TEST
+ *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
