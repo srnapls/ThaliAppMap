@@ -23,7 +23,7 @@ import com.example.AppArt.thaliapp.R;
  *         (s4182804)
  */
 
-public class Inlog extends ActionBarActivity {
+public class Login extends ActionBarActivity {
     private final String inlog = "admin";
     private final String wachtwoord = "admin";
     private EditText naam;

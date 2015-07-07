@@ -59,7 +59,7 @@
             android:name=".Eetlijst.Activities.Receipt"
             android:label="@string/title_activity_bon" />
         <activity
-            android:name=".Settings.Inlog"
+            android:name=".Settings.Login"
             android:label="@string/title_activity_inlog" />
         <activity
             android:name=".Settings.Overview"
