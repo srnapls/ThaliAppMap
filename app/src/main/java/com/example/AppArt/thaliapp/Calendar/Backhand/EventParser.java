@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
-Post-Lisa interventie series:
-Gitcomment: test 2
+Post-YORICK TREEMASTER OF US ALL
  */
 
 /**
