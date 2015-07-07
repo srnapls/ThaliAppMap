@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
 
 import java.util.Calendar;
@@ -11,14 +12,13 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
+ * Withholds all knowledge of a ThaliaEvent
+ *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
 public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
-
-    private final String organizer;
-    private final String organizerMail;
 
     private final String startDate;
     private final String endDate;
@@ -36,19 +36,14 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /**
      * Initialises the Event object given string input.
      *
-     * @param organizer     The name of the organizer
-     * @param organizerMail The e-mail address of the organizer
      * @param startDate     The starting time of the event in DATE-TIME format
      * @param endDate       The ending time of the event in DATE-TIME format
      * @param location      The location of the event
      * @param description   A large description of the event
      * @param summary       The event in 3 words or fewer
      */
-    public ThaliaEvent(String organizer, String organizerMail, String startDate,
-                       String endDate, String location, String description,
-                       String summary) {
-        this.organizer = organizer;
-        this.organizerMail = organizerMail;
+    public ThaliaEvent(String startDate, String endDate, String location,
+                       String description, String summary) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
@@ -142,14 +137,20 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     @Override
     public String toString() {
-        return ("organizer = " + organizer + ", mail = " + organizerMail
-                + "\nstart = " + startDate + ", end = " + endDate
+        return ("\nstart = " + startDate + ", end = " + endDate
                 + "\nlocation = " + location + "\ndescription = " + description
                 + "\nsummary = " + summary);
     }
 
+    /*****************************************************************
+    Getters for all attributes
+     *****************************************************************/
     public String getStartDate() {
         return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
     }
 
     public String getLocation() {
@@ -239,6 +240,9 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return startDate.compareTo(another.startDate);
     }
 
+    /*****************************************************************
+    Making it a Parcelable, so it can be passed through with an intent
+     *****************************************************************/
 
     @Override
     public int describeContents() {
@@ -254,9 +258,6 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(organizer);
-        dest.writeString(organizerMail);
-
         dest.writeString(startDate);
         dest.writeString(endDate);
 
@@ -272,14 +273,12 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
             = new Parcelable.Creator<ThaliaEvent>() {
         // Parcels work FIFO, so we do this the other way around
         public ThaliaEvent createFromParcel(Parcel parcel) {
-            String organizer = parcel.readString();
-            String organizerMail = parcel.readString();
             String startDate = parcel.readString();
             String endDate = parcel.readString();
             String location = parcel.readString();
             String description = parcel.readString();
             String summary = parcel.readString();
-            return new ThaliaEvent(organizer, organizerMail, startDate, endDate, location, description, summary);
+            return new ThaliaEvent(startDate, endDate, location, description, summary);
         }
 
         public ThaliaEvent[] newArray(int size) {
