@@ -6,6 +6,8 @@ import com.example.AppArt.thaliapp.Eetlijst.Backend.Product;
 import com.example.AppArt.thaliapp.Eetlijst.Backend.ProductParser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,9 +58,25 @@ public class Database {
      *****************************************************************/
 
     /**
-     * @return Last updated ThaliaEvents of Thalia.nu
+     * It is possible that no events have been parsed yet, or that all events
+     * that have been parsed, have ended. In these cases, a call to
+     * updateEvents() is required.
+     *
+     * @return all already parsed events that haven't ended yet
      */
     public List<ThaliaEvent> getEvents() {
+        Date nu = new Date();
+        int i = 0;
+        if(events == null){
+            return null;
+        }
+        while (i < events.size()) {
+            while (events.get(i).getGregCalFormat(events.get(i).getEndDate()).getTime().compareTo(nu) < 0) {
+                events.remove(i);
+            }
+            i++;
+        }
+        Collections.sort(events);
         return events;
     }
 
@@ -66,12 +84,14 @@ public class Database {
      * Downloads a new list of ThaliaEvents
      */
     public void updateEvents() {
-        events = getiCal.getNewEvents();
+        events = new GetiCal();
     }
 
-    /*****************************************************************
-     Part handling Products
-     *****************************************************************/
+    /**
+     * **************************************************************
+     * Part handling Products
+     * ***************************************************************
+     */
 
     public List<Product> getProductsFries() {
         return productsFries;
@@ -105,6 +125,7 @@ public class Database {
 
     /**
      * Add a Receipt to the database
+     *
      * @param receipt the to-be-added Receipt
      */
     public void addReceipt(String[] receipt) {
@@ -112,7 +133,6 @@ public class Database {
     }
 
     /**
-     *
      * @return all currently stored Receipts
      */
     public List<String[]> getReceipts() {

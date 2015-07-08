@@ -58,7 +58,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
      * @return List of all ThaliaEvents read from the Reader
      * @throws java.io.IOException
      */
-    private List Parsing(Reader iCalendar) throws IOException {
+    private List<ThaliaEvent> Parsing(Reader iCalendar) throws IOException {
         List<ThaliaEvent> parsedEvents = new ArrayList<>();
         Scanner scan = new Scanner(iCalendar);
         scan.useDelimiter(":");
@@ -105,22 +105,5 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
 
         return (new ThaliaEvent(startDate, endDate, location, description,
                 summary));
-    }
-
-    //Watch out! In the calendar, the end time is needed, in Notifications the begin time is needed
-    public List<ThaliaEvent> getNewEvents() {
-        Date nu = new Date();
-        int i = 0;
-        if(newEvents == null){
-            return null;
-        }
-        while (i < newEvents.size()) {
-            while (newEvents.get(i).getGregCalFormat(newEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
-                newEvents.remove(i);
-            }
-            i++;
-        }
-        Collections.sort(newEvents);
-        return newEvents;
     }
 }
