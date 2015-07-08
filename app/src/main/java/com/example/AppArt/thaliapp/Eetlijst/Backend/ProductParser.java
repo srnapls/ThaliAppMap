@@ -96,7 +96,7 @@ public class ProductParser {
             scan.useDelimiter("\\n");
             name = scan.next();
             scan.findWithinHorizon("€", 10);
-            price = scan.nextDouble();
+            price = Double.parseDouble(scan.next());
 
             Product newProduct = new Product(name, price, cat, ingredients);
             ingredients.clear();
@@ -134,7 +134,7 @@ public class ProductParser {
             scan.close();
             scan = new Scanner(priceString);
             scan.findWithinHorizon("€", 10);
-            price = scan.nextDouble();
+            price = Double.parseDouble(scan.next());
 
             Product newProduct = new Product(name, price, ProductCategory.PIZZA, ingredients);
             ingredients.clear();
