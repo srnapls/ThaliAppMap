@@ -36,8 +36,6 @@ public class Database {
     private Database() {
         getiCal = new GetiCal();
         productParser = new ProductParser();
-        productParser.Parsing();
-        updateProducts();
     }
 
     /**

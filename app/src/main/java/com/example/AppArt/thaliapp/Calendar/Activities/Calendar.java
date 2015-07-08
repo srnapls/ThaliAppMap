@@ -40,7 +40,8 @@ public class Calendar extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Database.getDatabase();
+        Database database = Database.getDatabase();
+        database.updateEvents();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {

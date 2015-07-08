@@ -111,6 +111,9 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
     public List<ThaliaEvent> getNewEvents() {
         Date nu = new Date();
         int i = 0;
+        if(newEvents == null){
+            return null;
+        }
         while (i < newEvents.size()) {
             while (newEvents.get(i).getGregCalFormat(newEvents.get(i).getStartDate()).getTime().compareTo(nu) < 0) {
                 newEvents.remove(i);
