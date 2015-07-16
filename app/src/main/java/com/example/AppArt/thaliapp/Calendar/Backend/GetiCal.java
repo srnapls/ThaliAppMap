@@ -100,21 +100,23 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
         scan.findWithinHorizon("DTSTART:", 50);
         startDate = scan.nextLine();
-        System.out.println(startDate);
         scan.findWithinHorizon("DTEND:", 50);
         endDate = scan.nextLine();
 
         scan.findWithinHorizon("LOCATION:", 50);
         location = scan.nextLine();
+        scan.findWithinHorizon("SUMMARY:", 50);
         summary = scan.nextLine();
         scan.findWithinHorizon("DESCRIPTION:", 200);
 
         description = scan.nextLine();
+        String dump = "";
         // Injectionsensitive
-        while (!summary.contains("DTSTAMP:")) {
-            description = description.concat(summary);
-            summary = scan.nextLine();
+        while (!dump.contains("DTSTAMP")) {
+            description = description.concat(dump);
+            dump = scan.nextLine();
         }
+
         scan.findWithinHorizon("END:VEVENT", 50);
         System.out.println("parseTE end");
         return (new ThaliaEvent(startDate, endDate, location, description,
