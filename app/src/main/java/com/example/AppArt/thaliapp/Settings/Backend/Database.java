@@ -92,7 +92,7 @@ public class Database {
         GetiCal getiCal = new GetiCal();
         getiCal.execute(icalAddress);
         try{
-            Thread.sleep(1000);
+            Thread.sleep(4000);
             events = getiCal.getNewEvents();
         } catch(InterruptedException ex){
             ex.printStackTrace();

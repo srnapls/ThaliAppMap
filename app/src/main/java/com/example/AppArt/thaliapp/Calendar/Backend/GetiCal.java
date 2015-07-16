@@ -44,6 +44,7 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
      */
     @Override
     protected List<ThaliaEvent> doInBackground(String... icalAddress) {
+        System.out.println("doInBackground begin");
         try {
             String resource_location = icalAddress[0];
             URL iCalURL = new URL(resource_location);
@@ -54,6 +55,7 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
             Logger.getLogger(GetiCal.class.getName()).log(Level.SEVERE,
                     "The URL wasn't found or couldn't be opened.", ex);
         }
+        System.out.println("doInBackground end");
         return newEvents;
     }
 
@@ -70,11 +72,13 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         Scanner scan = new Scanner(iCalendar);
         scan.useDelimiter(":");
         scan.findWithinHorizon("X-PUBLISHED-TTL:P1W", 200);
-        while(!(scan.findWithinHorizon("END:VCALENDAR", 200) == null)){
+        System.out.println("Parsing begin");
+        while(scan.findWithinHorizon("END:VCALENDAR", 200) == null){
             ThaliaEvent t = ParseThaliaEvent(scan);
             System.out.println(t);
             parsedEvents.add(t);
         }
+        System.out.println("Parsing end");
         scan.close();
         return parsedEvents;
     }
@@ -85,6 +89,7 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
      * @return the scanned ThaliaEvent
      */
     private ThaliaEvent ParseThaliaEvent(Scanner scan){
+        System.out.println("ParseTE begin");
         String startDate;
         String endDate;
         String location;
@@ -111,12 +116,13 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
             summary = scan.nextLine();
         }
         scan.findWithinHorizon("END:VEVENT", 50);
-
+        System.out.println("parseTE end");
         return (new ThaliaEvent(startDate, endDate, location, description,
                 summary));
     }
 
     /*
+    // http://stackoverflow.com/questions/3821423/background-task-progress-dialog-orientation-change-is-there-any-100-working/3821998#3821998
     private void lockScreenOrientation() {
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
