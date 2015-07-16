@@ -1,10 +1,13 @@
 package com.example.AppArt.thaliapp.Settings.Backend;
 
+import android.widget.Toast;
+
 import com.example.AppArt.thaliapp.Calendar.Backend.GetiCal;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Backend.Product;
 import com.example.AppArt.thaliapp.Eetlijst.Backend.ProductParser;
 
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -20,7 +23,8 @@ import java.util.List;
 public class Database {
     private static Database database = null;
 
-    private final GetiCal getiCal;
+    private final String icalAddress
+            = "https://www.thalia.nu/events/ical/feed.ics";
     private final ProductParser productParser;
 
     private List<ThaliaEvent> events;
@@ -36,7 +40,6 @@ public class Database {
      * Creates Parsers
      */
     private Database() {
-        getiCal = new GetiCal();
         productParser = new ProductParser();
     }
 
@@ -81,10 +84,18 @@ public class Database {
     }
 
     /**
-     * Downloads a new list of ThaliaEvents
+     * Downloads a new list of ThaliaEvents using an AsyncTask named GetiCal
      */
     public void updateEvents() {
-        events = new GetiCal();
+        // icalAddress
+        GetiCal getiCal = new GetiCal();
+        getiCal.execute(icalAddress);
+        try{
+            Thread.sleep(1000);
+            events = getiCal.getNewEvents();
+        } catch(InterruptedException ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
