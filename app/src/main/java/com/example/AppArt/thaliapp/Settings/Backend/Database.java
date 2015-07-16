@@ -88,6 +88,7 @@ public class Database {
      */
     public void updateEvents() {
         // icalAddress
+        System.out.println("updateEvents begin");
         GetiCal getiCal = new GetiCal();
         getiCal.execute(icalAddress);
         try{
@@ -96,6 +97,7 @@ public class Database {
         } catch(InterruptedException ex){
             ex.printStackTrace();
         }
+        System.out.println("updateEvents end");
     }
 
     /**

@@ -4,6 +4,7 @@ package com.example.AppArt.thaliapp.Calendar.Backend;
 // just a boring loadingscreen
 // TODO Frank: dealing-with-asynctask-and-screen-orientation
 
+import android.content.res.Configuration;
 import android.location.GpsStatus;
 import android.os.AsyncTask;
 
@@ -70,7 +71,9 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         scan.useDelimiter(":");
         scan.findWithinHorizon("X-PUBLISHED-TTL:P1W", 200);
         while(!(scan.findWithinHorizon("END:VCALENDAR", 200) == null)){
-            parsedEvents.add(ParseThaliaEvent(scan));
+            ThaliaEvent t = ParseThaliaEvent(scan);
+            System.out.println(t);
+            parsedEvents.add(t);
         }
         scan.close();
         return parsedEvents;
@@ -112,6 +115,20 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         return (new ThaliaEvent(startDate, endDate, location, description,
                 summary));
     }
+
+    /*
+    private void lockScreenOrientation() {
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
+    private void unlockScreenOrientation() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }*/
 
     public List<ThaliaEvent> getNewEvents(){
         return newEvents;

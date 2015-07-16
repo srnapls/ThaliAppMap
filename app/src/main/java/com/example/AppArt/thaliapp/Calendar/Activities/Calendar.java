@@ -40,6 +40,7 @@ public class Calendar extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        System.out.println("calling database");
         Database database = Database.getDatabase();
         database.updateEvents();
         try {
@@ -47,6 +48,7 @@ public class Calendar extends ActionBarActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        database.getEvents();
     }
 
     @Override
