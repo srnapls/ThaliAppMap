@@ -4,8 +4,6 @@ package com.example.AppArt.thaliapp.Calendar.Backend;
 // just a boring loadingscreen
 // TODO Frank: dealing-with-asynctask-and-screen-orientation
 
-import android.content.res.Configuration;
-import android.location.GpsStatus;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -25,7 +23,7 @@ import java.util.logging.Logger;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
-public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
+public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
     private List<ThaliaEvent> newEvents;
 
@@ -52,7 +50,7 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
                     new InputStreamReader(iCalURL.openStream()));
             newEvents = this.Parsing(iCalSource);
         } catch (IOException ex) {
-            Logger.getLogger(GetiCal.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(EventParser.class.getName()).log(Level.SEVERE,
                     "The URL wasn't found or couldn't be opened.", ex);
         }
         return newEvents;

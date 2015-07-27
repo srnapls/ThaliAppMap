@@ -1,13 +1,10 @@
 package com.example.AppArt.thaliapp.Settings.Backend;
 
-import android.widget.Toast;
-
-import com.example.AppArt.thaliapp.Calendar.Backend.GetiCal;
+import com.example.AppArt.thaliapp.Calendar.Backend.EventParser;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Backend.Product;
 import com.example.AppArt.thaliapp.Eetlijst.Backend.ProductParser;
 
-import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -85,16 +82,16 @@ public class Database {
 
     // TODO Frank: Kill the filthy Thread.sleep(4000);
     /**
-     * Downloads a new list of ThaliaEvents using an AsyncTask named GetiCal
+     * Downloads a new list of ThaliaEvents using an AsyncTask named EventParser
      */
     public void updateEvents() {
         // icalAddress
         System.out.println("updateEvents begin");
-        GetiCal getiCal = new GetiCal();
-        getiCal.execute(icalAddress);
+        EventParser eventParser = new EventParser();
+        eventParser.execute(icalAddress);
         try{
             Thread.sleep(4000);
-            events = getiCal.getNewEvents();
+            events = eventParser.getNewEvents();
         } catch(InterruptedException ex){
             ex.printStackTrace();
         }

@@ -40,18 +40,7 @@ public class Calendar extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("calling database");
         Database database = Database.getDatabase();
-/*        database.updateEvents();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-*/
-        if(database.getEvents() == null){
-            Toast.makeText(this, "halp", Toast.LENGTH_SHORT);
-        };
     }
 
     @Override
@@ -59,11 +48,10 @@ public class Calendar extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
-        System.out.println("check1");
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
-        System.out.println("check2");
         if (events == null) {
-            Toast.makeText(this, "There seem to be no events", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Er zijn geen evenementen. " +
+                    "Misschien moet je updaten.", Toast.LENGTH_SHORT).show();
             return;
         } else {
             createData();

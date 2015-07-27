@@ -16,11 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -114,7 +117,7 @@ public class Settings extends ActionBarActivity {
                     break;
                 case "Update kalender":
                     Database.getDatabase().updateEvents();
-                    System.out.println("Settings: updated");
+                    Toast.makeText(this.getActivity(), "Kalender geupdate", LENGTH_SHORT).show();
             }
         }
 
