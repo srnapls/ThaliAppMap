@@ -42,13 +42,16 @@ public class Calendar extends ActionBarActivity {
         super.onStart();
         System.out.println("calling database");
         Database database = Database.getDatabase();
-        database.updateEvents();
+/*        database.updateEvents();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        database.getEvents();
+*/
+        if(database.getEvents() == null){
+            Toast.makeText(this, "halp", Toast.LENGTH_SHORT);
+        };
     }
 
     @Override

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -86,7 +87,7 @@ public class Settings extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class ListFragment extends android.support.v4.app.ListFragment {
-        String[] lijst = new String[]{"Notifications", "Login"};
+        String[] lijst = new String[]{"Notificaties", "Login", "Update kalender"};
         SharedPreferences sharedpreferences;
 
         public ListFragment() {
@@ -96,12 +97,10 @@ public class Settings extends ActionBarActivity {
             super.onListItemClick(l, v, position, id);
             String s = l.getItemAtPosition(position).toString();
             switch (s) {
-                case "Notifications":
+                case "Notificaties":
                     Intent intent;
                     intent = new Intent(getActivity(), Notifications.class);
                     startActivity(intent);
-                    break;
-                case "Party Mode":
                     break;
                 case "Login":
                     boolean b = sharedpreferences.getBoolean("access", false);
@@ -113,6 +112,9 @@ public class Settings extends ActionBarActivity {
                         startActivity(i);
                     }
                     break;
+                case "Update kalender":
+                    Database.getDatabase().updateEvents();
+                    System.out.println("Settings: updated");
             }
         }
 

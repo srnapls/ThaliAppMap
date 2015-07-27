@@ -29,12 +29,13 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
     private List<ThaliaEvent> newEvents;
 
-    /*
+/*
     @Override
     protected void onPreExecute(){
         super.onPreExecute();
+
     }
-    */
+*/
 
     /**
      * Opens an URL stream with the given iCalendaradress and extracts a list of
@@ -44,7 +45,6 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
      */
     @Override
     protected List<ThaliaEvent> doInBackground(String... icalAddress) {
-        System.out.println("doInBackground begin");
         try {
             String resource_location = icalAddress[0];
             URL iCalURL = new URL(resource_location);
@@ -55,7 +55,6 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
             Logger.getLogger(GetiCal.class.getName()).log(Level.SEVERE,
                     "The URL wasn't found or couldn't be opened.", ex);
         }
-        System.out.println("doInBackground end");
         return newEvents;
     }
 
@@ -72,13 +71,10 @@ public class GetiCal extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         Scanner scan = new Scanner(iCalendar);
         scan.useDelimiter(":");
         scan.findWithinHorizon("X-PUBLISHED-TTL:P1W", 200);
-        System.out.println("Parsing begin");
         while(scan.findWithinHorizon("END:VCALENDAR", 200) == null){
             ThaliaEvent t = ParseThaliaEvent(scan);
-            System.out.println(t);
             parsedEvents.add(t);
         }
-        System.out.println("Parsing end");
         scan.close();
         return parsedEvents;
     }
