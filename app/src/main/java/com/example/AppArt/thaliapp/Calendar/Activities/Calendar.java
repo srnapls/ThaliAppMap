@@ -27,6 +27,9 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import java.util.ArrayList;
 
 /**
+ * Calendar activity, shows a list of all currently known ThaliaEvents that
+ * have yet to end.
+ *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -40,7 +43,6 @@ public class Calendar extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Database database = Database.getDatabase();
     }
 
     @Override

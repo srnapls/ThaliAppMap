@@ -41,22 +41,6 @@
             android:label="@string/title_activity_eetlijst" >
         </activity>
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Pizza"
-            android:label="@string/title_activity_pizza" >
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Fries"
-            android:label="@string/title_activity_fries" >
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Snack"
-            android:label="@string/title_activity_snack" >
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Broodjes"
-            android:label="@string/title_activity_broodjes" >
-        </activity>
-        <activity
             android:name="com.example.AppArt.thaliapp.Settings.Notifications"
             android:label="@string/title_activity_notifications" >
         </activity>
@@ -72,10 +56,6 @@
         <activity
             android:name="com.example.AppArt.thaliapp.Settings.Inlog"
             android:label="@string/title_activity_inlog" >
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Overzicht"
-            android:label="@string/title_activity_overzicht" >
         </activity>
         <receiver android:name="com.example.AppArt.thaliapp.Settings.AlarmReceiver"/>
     </application>
