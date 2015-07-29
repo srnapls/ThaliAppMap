@@ -98,11 +98,15 @@ public class Calendar extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will automatically
+     * handle clicks on the Home/Up button, as long as you specify a parent
+     * activity in AndroidManifest.xml.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.menu1:
