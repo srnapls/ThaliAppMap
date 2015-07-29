@@ -83,7 +83,6 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
      * @return the scanned ThaliaEvent
      */
     private ThaliaEvent ParseThaliaEvent(Scanner scan){
-        System.out.println("ParseTE begin");
         String startDate;
         String endDate;
         String location;
@@ -112,7 +111,6 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         }
 
         scan.findWithinHorizon("END:VEVENT", 50);
-        System.out.println("parseTE end");
         return (new ThaliaEvent(startDate, endDate, location, description,
                 summary));
     }

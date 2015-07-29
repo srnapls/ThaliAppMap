@@ -52,9 +52,10 @@ public class Calendar extends ActionBarActivity {
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
-            Toast.makeText(this, "Er zijn geen evenementen. " +
+            Toast.makeText(this, "Er zijn geen evenementen. \n" +
                     "Misschien moet je updaten.", Toast.LENGTH_SHORT).show();
-            return;
+            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
+            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         } else {
             createData();
             makeCategories();
