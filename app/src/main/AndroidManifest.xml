@@ -36,11 +36,11 @@
             android:name=".Settings.Activities.Settings"
             android:label="@string/title_activity_instellingen" />
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst"
+            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.FoodList"
             android:label="@string/title_activity_eetlijst" >
         </activity>
         <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Notifications"
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Notifications"
             android:label="@string/title_activity_notifications" >
         </activity>
         <activity
@@ -48,15 +48,15 @@
             android:label="@string/title_activity_information" >
         </activity>
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Bon"
+            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Receipt"
             android:label="@string/title_activity_bon" >
         </activity>
 
         <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Inlog"
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Login"
             android:label="@string/title_activity_inlog" >
         </activity>
-        <receiver android:name="com.example.AppArt.thaliapp.Settings.AlarmReceiver"/>
+        <receiver android:name="com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver"/>
     </application>
 
 </manifest>
