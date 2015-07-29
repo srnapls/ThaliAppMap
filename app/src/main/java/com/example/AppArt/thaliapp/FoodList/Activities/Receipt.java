@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Activities;
+package com.example.AppArt.thaliapp.FoodList.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +23,7 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 public class Receipt extends ActionBarActivity {
     private String[] chosen;
-    private Double bedrag;
+    private Double amount;
     private String name;
     private String[] all;
     private int size;
@@ -40,7 +40,7 @@ public class Receipt extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             chosen = extras.getStringArray("chosen");
-            bedrag = extras.getDouble("amount", 0.0);
+            amount = extras.getDouble("amount", 0.0);
             name = extras.getString("name", " ");
         }
         if (chosen == null) {
@@ -53,7 +53,7 @@ public class Receipt extends ActionBarActivity {
         for (int i = 1; i < size - 1; i++) {
             all[i] = chosen != null ? chosen[i - 1] : null;
         }
-        all[size - 1] = Double.toString(bedrag);
+        all[size - 1] = Double.toString(amount);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);

@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Activities;
+package com.example.AppArt.thaliapp.FoodList.Activities;
 
 import android.app.ListActivity;
 import android.content.Intent;

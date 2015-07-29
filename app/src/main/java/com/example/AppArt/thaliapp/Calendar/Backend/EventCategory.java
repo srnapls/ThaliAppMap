@@ -7,5 +7,5 @@ package com.example.AppArt.thaliapp.Calendar.Backend;
  *         (s4182804)
  */
 public enum EventCategory {
-    BORREL, LECTURE, ALV, PARTY, WORKSHOP, DEFAULT
+    ALV, BORREL, LECTURE, PARTY, WORKSHOP, DEFAULT
 }

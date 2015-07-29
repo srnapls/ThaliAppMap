@@ -37,32 +37,32 @@
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Borrel"
+        android:text="@string/borrel"
         android:id="@+id/BoxBorrel" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/ALV"
+        android:text="@string/alv"
         android:id="@+id/BoxALV" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Feest"
+        android:text="@string/party"
         android:id="@+id/BoxParty" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Workshop"
+        android:text="@string/workshop"
         android:id="@+id/BoxWorkshop" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Lezing"
+        android:text="@string/lecture"
         android:id="@+id/BoxLecture"/>
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Overig"
+        android:text="@string/other"
         android:id="@+id/BoxDefault"/>
 
     <Button

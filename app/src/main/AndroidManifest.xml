@@ -28,9 +28,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <!-- Calendar -->
         <activity
             android:name=".Calendar.Activities.Calendar"
-            android:label="@string/"
+            android:label="@string/calendar"
             android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,30 +41,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Settings.Activities.Settings"
-            android:label="@string/title_activity_instellingen" />
-        <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Eetlijst"
-            android:label="@string/title_activity_eetlijst" >
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Notifications"
-            android:label="@string/title_activity_notifications" >
-        </activity>
-        <activity
             android:name="com.example.AppArt.thaliapp.Calendar.Activities.Information"
-            android:label="@string/title_activity_information" >
-        </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Bon"
-            android:label="@string/title_activity_bon" >
+            android:label="@string/information" >
         </activity>
 
+        <!-- FoodList -->
         <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Inlog"
-            android:label="@string/title_activity_inlog" >
+            android:name="com.example.AppArt.thaliapp.FoodList.Activities.FoodList"
+            android:label="@string/foodlist" >
         </activity>
-        <receiver android:name="com.example.AppArt.thaliapp.Settings.AlarmReceiver"/>
+        <activity
+            android:name="com.example.AppArt.thaliapp.FoodList.Activities.Receipt"
+            android:label="@string/receipt" >
+        </activity>
+        <activity
+            android:name="com.example.AppArt.thaliapp.FoodList.Activities.Restaurant"
+            android:label="@string/restaurant">
+            </activity>
+
+        <!-- Settings -->
+        <activity
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Login"
+            android:label="@string/login" >
+        </activity>
+        <activity
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Notifications"
+            android:label="@string/notifications" >
+        </activity>
+        <activity
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Overview"
+            android:label="@string/overview" >
+        </activity>
+        <activity
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Settings"
+            android:label="@string/settings">
+        </activity>
+
+        <receiver android:name="com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver"/>
     </application>
 
 </manifest>

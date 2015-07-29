@@ -2,8 +2,8 @@ package com.example.AppArt.thaliapp.Settings.Backend;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.EventParser;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.Eetlijst.Backend.Product;
-import com.example.AppArt.thaliapp.Eetlijst.Backend.ProductParser;
+import com.example.AppArt.thaliapp.FoodList.Backend.Product;
+import com.example.AppArt.thaliapp.FoodList.Backend.ProductParser;
 
 import java.util.ArrayList;
 import java.util.Collections;

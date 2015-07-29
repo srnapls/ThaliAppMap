@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Backend;
+package com.example.AppArt.thaliapp.FoodList.Backend;
 
 /**
  * Defines all possible categories that a product can have.
@@ -9,7 +9,7 @@ package com.example.AppArt.thaliapp.Eetlijst.Backend;
 
 public enum ProductCategory {
 
-    SANDWICHES, FRIES, KEBAB, PIZZA, SNACKS;
+    FRIES, PIZZA, SANDWICHES, SNACKS;
 
     /**
      * The productcategory starting with a capital letter and further only

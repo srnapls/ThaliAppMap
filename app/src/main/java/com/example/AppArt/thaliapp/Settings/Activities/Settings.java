@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 

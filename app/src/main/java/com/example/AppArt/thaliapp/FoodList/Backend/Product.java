@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Backend;
+package com.example.AppArt.thaliapp.FoodList.Backend;
 
 
 import java.util.ArrayList;
