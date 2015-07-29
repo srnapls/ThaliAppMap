@@ -19,7 +19,7 @@ import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.Calendar.Backend.Group;
 import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -52,9 +52,10 @@ public class Calendar extends ActionBarActivity {
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
-            Toast.makeText(this, "Er zijn geen evenementen. " +
+            Toast.makeText(this, "Er zijn geen evenementen. \n" +
                     "Misschien moet je updaten.", Toast.LENGTH_SHORT).show();
-            return;
+            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
+            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         } else {
             createData();
             makeCategories();
@@ -97,11 +98,15 @@ public class Calendar extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will automatically
+     * handle clicks on the Home/Up button, as long as you specify a parent
+     * activity in AndroidManifest.xml.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.menu1:

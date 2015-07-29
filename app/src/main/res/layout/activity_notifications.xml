@@ -37,31 +37,40 @@
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Borrel"
+        android:text="@string/borrel"
         android:id="@+id/BoxBorrel" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/ALV"
+        android:text="@string/alv"
         android:id="@+id/BoxALV" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Feest"
+        android:text="@string/party"
         android:id="@+id/BoxParty" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Workshop"
+        android:text="@string/workshop"
         android:id="@+id/BoxWorkshop" />
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Lezing"
+        android:text="@string/lecture"
         android:id="@+id/BoxLecture"/>
     <CheckBox
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:text="@string/Overig"
+        android:text="@string/other"
         android:id="@+id/BoxDefault"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zet notificatie"
+        android:id="@+id/setNotification"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onSetNotification"/>
 </LinearLayout>

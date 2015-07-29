@@ -1,4 +1,4 @@
-package com.example.AppArt.thaliapp.Eetlijst.Backend;
+package com.example.AppArt.thaliapp.FoodList.Backend;
 
 /**
  * A dummy database for all products. This class and the ProductParser will be

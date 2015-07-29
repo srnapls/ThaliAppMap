@@ -1,37 +1,35 @@
 <resources>
     <string name="app_name">ThaliApp</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="one_string">Kalender</string>
-    <string name="two_string">Eetlijst</string>
-    <string name="three_string">Login</string>
-    <string name="four_string">Instellingen</string>
-    <string name="title_activity_instellingen">Instellingen</string>
-    <string name="title_activity_eetlijst">Eetlijst</string>
-    <string name="title_activity_pizza">Pizza</string>
-    <string name="title_activity_fries">Fries</string>
-    <string name="title_activity_snack">Snack</string>
-    <string name="title_activity_broodjes">Broodjes</string>
-    <string name="Persoon">Naam</string>
-    <string name="Friet">Friet</string>
-    <string name="Broodjes">Broodjes</string>
-    <string name="Snacks">Snacks</string>
-    <string name="Pizza">Pizza</string>
-    <string name="Overig">Overig</string>
-    <string name="Bedrag">Totaalbedrag</string>
-    <string name="Borrel">Borrels</string>
-    <string name="Feest">Feestjes</string>
-    <string name="Lezing">Lezingen</string>
-    <string name="ALV">ALVs</string>
-    <string name="Workshop">Workshops</string>
-    <string name="title_activity_list_adapter">ListAdapter</string>
-    <string name="title_activity_notifications">Notificaties</string>
+
+    <!-- Activity titles -->
+    <string name="calendar">Kalender</string>
+    <string name="information">Informatie</string>
+    <string name="foodlist">Eetlijst</string>
+    <string name="receipt">Bon</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="login">Inloggen</string>
+    <string name="notifications">Notificaties</string>
+    <string name="overview">Overzicht</string>
+    <string name="settings">Instellingen</string>
+
+    <!-- Product categories -->
+    <string name="fries">Friet</string>
+    <string name="pizza">Pizza</string>
+    <string name="sandwiches">Broodjes</string>
+    <string name="snacks">Snacks</string>
+
+    <!-- Event categories -->
+    <string name="alv">ALVs</string>
+    <string name="borrel">Borrels</string>
+    <string name="lecture">Lezingen</string>
+    <string name="party">Feestjes</string>
+    <string name="workshop">Workshops</string>
+    <!-- "default" is a reserved Java key word, so we changed it to "other" -->
+    <string name="other">Overig</string>
+
+    <!-- Default strings -->
+    <string name="person">Naam</string>
+    <string name="amount">Totaalbedrag</string>
     <string name="Notificationsdeel1">Tijd voor ontvangen:</string>
     <string name="Notificationsdeel2">minuten</string>
-    <string name="title_activity_pizzalijst">Pizzalist</string>
-    <string name="title_activity_information">Information</string>
-    <string name="title_activity_bon">Receipt</string>
-    <string name="title_activity_inlog">Inlog</string>
-    <string name="title_activity_overzicht">Overzicht</string>
-    <string name="title_activity_foodlist">Foodlist</string>
 </resources>

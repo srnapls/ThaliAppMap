@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
@@ -103,7 +103,7 @@ public class Settings extends ActionBarActivity {
                 case "Notificaties":
                     Intent intent;
                     intent = new Intent(getActivity(), Notifications.class);
-                    startActivity(intent);
+/*Fail*/                    startActivity(intent);
                     break;
                 case "Login":
                     boolean b = sharedpreferences.getBoolean("access", false);

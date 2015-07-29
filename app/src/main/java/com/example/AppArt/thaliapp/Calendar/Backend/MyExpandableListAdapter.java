@@ -24,8 +24,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     public Calendar activity;
     private EventCategory[] info;
 
-    public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groep, EventCategory[] info) {
-        groups = groep;
+    public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groups, EventCategory[] info) {
+        this.groups = groups;
         activity = calendar;
         inflater = calendar.getLayoutInflater();
         this.info = info;

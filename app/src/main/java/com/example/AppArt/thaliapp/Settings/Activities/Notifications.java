@@ -185,6 +185,23 @@ public class Notifications extends ActionBarActivity {
     }
 
     /**
+     * When the setNotification button is clicked, a notification is set
+     */
+    // TODO Frank: Move this to a "confirm" button
+    // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
+    // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
+    public void onSetNotification() {
+        if (minutesBefore.getText() == null) {
+            amountOfTime = 60;
+        } else {
+            amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
+        }
+        savePreferences();
+        createNotification();
+        Toast.makeText(this, "set", Toast.LENGTH_SHORT);
+    }
+
+    /**
      * Reads the given values and sets a notification through an alarm manager
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

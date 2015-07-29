@@ -8,13 +8,18 @@
         android:targetSdkVersion="21"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--
+     To open a download stream to thalia.nu to get the iCalendar
+    -->
 
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
      option is required to comply with the Google+ Sign-In developer policies
     -->
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
     <application
@@ -22,9 +27,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <!-- Calendar -->
         <activity
             android:name=".Calendar.Activities.Calendar"
-            android:label="@string/app_name"
+            android:label="@string/calendar"
             android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,29 +40,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Settings.Activities.Settings"
-            android:label="@string/title_activity_instellingen" />
+            android:name="com.example.AppArt.thaliapp.Calendar.Activities.Information"
+            android:label="@string/information" >
+        </activity>
+
+        <!-- FoodList -->
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.FoodList"
-            android:label="@string/title_activity_eetlijst" >
+            android:name="com.example.AppArt.thaliapp.FoodList.Activities.FoodList"
+            android:label="@string/foodlist" >
+        </activity>
+        <activity
+            android:name="com.example.AppArt.thaliapp.FoodList.Activities.Receipt"
+            android:label="@string/receipt" >
+        </activity>
+        <activity
+            android:name="com.example.AppArt.thaliapp.FoodList.Activities.Restaurant"
+            android:label="@string/restaurant">
+            </activity>
+
+        <!-- Settings -->
+        <activity
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Login"
+            android:label="@string/login" >
         </activity>
         <activity
             android:name="com.example.AppArt.thaliapp.Settings.Activities.Notifications"
-            android:label="@string/title_activity_notifications" >
+            android:label="@string/notifications" >
         </activity>
         <activity
-            android:name="com.example.AppArt.thaliapp.Calendar.Activities.Information"
-            android:label="@string/title_activity_information" >
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Overview"
+            android:label="@string/overview" >
         </activity>
         <activity
-            android:name="com.example.AppArt.thaliapp.Eetlijst.Activities.Receipt"
-            android:label="@string/title_activity_bon" >
+            android:name="com.example.AppArt.thaliapp.Settings.Activities.Settings"
+            android:label="@string/settings">
         </activity>
 
-        <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Activities.Login"
-            android:label="@string/title_activity_inlog" >
-        </activity>
         <receiver android:name="com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver"/>
     </application>
 
