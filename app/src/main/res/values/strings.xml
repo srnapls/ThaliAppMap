@@ -2,7 +2,7 @@
     <string name="app_name">ThaliApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="one_string">Calender</string>
+    <string name="one_string">Kalender</string>
     <string name="two_string">Eetlijst</string>
     <string name="three_string">Login</string>
     <string name="four_string">Instellingen</string>
@@ -12,7 +12,7 @@
     <string name="title_activity_fries">Fries</string>
     <string name="title_activity_snack">Snack</string>
     <string name="title_activity_broodjes">Broodjes</string>
-    <string name="Persoon">Name</string>
+    <string name="Persoon">Naam</string>
     <string name="Friet">Friet</string>
     <string name="Broodjes">Broodjes</string>
     <string name="Snacks">Snacks</string>
@@ -25,7 +25,7 @@
     <string name="ALV">ALVs</string>
     <string name="Workshop">Workshops</string>
     <string name="title_activity_list_adapter">ListAdapter</string>
-    <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_notifications">Notificaties</string>
     <string name="Notificationsdeel1">Tijd voor ontvangen:</string>
     <string name="Notificationsdeel2">minuten</string>
     <string name="title_activity_pizzalijst">Pizzalist</string>

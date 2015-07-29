@@ -21,22 +21,6 @@ public class ProductParser {
     private List<Product> parsedSnacks = new ArrayList<>();
 
     /**
-     * Parses a productdatabase to lists of products
-     *
-     */
-    public void Parsing() {
-        // TODO: fix dubbelheid
-        parsedFries.clear();
-        parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
-        parsedPizza.clear();
-        parsedPizza.addAll(PizzaParsing(Db.pizzaList));
-        parsedSandwich.clear();
-        parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
-        parsedSnacks.clear();
-        parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
-    }
-
-    /**
      * Parses the dummyDb input on Fries
      * @return List of all Fries Product objects in the dummyDb
      */
@@ -97,7 +81,7 @@ public class ProductParser {
             scan.useDelimiter("\\n");
             name = scan.next();
             scan.findWithinHorizon("€", 10);
-            price = scan.nextDouble();
+            price = Double.parseDouble(scan.next());
 
             Product newProduct = new Product(name, price, cat, ingredients);
             ingredients.clear();
@@ -135,7 +119,7 @@ public class ProductParser {
             scan.close();
             scan = new Scanner(priceString);
             scan.findWithinHorizon("€", 10);
-            price = scan.nextDouble();
+            price = Double.parseDouble(scan.next());
 
             Product newProduct = new Product(name, price, ProductCategory.PIZZA, ingredients);
             ingredients.clear();

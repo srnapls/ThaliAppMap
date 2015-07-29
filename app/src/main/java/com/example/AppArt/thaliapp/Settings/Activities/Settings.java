@@ -16,10 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
@@ -86,7 +90,7 @@ public class Settings extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class ListFragment extends android.support.v4.app.ListFragment {
-        String[] menuList = new String[]{"Notifications", "Login"};
+        String[] lijst = new String[]{"Notificaties", "Login", "Update kalender"};
         SharedPreferences sharedpreferences;
 
         public ListFragment() {
@@ -96,12 +100,10 @@ public class Settings extends ActionBarActivity {
             super.onListItemClick(l, v, position, id);
             String s = l.getItemAtPosition(position).toString();
             switch (s) {
-                case "Notifications":
+                case "Notificaties":
                     Intent intent;
                     intent = new Intent(getActivity(), Notifications.class);
                     startActivity(intent);
-                    break;
-                case "Party Mode":
                     break;
                 case "Login":
                     boolean b = sharedpreferences.getBoolean("access", false);
@@ -113,6 +115,9 @@ public class Settings extends ActionBarActivity {
                         startActivity(i);
                     }
                     break;
+                case "Update kalender":
+                    Database.getDatabase().updateEvents();
+                    Toast.makeText(this.getActivity(), "Kalender geupdate", LENGTH_SHORT).show();
             }
         }
 
@@ -121,7 +126,7 @@ public class Settings extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             Settings s = (Settings) getActivity();
             sharedpreferences = s.getSharedpreferences();
-            ArrayAdapter<String> adapt = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, menuList);
+            ArrayAdapter<String> adapt = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, lijst);
             setListAdapter(adapt);
             return super.onCreateView(inflater, container, savedInstanceState);
         }

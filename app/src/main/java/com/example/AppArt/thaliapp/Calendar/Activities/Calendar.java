@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.Calendar.Backend.Group;
@@ -20,21 +21,29 @@ import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.Eetlijst.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import java.util.ArrayList;
 
 /**
+ * Calendar activity, shows a list of all currently known ThaliaEvents that
+ * have yet to end.
+ *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
 
 public class Calendar extends ActionBarActivity {
     private MyExpandableListAdapter adapter;
-    SparseArray<Group> groups = new SparseArray<>();
-    public ArrayList<ThaliaEvent> events = new ArrayList<>();
+    private SparseArray<Group> groups = new SparseArray<>();
+    private ArrayList<ThaliaEvent> events;
     private EventCategory[] kindOfEvent;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +51,19 @@ public class Calendar extends ActionBarActivity {
         setContentView(R.layout.activity_calendar);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
-        createData();
-        makeCategories();
-        adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-        adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
-        listView.setGroupIndicator(null);
+        if (events == null) {
+            Toast.makeText(this, "Er zijn geen evenementen. " +
+                    "Misschien moet je updaten.", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            createData();
+            makeCategories();
+            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
+            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+            listView.setAdapter(adapter);
+            listView.setClickable(true);
+            listView.setGroupIndicator(null);
+        }
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);

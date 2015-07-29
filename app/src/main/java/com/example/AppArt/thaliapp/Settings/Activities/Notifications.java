@@ -1,5 +1,9 @@
 package com.example.AppArt.thaliapp.Settings.Activities;
 
+// TODO Question: Why not prune ThaliaEvents that already happened during the
+// parsing? Serena did it in the Calendar already, but nevertheless I need to
+// do it here too -> double code -> more work -> not what we want
+
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -18,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
@@ -27,8 +32,13 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
+ * Activity that handles the notifications. Through extensive input, a push
+ * notification is set for a ThaliaEvent. This can be done per category and a
+ * certain amount of time beforehand.
+ *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
@@ -36,31 +46,31 @@ import java.util.GregorianCalendar;
 public class Notifications extends ActionBarActivity {
     public static final String MyPREFERENCES = "Settings";
     private EditText minutesBefore;
-    private int minutes = 60;
-    public boolean borrel = true;
-    public boolean alv = true;
-    public boolean party = true;
-    public boolean workshop = true;
-    public boolean lezing = true;
-    public boolean overig = true;
+    private int amountOfTime = 60;
+    public boolean checkBorrel = true;
+    public boolean checkLecture = true;
+    public boolean checkALV = true;
+    public boolean checkParty = true;
+    public boolean checkWorkshop = true;
+    public boolean checkDefault = true;
     private CheckBox bbox, abox, pbox, wbox, lbox, obox;
     SharedPreferences sharedpreferences;
 
-    private ArrayList<ThaliaEvent> allEvents;
-    private ArrayList<ThaliaEvent> interestedEvents = new ArrayList<>();
-    private ThaliaEvent nextEventToWarn = new ThaliaEvent("20150611T110000Z", "20150616T113000Z", "loc", "Thalia borrel descr", "borrel");
+    private final Database database = Database.getDatabase();
+    private List<ThaliaEvent> allEvents = database.getEvents();
+    private ThaliaEvent nextEventToWarn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         minutesBefore = (EditText) findViewById(R.id.time);
-        bbox = (CheckBox) findViewById(R.id.Borrelcheck);
-        abox = (CheckBox) findViewById(R.id.ALVcheck);
-        pbox = (CheckBox) findViewById(R.id.Feestcheck);
-        wbox = (CheckBox) findViewById(R.id.Workshopcheck);
-        lbox = (CheckBox) findViewById(R.id.Lezingcheck);
-        obox = (CheckBox) findViewById(R.id.Overigcheck);
+        bbox = (CheckBox) findViewById(R.id.BoxBorrel);
+        abox = (CheckBox) findViewById(R.id.BoxALV);
+        pbox = (CheckBox) findViewById(R.id.BoxParty);
+        wbox = (CheckBox) findViewById(R.id.BoxWorkshop);
+        lbox = (CheckBox) findViewById(R.id.BoxLecture);
+        obox = (CheckBox) findViewById(R.id.BoxDefault);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -73,21 +83,20 @@ public class Notifications extends ActionBarActivity {
      */
     private void setBoxes() {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        borrel = sharedpreferences.getBoolean("borrel", true);
-        alv = sharedpreferences.getBoolean("alv", true);
-        party = sharedpreferences.getBoolean("party", true);
-        workshop = sharedpreferences.getBoolean("workshop", true);
-        lezing = sharedpreferences.getBoolean("lezing", true);
-        overig = sharedpreferences.getBoolean("overig", true);
-        minutes = sharedpreferences.getInt("tijd", 60);
-        bbox.setChecked(borrel);
-        abox.setChecked(alv);
-        pbox.setChecked(party);
-        wbox.setChecked(workshop);
-        lbox.setChecked(lezing);
-        obox.setChecked(overig);
-        allEvents = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
-        select();
+        checkBorrel = sharedpreferences.getBoolean("BoxBorrel", true);
+        checkALV = sharedpreferences.getBoolean("BoxALV", true);
+        checkParty = sharedpreferences.getBoolean("BoxParty", true);
+        checkWorkshop = sharedpreferences.getBoolean("BoxWorkshop", true);
+        checkLecture = sharedpreferences.getBoolean("BoxLecture", true);
+        checkDefault = sharedpreferences.getBoolean("BoxDefault", true);
+        amountOfTime = sharedpreferences.getInt("tijd", 60);
+        bbox.setChecked(checkBorrel);
+        abox.setChecked(checkALV);
+        pbox.setChecked(checkParty);
+        wbox.setChecked(checkWorkshop);
+        lbox.setChecked(checkLecture);
+        obox.setChecked(checkDefault);
+        nextEventToWarn = select();
     }
 
     /**
@@ -95,31 +104,35 @@ public class Notifications extends ActionBarActivity {
      * interestedEvents list
      */
     private void savePreferences() {
-        borrel = bbox.isChecked();
-        alv = abox.isChecked();
-        workshop = wbox.isChecked();
-        party = pbox.isChecked();
-        lezing = lbox.isChecked();
-        overig = obox.isChecked();
+        checkBorrel = bbox.isChecked();
+        checkALV = abox.isChecked();
+        checkWorkshop = wbox.isChecked();
+        checkParty = pbox.isChecked();
+        checkLecture = lbox.isChecked();
+        checkDefault = obox.isChecked();
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putBoolean("borrel", borrel);
-        editor.putBoolean("alv", alv);
-        editor.putBoolean("workshop", workshop);
-        editor.putBoolean("party", party);
-        editor.putBoolean("lezing", lezing);
-        editor.putBoolean("overig", overig);
-        editor.putInt("tijd", minutes);
+        editor.putBoolean("checkBorrel", checkBorrel);
+        editor.putBoolean("checkALV", checkALV);
+        editor.putBoolean("checkWorkshop", checkWorkshop);
+        editor.putBoolean("checkParty", checkParty);
+        editor.putBoolean("checkLecture", checkLecture);
+        editor.putBoolean("checkDefault", checkDefault);
+        editor.putInt("tijd", amountOfTime);
         editor.commit();
-        select();
+        //TODO Frank: Know how this can be done differently
+        nextEventToWarn = select();
     }
 
+    // TODO Frank: Move this to a "confirm" button
+    // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
+    // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         if (minutesBefore.getText() == null) {
-            minutes = 60;
+            amountOfTime = 60;
         } else {
-            minutes = Integer.parseInt(minutesBefore.getText().toString());
+            amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
         }
         savePreferences();
         createNotification();
@@ -128,13 +141,15 @@ public class Notifications extends ActionBarActivity {
         finish();
     }
 
+    //TODO Frank: javadoc
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //TODO: frank: 'equals()' between objects of inconvertible types String and Editable
             if (minutesBefore.getText() == null || minutesBefore.getText().equals("")) {
-                minutes = 60;
+                amountOfTime = 60;
             } else {
-                minutes = Integer.parseInt(minutesBefore.getText().toString());
+                amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
             }
             createNotification();
             savePreferences();
@@ -153,6 +168,7 @@ public class Notifications extends ActionBarActivity {
         return true;
     }
 
+    //TODO Frank: Javadoc
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -168,16 +184,26 @@ public class Notifications extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Reads the given values and sets a notification through an alarm manager
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void createNotification() {
-        minutes = Integer.parseInt(minutesBefore.getText().toString());
+        // There is no event to notify
+        if(nextEventToWarn == null){
+            Toast.makeText(this, "Er zijn geen activiteiten die voldoen aan de " +
+                    "eisen.\n Er is geen notificatie gemaakt.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
+        // TODO Frank: add unityOfTime through dropdown thingy
         GregorianCalendar eventStart = nextEventToWarn.getGregCalFormat(nextEventToWarn.getStartDate());
         System.out.println("eventStart" + eventStart);
         GregorianCalendar now = new GregorianCalendar();
         System.out.println("now" + now);
-        int negMinutes = minutes * (-1);
-        System.out.println("minutes: " + negMinutes);
+        int negMinutes = amountOfTime * (-1);
+        System.out.println("amountOfTime: " + negMinutes);
         eventStart.add(java.util.Calendar.MINUTE, negMinutes);
 
         long miliseconds = eventStart.getTimeInMillis() - now.getTimeInMillis();
@@ -190,48 +216,62 @@ public class Notifications extends ActionBarActivity {
 
         // Schedule the alarm
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 36954, intent,
-                0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 36954, intent, 0);
 
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + miliseconds, alarmIntent);
+        long timeOfAlert = SystemClock.elapsedRealtime() + miliseconds;
+        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, timeOfAlert, alarmIntent);
         System.out.println("To be notified: " + nextEventToWarn);
+        // TODO Frank: Convert timeOfAlert to something readable
+        Toast.makeText(this, "Er is op " + timeOfAlert + " voor " +
+                nextEventToWarn.getSummary() + " gezet.", Toast.LENGTH_SHORT).show();
     }
 
     /**
-     * Selects the interested events out of the allEvents list of events and puts them in the interestedEvents list
+     * Selects the interested events out of the allEvents list of events and
+     * puts them in the interestedEvents list
+     *
+     * @return earliest event that meets requirements. Null if no event meets
+     * requirements.
      */
-    private void select() {
+    private ThaliaEvent select() {
+        List<ThaliaEvent> interestedEvents = new ArrayList<>();
+        // Events might not have been parsed yet
+        if (allEvents == null) {
+            database.updateEvents();
+            allEvents = database.getEvents();
+        }
+        // If it still equals null, there are no events in the calendar
         if (allEvents != null) {
+            // Adding all possible ThaliaEvents that meet the requirements
             for (int i = 0; i < allEvents.size(); i++) {
                 switch (allEvents.get(i).getCategory()) {
                     case BORREL:
-                        if (borrel) {
+                        if (checkBorrel) {
                             interestedEvents.add(allEvents.get(i));
                         }
                         break;
                     case LECTURE:
-                        if (lezing) {
+                        if (checkLecture) {
                             interestedEvents.add(allEvents.get(i));
                         }
                         break;
                     case ALV:
-                        if (alv) {
+                        if (checkALV) {
                             interestedEvents.add(allEvents.get(i));
                         }
                         break;
                     case PARTY:
-                        if (party) {
+                        if (checkParty) {
                             interestedEvents.add(allEvents.get(i));
                         }
                         break;
                     case WORKSHOP:
-                        if (workshop) {
+                        if (checkWorkshop) {
                             interestedEvents.add(allEvents.get(i));
                         }
                         break;
                     case DEFAULT:
-                        if (overig) {
+                        if (checkDefault) {
                             interestedEvents.add(allEvents.get(i));
                         }
                         break;
@@ -239,15 +279,15 @@ public class Notifications extends ActionBarActivity {
                         break;
                 }
             }
-            // Onderaan notifications, in de select de regel met 'nextEventToWarn' vervangen
             Collections.sort(interestedEvents);
-            if (interestedEvents.size() != 0) {
-                nextEventToWarn = new ThaliaEvent("20370609T170000Z", "20420607T170000Z", "Nergens",
-                        "Een hacky oplossing, maar toch best mooi gevonden",
-                        "Dummy date");
-            } else {
-                nextEventToWarn = interestedEvents.get(0);
-            }
+        }
+
+        // If there are no ThaliaEvents that meet the requirements, null is returned
+        //TODO Frank: Condition 'interestedEvents == null' is always false
+        if(interestedEvents == null || interestedEvents.size() == 0){
+            return null;
+        }else {
+            return nextEventToWarn = interestedEvents.get(0);
         }
     }
 

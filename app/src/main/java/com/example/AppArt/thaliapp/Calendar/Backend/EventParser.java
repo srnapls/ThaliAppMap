@@ -1,12 +1,10 @@
 package com.example.AppArt.thaliapp.Calendar.Backend;
 
-/**
- * Created by Srna on 28-5-2015.
- */
+// TODO Frank: Show progress/show that there actually is activity instead of
+// just a boring loadingscreen
+// TODO Frank: dealing-with-asynctask-and-screen-orientation
 
 import android.os.AsyncTask;
-
-import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,8 +12,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -27,27 +23,34 @@ import java.util.logging.Logger;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
  *         (s4182804)
  */
-public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
-    private final String icalAddress
-            = "https://www.thalia.nu/events/ical/feed.ics";
+public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
+
     private List<ThaliaEvent> newEvents;
 
+/*
+    @Override
+    protected void onPreExecute(){
+        super.onPreExecute();
+
+    }
+*/
+
     /**
-     * Opens an URL stream with the iCalendaradress and extracts a list of
-     * Events out of it
+     * Opens an URL stream with the given iCalendaradress and extracts a list of
+     * ThaliaEvents out of it
      *
-     * @return
+     * @return complete list of all events
      */
     @Override
-    protected List<ThaliaEvent> doInBackground(Void... params) {
+    protected List<ThaliaEvent> doInBackground(String... icalAddress) {
         try {
-            String resource_location = icalAddress;
+            String resource_location = icalAddress[0];
             URL iCalURL = new URL(resource_location);
             Reader iCalSource = new BufferedReader(
                     new InputStreamReader(iCalURL.openStream()));
-            this.newEvents = this.Parsing(iCalSource);
+            newEvents = this.Parsing(iCalSource);
         } catch (IOException ex) {
-            Logger.getLogger(GetiCal.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(EventParser.class.getName()).log(Level.SEVERE,
                     "The URL wasn't found or couldn't be opened.", ex);
         }
         return newEvents;
@@ -62,12 +65,13 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
      * @throws java.io.IOException
      */
     private List<ThaliaEvent> Parsing(Reader iCalendar) throws IOException {
-        List parsedEvents = new ArrayList<>();
+        List<ThaliaEvent> parsedEvents = new ArrayList<>();
         Scanner scan = new Scanner(iCalendar);
         scan.useDelimiter(":");
         scan.findWithinHorizon("X-PUBLISHED-TTL:P1W", 200);
-        while(!(scan.findWithinHorizon("END:VCALENDAR", 200) == null)){
-            parsedEvents.add(ParseThaliaEvent(scan));
+        while(scan.findWithinHorizon("END:VCALENDAR", 200) == null){
+            ThaliaEvent t = ParseThaliaEvent(scan);
+            parsedEvents.add(t);
         }
         scan.close();
         return parsedEvents;
@@ -79,6 +83,7 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
      * @return the scanned ThaliaEvent
      */
     private ThaliaEvent ParseThaliaEvent(Scanner scan){
+        System.out.println("ParseTE begin");
         String startDate;
         String endDate;
         String location;
@@ -89,28 +94,45 @@ public class GetiCal extends AsyncTask<Void, Void, List<ThaliaEvent>> {
 
         scan.findWithinHorizon("DTSTART:", 50);
         startDate = scan.nextLine();
-        System.out.println(startDate);
         scan.findWithinHorizon("DTEND:", 50);
         endDate = scan.nextLine();
 
         scan.findWithinHorizon("LOCATION:", 50);
         location = scan.nextLine();
+        scan.findWithinHorizon("SUMMARY:", 50);
         summary = scan.nextLine();
         scan.findWithinHorizon("DESCRIPTION:", 200);
 
         description = scan.nextLine();
+        String dump = "";
         // Injectionsensitive
-        while (!summary.contains("DTSTAMP:")) {
-            description = description.concat(summary);
-            summary = scan.nextLine();
+        while (!dump.contains("DTSTAMP")) {
+            description = description.concat(dump);
+            dump = scan.nextLine();
         }
-        scan.findWithinHorizon("END:VEVENT", 50);
 
+        scan.findWithinHorizon("END:VEVENT", 50);
+        System.out.println("parseTE end");
         return (new ThaliaEvent(startDate, endDate, location, description,
                 summary));
     }
 
-    public List<ThaliaEvent> getNewEvents() {
+    /*
+    // http://stackoverflow.com/questions/3821423/background-task-progress-dialog-orientation-change-is-there-any-100-working/3821998#3821998
+    private void lockScreenOrientation() {
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
+
+    private void unlockScreenOrientation() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }*/
+
+    public List<ThaliaEvent> getNewEvents(){
         return newEvents;
     }
 }
