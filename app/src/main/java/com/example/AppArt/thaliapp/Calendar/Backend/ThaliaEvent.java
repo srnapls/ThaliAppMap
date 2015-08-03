@@ -232,10 +232,9 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     /**
-     * @param another the ThaliaEvent with wich you want to compare it
+     * @param another the ThaliaEvent with which you want to compare it
      * @return The difference in time between the two
      */
-    // TODO Greg Cal is er uit gesloopd, dus nu fixen op basis van Strings
     @Override
     public int compareTo(@NonNull ThaliaEvent another) {
         return startDate.compareTo(another.startDate);
