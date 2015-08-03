@@ -49,9 +49,17 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         this.description = description;
         this.summary = summary;
         this.category = categoryFinder();
-        System.out.println(category);
         this.catIcon = catIconFinder(category);
         setAll();
+    }
+
+    /**
+     * Creates small strings representing time in a userfriendly way
+     */
+    private void setAll() {
+        datum = getGregCalFormat(startDate).getTime().toString().substring(0, 10);
+        begintime = getGregCalFormat(startDate).getTime().toString().substring(11, 16);
+        endtime = getGregCalFormat(endDate).getTime().toString().substring(11, 16);
     }
 
     /**
@@ -61,7 +69,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * @param date Time in a DATE-TIME format
      * @return Time in GregorianCalendar format
      */
-    private GregorianCalendar dateFinder(String date) {
+    public GregorianCalendar getGregCalFormat(String date) {
         String temp = date.substring(0, 4);
         int year = Integer.parseInt(temp);
         temp = date.substring(4, 6);
@@ -181,22 +189,6 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
 
     public String makeSummary() {
         return summary + "\n" + duration() + "\n" + location;
-    }
-
-    /**
-     * @return Gregorian Calendar format of the StringDate format
-     */
-    public GregorianCalendar getGregCalFormat(String date) {
-        return dateFinder(date);
-    }
-
-    /**
-     * Creates small strings representing time in a userfriendly way
-     */
-    private void setAll() {
-        datum = getGregCalFormat(startDate).getTime().toString().substring(0, 10);
-        begintime = getGregCalFormat(startDate).getTime().toString().substring(11, 16);
-        endtime = getGregCalFormat(endDate).getTime().toString().substring(11, 16);
     }
 
     public String getDatumString() {

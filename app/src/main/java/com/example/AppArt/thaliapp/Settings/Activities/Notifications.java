@@ -215,6 +215,7 @@ public class Notifications extends ActionBarActivity {
 
         amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
         // TODO Frank: add unityOfTime through dropdown thingy
+
         GregorianCalendar eventStart = nextEventToWarn.getGregCalFormat(nextEventToWarn.getStartDate());
         System.out.println("eventStart" + eventStart);
         GregorianCalendar now = new GregorianCalendar();
