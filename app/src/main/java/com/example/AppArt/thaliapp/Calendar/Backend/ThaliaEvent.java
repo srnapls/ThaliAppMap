@@ -49,6 +49,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         this.description = description;
         this.summary = summary;
         this.category = categoryFinder();
+        System.out.println(category);
         this.catIcon = catIconFinder(category);
         setAll();
     }
@@ -85,21 +86,25 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * Uses the summary and the description of an ThaliaEvent to figure out what
      * category it is.
      *
+     * When multiple keywords are found it will use the following order:
+     *  LECTURE > PARTY > ALV > WORKSHOP > BORREL > DEFAULT
+     * (e.g. kinderFEESTjesBORREL -> PARTY)
+     *
      * @return an EventCategory
      */
     private EventCategory categoryFinder() {
         String eventText = this.summary.concat(this.description);
-        if (eventText.matches("(i?:.*checkBorrel.*)")) {
-            return EventCategory.BORREL;
-        } else if (eventText.matches("(i?:.*lezing.*)")) {
+        if (eventText.matches("(?i:.*lezing.*)")) {
             return EventCategory.LECTURE;
-        } else if (eventText.matches("(i?:.*feest.*)") ||
-                eventText.matches("(i?:.*party.*)")) {
+        } else if (eventText.matches("(?i:.*feest.*)") ||
+                eventText.matches("(?i:.*party.*)")) {
             return EventCategory.PARTY;
-        } else if (eventText.matches("(i?:.*alv.*)")){
+        } else if (eventText.matches("(?i:.*alv.*)")){
             return EventCategory.ALV;
-        } else if (eventText.matches("(i?:.*workshop.*)")) {
+        } else if (eventText.matches("(?i:.*workshop.*)")) {
             return EventCategory.WORKSHOP;
+        } else if (eventText.matches("(?i:.*borrel.*)")) {
+            return EventCategory.BORREL;
         } else return EventCategory.DEFAULT;
     }
 
