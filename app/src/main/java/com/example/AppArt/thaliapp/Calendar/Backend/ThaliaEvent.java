@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
 
 import java.util.Calendar;
@@ -49,7 +48,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         this.location = location;
         this.description = description;
         this.summary = summary;
-        this.category = categoryFinder(description);
+        this.category = categoryFinder();
         this.catIcon = catIconFinder(category);
         setAll();
     }
@@ -83,21 +82,23 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     /**
-     * Uses the description of an ThaliaEvent to figure out what category it is.
+     * Uses the summary and the description of an ThaliaEvent to figure out what
+     * category it is.
      *
-     * @param description a string in where the category is given
      * @return an EventCategory
      */
-    private EventCategory categoryFinder(String description) {
-        if (description.contains("checkBorrel")) {
+    private EventCategory categoryFinder() {
+        String eventText = this.summary.concat(this.description);
+        if (eventText.matches("(i?:.*checkBorrel.*)")) {
             return EventCategory.BORREL;
-        } else if (description.contains("checkLecture")) {
+        } else if (eventText.matches("(i?:.*lezing.*)")) {
             return EventCategory.LECTURE;
-        } else if (description.contains("feest") || description.contains("checkParty")) {
+        } else if (eventText.matches("(i?:.*feest.*)") ||
+                eventText.matches("(i?:.*party.*)")) {
             return EventCategory.PARTY;
-        } else if (description.contains("checkALV") || description.contains("ALV")) {
+        } else if (eventText.matches("(i?:.*alv.*)")){
             return EventCategory.ALV;
-        } else if (description.contains("checkWorkshop")) {
+        } else if (eventText.matches("(i?:.*workshop.*)")) {
             return EventCategory.WORKSHOP;
         } else return EventCategory.DEFAULT;
     }
@@ -253,8 +254,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * Pretty much all information about this ThaliaEvent object is being
      * compressed into a Parcel
      *
-     * @param dest
-     * @param flags
+     * @param dest Destination
+     * @param flags Flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
