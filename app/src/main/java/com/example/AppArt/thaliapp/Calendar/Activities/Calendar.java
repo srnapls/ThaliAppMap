@@ -78,11 +78,11 @@ public class Calendar extends ActionBarActivity {
         int j = 0, i = 0;
         while (i < events.size()) {
             ThaliaEvent t = events.get(i);
-            Group group = new Group(t.getDatumString());
-            group.children.add(events.get(i).makeSummary());
+            Group group = new Group(t.getDateString());
+            group.children.add(events.get(i).makeSynopsis());
             i++;
-            while (i < events.size() && events.get(i).getDatumString().equals(t.getDatumString())) {
-                group.children.add(events.get(i).makeSummary());
+            while (i < events.size() && events.get(i).getDateString().equals(t.getDateString())) {
+                group.children.add(events.get(i).makeSynopsis());
                 i++;
             }
             groups.append(j, group);
@@ -102,8 +102,8 @@ public class Calendar extends ActionBarActivity {
      * Handle action bar item clicks here. The action bar will automatically
      * handle clicks on the Home/Up button, as long as you specify a parent
      * activity in AndroidManifest.xml.
-     * @param item
-     * @return
+     * @param item on which is clicked
+     * @return The action has prevailed!
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -107,7 +107,7 @@ public class Information extends ActionBarActivity {
         private void fillString() {
             information = new String[4];
             information[0] = htmlConverter.fromHtml(event.getSummary()).toString();
-            information[1] = event.getBeginTime() + " - " + event.getEndTime();
+            information[1] = event.duration();
             information[2] = htmlConverter.fromHtml(event.getLocation()).toString();
             information[3] = htmlConverter.fromHtml(event.getDescription()).toString();
         }

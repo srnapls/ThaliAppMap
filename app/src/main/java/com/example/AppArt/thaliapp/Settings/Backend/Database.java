@@ -7,7 +7,7 @@ import com.example.AppArt.thaliapp.FoodList.Backend.ProductParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -65,16 +65,15 @@ public class Database {
      * @return all already parsed events that haven't ended yet
      */
     public List<ThaliaEvent> getEvents() {
-        Date nu = new Date();
-        int i = 0;
+        GregorianCalendar nu = (GregorianCalendar) GregorianCalendar.getInstance();
         if(events == null){
             return null;
         }
-        while (i < events.size()) {
-            while (events.get(i).getGregCalFormat(events.get(i).getEndDate()).getTime().compareTo(nu) < 0) {
+        for(int i = 0; i< events.size(); i++){
+            // Remove all events with an endDate in the past
+            while (events.get(i).getEndDate().compareTo(nu) < 0) {
                 events.remove(i);
             }
-            i++;
         }
         Collections.sort(events);
         return events;

@@ -8,6 +8,7 @@ import com.example.AppArt.thaliapp.R;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -19,18 +20,19 @@ import java.util.TimeZone;
 
 public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
 
-    private final String startDate;
-    private final String endDate;
+    // used throughout the rest of the code
+    private final GregorianCalendar startDate;
+    private final GregorianCalendar endDate;
+
+    // used solely for Parcelability
+    private final String startDateString;
+    private final String endDateString;
 
     private final String location;
     private final String description;
     private final String summary;
     private final EventCategory category;
     private final int catIcon;
-
-    private String datum;
-    private String begintime;
-    private String endtime;
 
     /**
      * Initialises the Event object given string input.
@@ -43,24 +45,21 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     public ThaliaEvent(String startDate, String endDate, String location,
                        String description, String summary) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = getGregCalFormat(startDate);
+        this.endDate = getGregCalFormat(endDate);
+        this.startDateString = startDate;
+        this.endDateString = endDate;
+
         this.location = location;
         this.description = description;
         this.summary = summary;
         this.category = categoryFinder();
         this.catIcon = catIconFinder(category);
-        setAll();
     }
 
-    /**
-     * Creates small strings representing time in a userfriendly way
-     */
-    private void setAll() {
-        datum = getGregCalFormat(startDate).getTime().toString().substring(0, 10);
-        begintime = getGregCalFormat(startDate).getTime().toString().substring(11, 16);
-        endtime = getGregCalFormat(endDate).getTime().toString().substring(11, 16);
-    }
+    /*****************************************************************
+     Functions to help initialise
+     *****************************************************************/
 
     /**
      * Parses an iCalendar date string(DATE-TIME) to tiny bits which are never
@@ -83,11 +82,13 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         temp = date.substring(11, 13);
         int minute = Integer.parseInt(temp);
         int second = 0;
-        GregorianCalendar calDate = new GregorianCalendar();
-        calDate.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
 
-        calDate.set(year, month, day, hour, minute, second);
-        return calDate;
+        // Converting from GMT to CET
+        GregorianCalendar GMTime = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        GMTime.set(year, month, day, hour, minute, second);
+        GregorianCalendar CETime = new GregorianCalendar(TimeZone.getTimeZone("CET"));
+        CETime.setTimeInMillis(GMTime.getTimeInMillis());
+        return CETime;
     }
 
     /**
@@ -144,26 +145,14 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return catIcon;
     }
 
-    /**
-     * Printfunction, useful when you're debugging
-     *
-     * @return a string of the event
-     */
-    @Override
-    public String toString() {
-        return ("\nstart = " + startDate + ", end = " + endDate
-                + "\nlocation = " + location + "\ndescription = " + description
-                + "\nsummary = " + summary);
-    }
-
     /*****************************************************************
     Getters for all attributes
      *****************************************************************/
-    public String getStartDate() {
+    public GregorianCalendar getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public GregorianCalendar getEndDate() {
         return endDate;
     }
 
@@ -171,10 +160,20 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return location;
     }
 
+    /**
+     * A possibly broad description of the ThaliaEvent
+     * Can contain HTML
+     * @return possibly very large string
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * The ThaliaEvent in less than 5 words
+     * Can contain HTML
+     * @return small String
+     */
     public String getSummary() {
         return summary;
     }
@@ -187,20 +186,28 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return catIcon;
     }
 
-    public String makeSummary() {
+    /**
+     * Small composition of ThaliaEvent information
+     * @return summary + "\n" + duration() + "\n" + location
+     */
+    public String makeSynopsis() {
         return summary + "\n" + duration() + "\n" + location;
     }
 
-    public String getDatumString() {
-        return datum;
-    }
-
-    public String getBeginTime() {
-        return begintime;
-    }
-
-    public String getEndTime() {
-        return endtime;
+    /**
+     * A readable abbreviation of the day
+     * e.g. di 18 aug
+     *
+     * @return dd - dd - mmm
+     */
+    public String getDateString() {
+        StringBuilder date = new StringBuilder("");
+        date.append(this.startDate.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()));
+        date.append(" ");
+        date.append(this.startDate.get(Calendar.DAY_OF_MONTH));
+        date.append(" ");
+        date.append(this.startDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+        return date.toString();
     }
 
     /**
@@ -210,22 +217,38 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     public String duration() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getGregCalFormat(startDate).get(Calendar.HOUR_OF_DAY));
+        sb.append(startDate.get(Calendar.HOUR_OF_DAY));
         sb.append(":");
-        if (getGregCalFormat(startDate).get(Calendar.MINUTE) == 0) {
+        if (startDate.get(Calendar.MINUTE) == 0) {
             sb.append("00");
         } else {
-            sb.append(getGregCalFormat(startDate).get(Calendar.MINUTE));
+            sb.append(startDate.get(Calendar.MINUTE));
         }
         sb.append(" - ");
-        sb.append(getGregCalFormat(endDate).get(Calendar.HOUR_OF_DAY));
+        sb.append(endDate.get(Calendar.HOUR_OF_DAY));
         sb.append(":");
-        if (getGregCalFormat(endDate).get(Calendar.MINUTE) == 0) {
+        if (endDate.get(Calendar.MINUTE) == 0) {
             sb.append("00");
         } else {
-            sb.append(getGregCalFormat(endDate).get(Calendar.MINUTE));
+            sb.append(endDate.get(Calendar.MINUTE));
         }
         return sb.toString();
+    }
+
+    /*****************************************************************
+     Default functions
+     *****************************************************************/
+
+    /**
+     * Printfunction, useful when you're debugging
+     *
+     * @return a string of the event
+     */
+    @Override
+    public String toString() {
+        return ("\nstart = " + startDate + ", end = " + endDate
+                + "\nlocation = " + location + "\ndescription = " + description
+                + "\nsummary = " + summary);
     }
 
     /**
@@ -238,7 +261,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     /*****************************************************************
-    Making it a Parcelable, so it can be passed through with an intent
+     Making it a Parcelable, so it can be passed through with an intent
      *****************************************************************/
 
     @Override
@@ -255,8 +278,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(startDate);
-        dest.writeString(endDate);
+        dest.writeString(startDateString);
+        dest.writeString(endDateString);
 
         dest.writeString(location);
         dest.writeString(description);
