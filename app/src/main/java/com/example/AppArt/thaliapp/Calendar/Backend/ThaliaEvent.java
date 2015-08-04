@@ -9,7 +9,6 @@ import com.example.AppArt.thaliapp.R;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Withholds all knowledge of a ThaliaEvent
@@ -20,13 +19,8 @@ import java.util.TimeZone;
 
 public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
 
-    // used throughout the rest of the code
-    private final GregorianCalendar startDate;
-    private final GregorianCalendar endDate;
-
-    // used solely for Parcelability
-    private final String startDateString;
-    private final String endDateString;
+    private final GregorianCalendar startDate = new GregorianCalendar();
+    private final GregorianCalendar endDate = new GregorianCalendar();
 
     private final String location;
     private final String description;
@@ -37,18 +31,16 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /**
      * Initialises the Event object given string input.
      *
-     * @param startDate     The starting time of the event in DATE-TIME format
-     * @param endDate       The ending time of the event in DATE-TIME format
+     * @param startDate     The starting time of the event in millis
+     * @param endDate       The ending time of the event in millis
      * @param location      The location of the event
      * @param description   A large description of the event
      * @param summary       The event in 3 words or fewer
      */
-    public ThaliaEvent(String startDate, String endDate, String location,
-                       String description, String summary) {
-        this.startDate = getGregCalFormat(startDate);
-        this.endDate = getGregCalFormat(endDate);
-        this.startDateString = startDate;
-        this.endDateString = endDate;
+    public ThaliaEvent(Long startDate, Long endDate,
+                       String location, String description, String summary) {
+        this.startDate.setTimeInMillis(startDate);
+        this.endDate.setTimeInMillis(endDate);
 
         this.location = location;
         this.description = description;
@@ -60,36 +52,6 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     /*****************************************************************
      Functions to help initialise
      *****************************************************************/
-
-    /**
-     * Parses an iCalendar date string(DATE-TIME) to tiny bits which are never
-     * returned.
-     *
-     * @param date Time in a DATE-TIME format
-     * @return Time in GregorianCalendar format
-     */
-    public GregorianCalendar getGregCalFormat(String date) {
-        String temp = date.substring(0, 4);
-        int year = Integer.parseInt(temp);
-        temp = date.substring(4, 6);
-        // GregorianCalendar has January = 0, iCal has January = 1
-        // This is what makes programming fun!
-        int month = Integer.parseInt(temp) - 1;
-        temp = date.substring(6, 8);
-        int day = Integer.parseInt(temp);
-        temp = date.substring(9, 11);
-        int hour = Integer.parseInt(temp);
-        temp = date.substring(11, 13);
-        int minute = Integer.parseInt(temp);
-        int second = 0;
-
-        // Converting from GMT to CET
-        GregorianCalendar GMTime = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        GMTime.set(year, month, day, hour, minute, second);
-        GregorianCalendar CETime = new GregorianCalendar(TimeZone.getTimeZone("CET"));
-        CETime.setTimeInMillis(GMTime.getTimeInMillis());
-        return CETime;
-    }
 
     /**
      * Uses the summary and the description of an ThaliaEvent to figure out what
@@ -201,7 +163,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * @return dd - dd - mmm
      */
     public String getDateString() {
-        StringBuilder date = new StringBuilder("");
+        StringBuilder date;
+        date = new StringBuilder("");
         date.append(this.startDate.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()));
         date.append(" ");
         date.append(this.startDate.get(Calendar.DAY_OF_MONTH));
@@ -278,8 +241,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(startDateString);
-        dest.writeString(endDateString);
+        dest.writeLong(startDate.getTimeInMillis());
+        dest.writeLong(startDate.getTimeInMillis());
 
         dest.writeString(location);
         dest.writeString(description);
@@ -291,10 +254,10 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     public static final Parcelable.Creator<ThaliaEvent> CREATOR
             = new Parcelable.Creator<ThaliaEvent>() {
-        // Parcels work FIFO, so we do this the other way around
+        // Parcels work FIFO
         public ThaliaEvent createFromParcel(Parcel parcel) {
-            String startDate = parcel.readString();
-            String endDate = parcel.readString();
+            Long startDate = parcel.readLong();
+            Long endDate = parcel.readLong();
             String location = parcel.readString();
             String description = parcel.readString();
             String summary = parcel.readString();
