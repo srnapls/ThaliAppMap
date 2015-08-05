@@ -3,6 +3,7 @@ package com.example.AppArt.thaliapp.Settings.Backend;
 import com.example.AppArt.thaliapp.Calendar.Backend.EventParser;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.FoodList.Backend.Product;
+import com.example.AppArt.thaliapp.FoodList.Backend.ProductCategory;
 import com.example.AppArt.thaliapp.FoodList.Backend.ProductParser;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Database {
 
     private List<ThaliaEvent> events;
 
+    private List<List<Product>> products;
     private List<Product> productsFries;
     private List<Product> productsPizza;
     private List<Product> productsSandwich;
@@ -102,6 +104,11 @@ public class Database {
      * Part handling Products
      * ***************************************************************
      */
+    public List<List<Product>> getProducts() {return products;}
+
+    public List<Product> getProducts(ProductCategory productCategory){
+        return products.get(productCategory.ordinal());
+    }
 
     public List<Product> getProductsFries() {
         return productsFries;
@@ -123,6 +130,7 @@ public class Database {
      * Updates the lists of Products of all categories using the DummyDb
      */
     public void updateProducts() {
+        products = productParser.getParsedProducts();
         productsFries = productParser.getParsedFries();
         productsPizza = productParser.getParsedPizza();
         productsSandwich = productParser.getParsedSandwich();

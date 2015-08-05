@@ -12,10 +12,8 @@ public enum ProductCategory {
     FRIES, PIZZA, SANDWICHES, SNACKS;
 
     /**
-     * The productcategory starting with a capital letter and further only
-     * containing small letters. e.g. PIZZA -> Pizza
-     *
-     * @return
+     * @return The productcategory starting with a capital letter and further
+     * only containing small letters. e.g. PIZZA -> Pizza
      */
     @Override
     public String toString() {

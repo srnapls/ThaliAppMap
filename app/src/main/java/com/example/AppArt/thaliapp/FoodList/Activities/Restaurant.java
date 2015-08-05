@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.FoodList.Backend.Product;
+import com.example.AppArt.thaliapp.FoodList.Backend.ProductCategory;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -93,6 +94,28 @@ public class Restaurant extends ActionBarActivity {
         }
         return true;
     }
+
+    /*******************************************************************/
+    /**
+     * Stuff
+     * @param v something
+     * @param productCategory The productCategory for which the event is created
+     */
+    public void product(View v, ProductCategory productCategory){
+        Intent intentProduct = new Intent(this, FoodList.class);
+        if(database.getProducts() == null){
+            Toast.makeText(this, "Jammer :( \nEr zijn geen " + productCategory
+                    + ".", Toast.LENGTH_LONG).show();
+            return;
+        }
+        intentProduct.putExtra("chosen", chosenToString());
+        String [] productsInText =
+                Product.toStringArray(database.getProducts(productCategory));
+        intentProduct.putExtra("foodlist", productsInText);
+        intentProduct.putExtra("amount", amount);
+        startActivity(intentProduct);
+    }
+    /*******************************************************************/
 
     public void fries(View v) {
         Intent intentfriet = new Intent(this, FoodList.class);
