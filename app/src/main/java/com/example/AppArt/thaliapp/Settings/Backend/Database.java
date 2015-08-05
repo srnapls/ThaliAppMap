@@ -111,7 +111,7 @@ public class Database {
         return productsPizza;
     }
 
-    public List<Product> getProductsSandwich() {
+    public List<Product> getProductsSandwiches() {
         return productsSandwich;
     }
 
