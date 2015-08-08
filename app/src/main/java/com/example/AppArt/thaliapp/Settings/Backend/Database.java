@@ -104,8 +104,21 @@ public class Database {
      * Part handling Products
      * ***************************************************************
      */
+
+    /**
+     * Get a list with all products based on category.
+     * e.g. want a list with all the products of the FRIES category?
+     * parsedProducts.get(ProductCategory.FRIES.ordinal());
+
+     * @return List with for every ProductCategory a list of Products
+     */
     public List<List<Product>> getProducts() {return products;}
 
+    /**
+     * @param productCategory the productCategory of which the list of Products
+     *                        is wanted
+     * @return the List with all products from the given productCategory
+     */
     public List<Product> getProducts(ProductCategory productCategory){
         return products.get(productCategory.ordinal());
     }
