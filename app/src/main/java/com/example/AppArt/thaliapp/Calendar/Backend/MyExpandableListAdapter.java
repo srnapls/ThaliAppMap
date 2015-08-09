@@ -14,10 +14,10 @@ import com.example.AppArt.thaliapp.Calendar.Activities.Information;
 import com.example.AppArt.thaliapp.R;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
+//TODO: Serena, Javadoc pl0x?
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;

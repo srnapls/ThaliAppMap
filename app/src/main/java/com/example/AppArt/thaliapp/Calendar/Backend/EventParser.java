@@ -22,13 +22,13 @@ import java.util.logging.Logger;
 /**
  * Generates a list of new events using the online Thalia iCalendar
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
     private List<ThaliaEvent> newEvents;
 
+    //TODO: Bepalen of dit weg kan, Frank?
 /*
     @Override
     protected void onPreExecute(){
@@ -149,6 +149,7 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         return CETime;
     }
 
+    //TODO: bepalen of dit weg kan, Frank?
     /*
     // http://stackoverflow.com/questions/3821423/background-task-progress-dialog-orientation-change-is-there-any-100-working/3821998#3821998
     private void lockScreenOrientation() {
@@ -164,6 +165,10 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }*/
 
+    /**
+     * getter for new events
+     * @return a list of new thalia events
+     */
     public List<ThaliaEvent> getNewEvents(){
         return newEvents;
     }

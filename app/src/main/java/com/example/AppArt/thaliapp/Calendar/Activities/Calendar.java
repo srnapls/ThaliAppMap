@@ -34,8 +34,7 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
  * Calendar activity, shows a list of all currently known ThaliaEvents that
  * have yet to end.
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -45,11 +44,19 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     private EventCategory[] kindOfEvent;
     private SwipeRefreshLayout mSwipeLayout;
 
+    /**
+     * calls this method on start
+     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
+    /**
+     * Makes the listview, swipelayout and fills the list if there are any events
+     * It otherwise sends a message to the user to tell them to update the calendar.
+     * @param savedInstanceState the saved events in the calendar.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +93,9 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Method to refresh the ArrayList when swiped up
+     */
     public void onRefresh() {
         Database.getDatabase().updateEvents();
         Toast.makeText(this, "Kalender geupdate", LENGTH_SHORT).show();
@@ -94,8 +104,9 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         startActivity(intent1);
         this.finish();
     }
+
     /**
-     * Function to fill the ArrayList, such that it is sorted on day
+     * Method to fill the ArrayList, such that it is sorted on day
      */
     private void createData() {
         int j = 0, i = 0;
@@ -113,9 +124,13 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         }
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     * @param menu
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_calendar, menu);
         return super.onCreateOptionsMenu(menu);

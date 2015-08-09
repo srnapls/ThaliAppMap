@@ -21,12 +21,15 @@ import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Information extends ActionBarActivity {
 
+    /**
+     * Creates the actionbar and fragments
+     * @param savedInstanceState saves set events
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,12 @@ public class Information extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Returns to calendar
+     * @param keyCode
+     * @param event
+     * @return whether it succeeded
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -52,14 +61,22 @@ public class Information extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_information, menu);
         return true;
     }
 
+    /**
+     * Returns whether the specified item has been selected
+     * @param item
+     * @return wether the item has been selected
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -84,9 +101,21 @@ public class Information extends ActionBarActivity {
         private String[] information;
         private Html htmlConverter;
 
+        /**
+         * empty constructor
+         */
         public EventFragment() {
         }
 
+        //TODO: wat is container? Wat is een ViewGroup?
+
+        /**
+         * Makes an array, event, index etc. to make a view
+         * @param inflater to inflate the menu
+         * @param container
+         * @param savedInstanceState the saved events
+         * @return the view it created
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
