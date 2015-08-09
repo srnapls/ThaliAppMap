@@ -2,10 +2,10 @@
 <resources>
     <!-- inherit from the material theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColorPrimary">#000000</item>
-        <item name="colorPrimary">#ED1B9B</item>
-        <item name="android:colorPrimaryDark">#D01177</item>
-        <item name="colorAccent">#FF99FF</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/thaliapink</item>
+        <item name="android:colorPrimaryDark">@color/darkpink</item>
+        <item name="colorAccent">@color/lightpink</item>
 
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>

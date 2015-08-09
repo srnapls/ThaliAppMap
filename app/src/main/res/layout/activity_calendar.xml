@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainactivity"
@@ -17,4 +17,4 @@
         android:id="@+id/ListView"
         android:layout_centerHorizontal="true"
         android:groupIndicator="@null"/>
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
