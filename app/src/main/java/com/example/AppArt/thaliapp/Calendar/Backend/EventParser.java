@@ -12,8 +12,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -111,8 +113,40 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         }
 
         scan.findWithinHorizon("END:VEVENT", 50);
-        return (new ThaliaEvent(startDate, endDate, location, description,
+        Long startDateMS = getGregCalFormat(startDate).getTimeInMillis();
+        Long endDateMS = getGregCalFormat(endDate).getTimeInMillis();
+        return (new ThaliaEvent(startDateMS, endDateMS, location, description,
                 summary));
+    }
+
+    /**
+     * Parses an iCalendar date string(DATE-TIME) to tiny bits which are never
+     * returned.
+     *
+     * @param date Time in a DATE-TIME format
+     * @return Time in GregorianCalendar format
+     */
+    public GregorianCalendar getGregCalFormat(String date) {
+        String temp = date.substring(0, 4);
+        int year = Integer.parseInt(temp);
+        temp = date.substring(4, 6);
+        // GregorianCalendar has January = 0, iCal has January = 1
+        // This is what makes programming fun!
+        int month = Integer.parseInt(temp) - 1;
+        temp = date.substring(6, 8);
+        int day = Integer.parseInt(temp);
+        temp = date.substring(9, 11);
+        int hour = Integer.parseInt(temp);
+        temp = date.substring(11, 13);
+        int minute = Integer.parseInt(temp);
+        int second = 0;
+
+        // Converting from GMT to CET
+        GregorianCalendar GMTime = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        GMTime.set(year, month, day, hour, minute, second);
+        GregorianCalendar CETime = new GregorianCalendar(TimeZone.getTimeZone("CET"));
+        CETime.setTimeInMillis(GMTime.getTimeInMillis());
+        return CETime;
     }
 
     /*

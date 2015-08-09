@@ -35,21 +35,13 @@ public class Product {
         this.ingredients = new ArrayList<>(ingredients);
     }
 
-    /**
-     * Makes a string of all of the ingredients
-     *
-     * @return all ingredients
-     */
-    public String ingredientsPrinter() {
-        StringBuilder ingredientsPrinted = new StringBuilder();
-        for (int i = 0; i < ingredients.size(); i++) {
-            ingredientsPrinted.append(ingredients.get(i));
-            if (i != ingredients.size() - 1) {
-                ingredientsPrinted.append(", ");
-            }
-        }
-        return ingredientsPrinted.toString();
+    public String getName() {
+        return name;
     }
+
+    /*****************************************************************
+     Printfunctions
+     *****************************************************************/
 
     /**
      * A toString specification
@@ -71,9 +63,32 @@ public class Product {
         return sb.toString();
     }
 
-    public String getName() {
-        return name;
+    /**
+     *
+     * @param products List of the products that need to be converted to String
+     * @return a Array containing all toString forms of products
+     */
+    public static String [] toStringArray(List<Product> products) {
+        String [] stringArray = new String[products.size()];
+        for (int i = 0; i < products.size(); i++){
+            stringArray [i] = products.get(i).toString();
+        }
+        return stringArray;
     }
 
-
+    /**
+     * Makes a string of all of the ingredients
+     *
+     * @return all ingredients
+     */
+    public String ingredientsPrinter() {
+        StringBuilder ingredientsPrinted = new StringBuilder();
+        for (int i = 0; i < ingredients.size(); i++) {
+            ingredientsPrinted.append(ingredients.get(i));
+            if (i != ingredients.size() - 1) {
+                ingredientsPrinted.append(", ");
+            }
+        }
+        return ingredientsPrinted.toString();
+    }
 }

@@ -4,12 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.Locale;
 
 /**
  * Withholds all knowledge of a ThaliaEvent
@@ -20,8 +19,8 @@ import java.util.TimeZone;
 
 public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
 
-    private final String startDate;
-    private final String endDate;
+    private final GregorianCalendar startDate = new GregorianCalendar();
+    private final GregorianCalendar endDate = new GregorianCalendar();
 
     private final String location;
     private final String description;
@@ -29,76 +28,54 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     private final EventCategory category;
     private final int catIcon;
 
-    private String datum;
-    private String begintime;
-    private String endtime;
-
     /**
      * Initialises the Event object given string input.
      *
-     * @param startDate     The starting time of the event in DATE-TIME format
-     * @param endDate       The ending time of the event in DATE-TIME format
+     * @param startDate     The starting time of the event in millis
+     * @param endDate       The ending time of the event in millis
      * @param location      The location of the event
      * @param description   A large description of the event
      * @param summary       The event in 3 words or fewer
      */
-    public ThaliaEvent(String startDate, String endDate, String location,
-                       String description, String summary) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public ThaliaEvent(Long startDate, Long endDate,
+                       String location, String description, String summary) {
+        this.startDate.setTimeInMillis(startDate);
+        this.endDate.setTimeInMillis(endDate);
+
         this.location = location;
         this.description = description;
         this.summary = summary;
-        this.category = categoryFinder(description);
+        this.category = categoryFinder();
         this.catIcon = catIconFinder(category);
-        setAll();
     }
 
-    /**
-     * Parses an iCalendar date string(DATE-TIME) to tiny bits which are never
-     * returned.
-     *
-     * @param date Time in a DATE-TIME format
-     * @return Time in GregorianCalendar format
-     */
-    private GregorianCalendar dateFinder(String date) {
-        String temp = date.substring(0, 4);
-        int year = Integer.parseInt(temp);
-        temp = date.substring(4, 6);
-        // GregorianCalendar has January = 0, iCal has January = 1
-        // This is what makes programming fun!
-        int month = Integer.parseInt(temp) - 1;
-        temp = date.substring(6, 8);
-        int day = Integer.parseInt(temp);
-        temp = date.substring(9, 11);
-        int hour = Integer.parseInt(temp);
-        temp = date.substring(11, 13);
-        int minute = Integer.parseInt(temp);
-        int second = 0;
-        GregorianCalendar calDate = new GregorianCalendar();
-        calDate.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));
-
-        calDate.set(year, month, day, hour, minute, second);
-        return calDate;
-    }
+    /*****************************************************************
+     Functions to help initialise
+     *****************************************************************/
 
     /**
-     * Uses the description of an ThaliaEvent to figure out what category it is.
+     * Uses the summary and the description of an ThaliaEvent to figure out what
+     * category it is.
      *
-     * @param description a string in where the category is given
+     * When multiple keywords are found it will use the following order:
+     *  LECTURE > PARTY > ALV > WORKSHOP > BORREL > DEFAULT
+     * (e.g. kinderFEESTjesBORREL -> PARTY)
+     *
      * @return an EventCategory
      */
-    private EventCategory categoryFinder(String description) {
-        if (description.contains("checkBorrel")) {
-            return EventCategory.BORREL;
-        } else if (description.contains("checkLecture")) {
+    private EventCategory categoryFinder() {
+        String eventText = this.summary.concat(this.description);
+        if (eventText.matches("(?i:.*lezing.*)")) {
             return EventCategory.LECTURE;
-        } else if (description.contains("feest") || description.contains("checkParty")) {
+        } else if (eventText.matches("(?i:.*feest.*)") ||
+                eventText.matches("(?i:.*party.*)")) {
             return EventCategory.PARTY;
-        } else if (description.contains("checkALV") || description.contains("ALV")) {
+        } else if (eventText.matches("(?i:.*alv.*)")){
             return EventCategory.ALV;
-        } else if (description.contains("checkWorkshop")) {
+        } else if (eventText.matches("(?i:.*workshop.*)")) {
             return EventCategory.WORKSHOP;
+        } else if (eventText.matches("(?i:.*borrel.*)")) {
+            return EventCategory.BORREL;
         } else return EventCategory.DEFAULT;
     }
 
@@ -130,26 +107,14 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return catIcon;
     }
 
-    /**
-     * Printfunction, useful when you're debugging
-     *
-     * @return a string of the event
-     */
-    @Override
-    public String toString() {
-        return ("\nstart = " + startDate + ", end = " + endDate
-                + "\nlocation = " + location + "\ndescription = " + description
-                + "\nsummary = " + summary);
-    }
-
     /*****************************************************************
     Getters for all attributes
      *****************************************************************/
-    public String getStartDate() {
+    public GregorianCalendar getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public GregorianCalendar getEndDate() {
         return endDate;
     }
 
@@ -157,10 +122,20 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return location;
     }
 
+    /**
+     * A possibly broad description of the ThaliaEvent
+     * Can contain HTML
+     * @return possibly very large string
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * The ThaliaEvent in less than 5 words
+     * Can contain HTML
+     * @return small String
+     */
     public String getSummary() {
         return summary;
     }
@@ -173,36 +148,29 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return catIcon;
     }
 
-    public String makeSummary() {
+    /**
+     * Small composition of ThaliaEvent information
+     * @return summary + "\n" + duration() + "\n" + location
+     */
+    public String makeSynopsis() {
         return summary + "\n" + duration() + "\n" + location;
     }
 
     /**
-     * @return Gregorian Calendar format of the StringDate format
+     * A readable abbreviation of the day
+     * e.g. di 18 aug
+     *
+     * @return dd - dd - mmm
      */
-    public GregorianCalendar getGregCalFormat(String date) {
-        return dateFinder(date);
-    }
-
-    /**
-     * Creates small strings representing time in a userfriendly way
-     */
-    private void setAll() {
-        datum = getGregCalFormat(startDate).getTime().toString().substring(0, 10);
-        begintime = getGregCalFormat(startDate).getTime().toString().substring(11, 16);
-        endtime = getGregCalFormat(endDate).getTime().toString().substring(11, 16);
-    }
-
-    public String getDatumString() {
-        return datum;
-    }
-
-    public String getBeginTime() {
-        return begintime;
-    }
-
-    public String getEndTime() {
-        return endtime;
+    public String getDateString() {
+        StringBuilder date;
+        date = new StringBuilder("");
+        date.append(this.startDate.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()));
+        date.append(" ");
+        date.append(this.startDate.get(Calendar.DAY_OF_MONTH));
+        date.append(" ");
+        date.append(this.startDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+        return date.toString();
     }
 
     /**
@@ -212,36 +180,51 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     public String duration() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getGregCalFormat(startDate).get(Calendar.HOUR_OF_DAY));
+        sb.append(startDate.get(Calendar.HOUR_OF_DAY));
         sb.append(":");
-        if (getGregCalFormat(startDate).get(Calendar.MINUTE) == 0) {
+        if (startDate.get(Calendar.MINUTE) == 0) {
             sb.append("00");
         } else {
-            sb.append(getGregCalFormat(startDate).get(Calendar.MINUTE));
+            sb.append(startDate.get(Calendar.MINUTE));
         }
         sb.append(" - ");
-        sb.append(getGregCalFormat(endDate).get(Calendar.HOUR_OF_DAY));
+        sb.append(endDate.get(Calendar.HOUR_OF_DAY));
         sb.append(":");
-        if (getGregCalFormat(endDate).get(Calendar.MINUTE) == 0) {
+        if (endDate.get(Calendar.MINUTE) == 0) {
             sb.append("00");
         } else {
-            sb.append(getGregCalFormat(endDate).get(Calendar.MINUTE));
+            sb.append(endDate.get(Calendar.MINUTE));
         }
         return sb.toString();
     }
 
+    /*****************************************************************
+     Default functions
+     *****************************************************************/
+
     /**
-     * @param another the ThaliaEvent with wich you want to compare it
+     * Printfunction, useful when you're debugging
+     *
+     * @return a string of the event
+     */
+    @Override
+    public String toString() {
+        return ("\nstart = " + startDate + ", end = " + endDate
+                + "\nlocation = " + location + "\ndescription = " + description
+                + "\nsummary = " + summary);
+    }
+
+    /**
+     * @param another the ThaliaEvent with which you want to compare it
      * @return The difference in time between the two
      */
-    // TODO Greg Cal is er uit gesloopd, dus nu fixen op basis van Strings
     @Override
     public int compareTo(@NonNull ThaliaEvent another) {
         return startDate.compareTo(another.startDate);
     }
 
     /*****************************************************************
-    Making it a Parcelable, so it can be passed through with an intent
+     Making it a Parcelable, so it can be passed through with an intent
      *****************************************************************/
 
     @Override
@@ -253,13 +236,13 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      * Pretty much all information about this ThaliaEvent object is being
      * compressed into a Parcel
      *
-     * @param dest
-     * @param flags
+     * @param dest Destination
+     * @param flags Flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(startDate);
-        dest.writeString(endDate);
+        dest.writeLong(startDate.getTimeInMillis());
+        dest.writeLong(startDate.getTimeInMillis());
 
         dest.writeString(location);
         dest.writeString(description);
@@ -271,10 +254,10 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
      */
     public static final Parcelable.Creator<ThaliaEvent> CREATOR
             = new Parcelable.Creator<ThaliaEvent>() {
-        // Parcels work FIFO, so we do this the other way around
+        // Parcels work FIFO
         public ThaliaEvent createFromParcel(Parcel parcel) {
-            String startDate = parcel.readString();
-            String endDate = parcel.readString();
+            Long startDate = parcel.readLong();
+            Long endDate = parcel.readLong();
             String location = parcel.readString();
             String description = parcel.readString();
             String summary = parcel.readString();

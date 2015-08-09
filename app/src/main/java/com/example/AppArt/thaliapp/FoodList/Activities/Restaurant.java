@@ -11,8 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
+import com.example.AppArt.thaliapp.FoodList.Backend.Product;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -30,6 +32,7 @@ public class Restaurant extends ActionBarActivity {
     private EditText editName;
     private ArrayList<String> chosen = new ArrayList<>();
     private double amount = 0;
+    private Database database;
 
     @Override
     protected void onCreate(Bundle savedInstancesharedpreferences) {
@@ -50,6 +53,13 @@ public class Restaurant extends ActionBarActivity {
                 Collections.addAll(chosen, food);
             }
             amount += extras.getDouble("chosenamount");
+        }
+
+        // Connect to the database and update if necessary
+        this.database = Database.getDatabase();
+        if(database.getProductsFries() == null || database.getProductsPizza() == null
+            || database.getProductsSandwiches() == null || database.getProductsSnacks() == null){
+            database.updateProducts();
         }
     }
 
@@ -84,36 +94,52 @@ public class Restaurant extends ActionBarActivity {
         return true;
     }
 
+    public void fries(View v) {
+        Intent intentfriet = new Intent(this, FoodList.class);
+        if(database.getProductsFries() == null){
+            Toast.makeText(this, "Jammer :( \nEr zijn geen frietjes.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        intentfriet.putExtra("chosen", chosenToString());
+        intentfriet.putExtra("foodlist", Product.toStringArray(database.getProductsFries()));
+        intentfriet.putExtra("amount", amount);
+        startActivity(intentfriet);
+    }
+
     public void pizza(View v) {
         Intent intentpizza = new Intent(this, FoodList.class);
-        intentpizza.putExtra("foodlist", (String[]) Database.getDatabase().getProductsPizza().toArray());
+        if(database.getProductsPizza() == null){
+            Toast.makeText(this, "Jammer :( \nEr zijn geen pizza's.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        intentpizza.putExtra("foodlist", Product.toStringArray(database.getProductsPizza()));
         intentpizza.putExtra("chosen", chosenToString());
         intentpizza.putExtra("amount", amount);
         startActivity(intentpizza);
     }
 
-    public void friet(View v) {
-        Intent intentfriet = new Intent(this, FoodList.class);
-        intentfriet.putExtra("chosen", chosenToString());
-        intentfriet.putExtra("foodlist", (String[]) Database.getDatabase().getProductsFries().toArray());
-        intentfriet.putExtra("amount", amount);
-        startActivity(intentfriet);
-    }
-
-    public void broodjes(View v) {
-        Intent intentbr = new Intent(this, FoodList.class);
-        intentbr.putExtra("chosen", chosenToString());
-        intentbr.putExtra("foodlist", (String[]) Database.getDatabase().getProductsSandwich().toArray());
-        intentbr.putExtra("amount", amount);
-        startActivity(intentbr);
-    }
-
     public void snacks(View v) {
         Intent intentsnacks = new Intent(this, FoodList.class);
-        intentsnacks.putExtra("foodlist", (String[]) Database.getDatabase().getProductsSnacks().toArray());
+        if(database.getProductsSnacks() == null){
+            Toast.makeText(this, "Jammer :( \nEr zijn geen snacks.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProductsSnacks()));
         intentsnacks.putExtra("chosen", chosenToString());
         intentsnacks.putExtra("amount", amount);
         startActivity(intentsnacks);
+    }
+
+    public void sandwiches(View v) {
+        Intent intentbr = new Intent(this, FoodList.class);
+        if(database.getProductsSandwiches() == null){
+            Toast.makeText(this, "Jammer :( \nEr zijn geen broodjes.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        intentbr.putExtra("chosen", chosenToString());
+        intentbr.putExtra("foodlist", Product.toStringArray(database.getProductsSandwiches()));
+        intentbr.putExtra("amount", amount);
+        startActivity(intentbr);
     }
 
     public void bedrag(View v) {
