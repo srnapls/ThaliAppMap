@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="thaliapink">
+        #ED1B9B
+    </color>
+    <color name="lightpink">
+        #FF99FF
+    </color>
+    <color name="darkpink">
+        #D01177
+    </color>
+    <color name="black">
+        #000000
+    </color>
+</resources>

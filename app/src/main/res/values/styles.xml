@@ -2,8 +2,13 @@
 <resources>
 
     <style
-        parent="Theme.AppCompat"
+        parent="Theme.AppCompat.Light.DarkActionBar"
         name="AppTheme">
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:colorBackground">@color/thaliapink</item>
     </style>
 
 </resources>

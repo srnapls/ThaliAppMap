@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.SparseArray;
@@ -26,6 +27,9 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import java.util.ArrayList;
 
+import static android.widget.Toast.LENGTH_SHORT;
+import static com.example.AppArt.thaliapp.R.id.ListView;
+
 /**
  * Calendar activity, shows a list of all currently known ThaliaEvents that
  * have yet to end.
@@ -34,11 +38,12 @@ import java.util.ArrayList;
  *         (s4182804)
  */
 
-public class Calendar extends ActionBarActivity {
+public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
     private MyExpandableListAdapter adapter;
     private SparseArray<Group> groups = new SparseArray<>();
     private ArrayList<ThaliaEvent> events;
     private EventCategory[] kindOfEvent;
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onStart() {
@@ -49,7 +54,16 @@ public class Calendar extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-        ExpandableListView listView = (ExpandableListView) findViewById(R.id.ListView);
+        ExpandableListView listView = (ExpandableListView) findViewById(ListView);
+
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.mainactivity);
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(
+                R.color.thaliapink,
+                R.color.lightpink,
+                R.color.darkpink
+                );
+
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
             Toast.makeText(this, "Er zijn geen evenementen. \n" +
@@ -65,12 +79,21 @@ public class Calendar extends ActionBarActivity {
             listView.setClickable(true);
             listView.setGroupIndicator(null);
         }
+
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    public void onRefresh() {
+        Database.getDatabase().updateEvents();
+        Toast.makeText(this, "Kalender geupdate", LENGTH_SHORT).show();
+        mSwipeLayout.setRefreshing(false);
+        Intent intent1 = new Intent(this, Calendar.class);
+        startActivity(intent1);
+        this.finish();
+    }
     /**
      * Function to fill the ArrayList, such that it is sorted on day
      */
@@ -135,6 +158,3 @@ public class Calendar extends ActionBarActivity {
         }
     }
 }
-
-
-
