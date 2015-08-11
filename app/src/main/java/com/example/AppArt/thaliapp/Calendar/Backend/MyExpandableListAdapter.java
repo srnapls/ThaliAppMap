@@ -14,6 +14,8 @@ import com.example.AppArt.thaliapp.Calendar.Activities.Information;
 import com.example.AppArt.thaliapp.R;
 
 /**
+ *
+ *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
@@ -31,6 +33,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         this.info = info;
     }
 
+    /*****************************************************************
+     All getters
+     *****************************************************************/
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         return groups.get(groupPosition).children.get(childPosition);
@@ -73,34 +78,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    /**
-     * Gives the image that corresponds with the category of the event
-     *
-     * @param s the given eventcategory
-     * @return int: the number of the needed image
-     */
-    private int picture(EventCategory s) {
-        switch (s) {
-            case BORREL: {
-                return R.drawable.borrelicoon;
-            }
-            case LECTURE: {
-                return R.drawable.lezingicoon;
-            }
-            case ALV: {
-                return R.drawable.alvicoon;
-            }
-            case PARTY: {
-                return R.drawable.feesticoon;
-            }
-            case WORKSHOP: {
-                return R.drawable.workshopicoon;
-            }
-            default:
-                return R.drawable.overigicoon;
-        }
-    }
-
     @Override
     public int getChildrenCount(int groupPosition) {
         return groups.get(groupPosition).children.size();
@@ -137,6 +114,34 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * Gives the image that corresponds with the category of the event
+     *
+     * @param s the given eventcategory
+     * @return int: the number of the needed image
+     */
+    private int picture(EventCategory s) {
+        switch (s) {
+            case BORREL: {
+                return R.drawable.borrelicoon;
+            }
+            case LECTURE: {
+                return R.drawable.lezingicoon;
+            }
+            case ALV: {
+                return R.drawable.alvicoon;
+            }
+            case PARTY: {
+                return R.drawable.feesticoon;
+            }
+            case WORKSHOP: {
+                return R.drawable.workshopicoon;
+            }
+            default:
+                return R.drawable.overigicoon;
+        }
+    }
+
     @Override
     public boolean hasStableIds() {
         return false;
@@ -153,7 +158,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * calculates the position of the event in the ArrayList events
+     * Calculates the position of the event in the ArrayList events
      *
      * @param grouppos , number of the group
      * @param childpos , number of the child

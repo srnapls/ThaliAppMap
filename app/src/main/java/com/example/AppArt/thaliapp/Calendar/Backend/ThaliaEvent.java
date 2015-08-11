@@ -79,6 +79,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     /**
+     * Returns the right drawable according to the category
+     *
      * @param cat the category of this event
      * @return A .png file that represents the category of this event
      */

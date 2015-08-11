@@ -29,6 +29,7 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
     private List<ThaliaEvent> newEvents;
 
     //TODO: Bepalen of dit weg kan, Frank?
+
 /*
     @Override
     protected void onPreExecute(){
@@ -81,6 +82,7 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
     /**
      * Scans one ThaliaEvent
+     *
      * @param scan a scanner opened on a text in iCalendar format,
      * @return the scanned ThaliaEvent
      */
@@ -166,7 +168,8 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
     }*/
 
     /**
-     * getter for new events
+     * Getter for new events
+     *
      * @return a list of new thalia events
      */
     public List<ThaliaEvent> getNewEvents(){

@@ -94,6 +94,47 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     }
 
     /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     * @return whether it succeeded
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_calendar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Handle action bar item clicks here. The action bar will automatically
+     * handle clicks on the Home/Up button, as long as you specify a parent
+     * activity in AndroidManifest.xml.
+     *
+     * @param item on which is clicked
+     * @return The action has prevailed!
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.menu1:
+                Intent intent1 = new Intent(this, Calendar.class);
+                startActivity(intent1);
+                break;
+            case R.id.menu2:
+                Intent intent2 = new Intent(this, Restaurant.class);
+                startActivity(intent2);
+                break;
+            case R.id.menu4:
+                Intent intent4 = new Intent(this, Settings.class);
+                startActivity(intent4);
+                break;
+        }
+        return true;
+    }
+
+    /**
      * Method to refresh the ArrayList when swiped up
      */
     public void onRefresh() {
@@ -122,45 +163,6 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
             groups.append(j, group);
             j++;
         }
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     * @param menu
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will automatically
-     * handle clicks on the Home/Up button, as long as you specify a parent
-     * activity in AndroidManifest.xml.
-     * @param item on which is clicked
-     * @return The action has prevailed!
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.menu1:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
-                break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
-                break;
-        }
-        return true;
     }
 
     /**

@@ -17,8 +17,9 @@ import java.util.Collections;
 import java.util.Scanner;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * Reads and shows the foodlist
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class FoodList extends ListActivity {
@@ -27,6 +28,11 @@ public class FoodList extends ListActivity {
     private ArrayList<String> chosen = new ArrayList<>();
     private double amount;
 
+    /**
+     * Reads te foodlist and shows it
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,13 @@ public class FoodList extends ListActivity {
         amount = 0;
     }
 
+    /**
+     * If you go back, go to restaurant
+     *
+     * @param keyCode
+     * @param event
+     * @return whether this succeeded
+     */
     @Override
     public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -66,6 +79,15 @@ public class FoodList extends ListActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    //TODO: waar zijn v en id voor?
+    /**
+     * Displays what food you chose by clicking on an item
+     *
+     * @param l listview of the foood
+     * @param v
+     * @param position what item you chose
+     * @param id
+     */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);

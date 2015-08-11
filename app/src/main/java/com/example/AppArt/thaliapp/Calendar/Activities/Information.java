@@ -28,6 +28,7 @@ public class Information extends ActionBarActivity {
 
     /**
      * Creates the actionbar and fragments
+     *
      * @param savedInstanceState saves set events
      */
     @Override
@@ -46,23 +47,8 @@ public class Information extends ActionBarActivity {
     }
 
     /**
-     * Returns to calendar
-     * @param keyCode
-     * @param event
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent i = new Intent(this, Calendar.class);
-            startActivity(i);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /**
      * Inflate the menu; this adds items to the action bar if it is present.
+     *
      * @param menu
      * @return true
      */
@@ -74,6 +60,7 @@ public class Information extends ActionBarActivity {
 
     /**
      * Returns whether the specified item has been selected
+     *
      * @param item
      * @return wether the item has been selected
      */
@@ -90,6 +77,23 @@ public class Information extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Returns to calendar
+     *
+     * @param keyCode
+     * @param event
+     * @return whether it succeeded
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent i = new Intent(this, Calendar.class);
+            startActivity(i);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -111,6 +115,7 @@ public class Information extends ActionBarActivity {
 
         /**
          * Makes an array, event, index etc. to make a view
+         * 
          * @param inflater to inflate the menu
          * @param container
          * @param savedInstanceState the saved events

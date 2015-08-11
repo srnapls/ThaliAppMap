@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * The menu in which you can chose what food to order or watch the receipt
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Restaurant extends ActionBarActivity {
@@ -63,6 +64,12 @@ public class Restaurant extends ActionBarActivity {
         }
     }
 
+    /**
+     * Makes the menu by inflating
+     *
+     * @param menu
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -71,6 +78,12 @@ public class Restaurant extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Decides what to do based on what is clicked
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -94,6 +107,12 @@ public class Restaurant extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * When there are no fries and you chose fries, it says that there are no more fries
+     * If there are fries, shows how many you've chosen of what fries
+     *
+     * @param v
+     */
     public void fries(View v) {
         Intent intentfriet = new Intent(this, FoodList.class);
         if(database.getProductsFries() == null){
@@ -106,6 +125,11 @@ public class Restaurant extends ActionBarActivity {
         startActivity(intentfriet);
     }
 
+    /**
+     * Same as fries(), but for pizza
+     *
+     * @param v
+     */
     public void pizza(View v) {
         Intent intentpizza = new Intent(this, FoodList.class);
         if(database.getProductsPizza() == null){
@@ -118,6 +142,11 @@ public class Restaurant extends ActionBarActivity {
         startActivity(intentpizza);
     }
 
+    /**
+     * Same as fries(), but for snacks
+     *
+     * @param v
+     */
     public void snacks(View v) {
         Intent intentsnacks = new Intent(this, FoodList.class);
         if(database.getProductsSnacks() == null){
@@ -130,6 +159,11 @@ public class Restaurant extends ActionBarActivity {
         startActivity(intentsnacks);
     }
 
+    /**
+     * Same as fries(), but for sandwiches
+     *
+     * @param v
+     */
     public void sandwiches(View v) {
         Intent intentbr = new Intent(this, FoodList.class);
         if(database.getProductsSandwiches() == null){
@@ -142,6 +176,11 @@ public class Restaurant extends ActionBarActivity {
         startActivity(intentbr);
     }
 
+    /**
+     * Saves the total amount together with your name and the food you've chosen
+     *
+     * @param v
+     */
     public void bedrag(View v) {
         name = editName.getText().toString();
         Intent intent = new Intent(this, Receipt.class);
