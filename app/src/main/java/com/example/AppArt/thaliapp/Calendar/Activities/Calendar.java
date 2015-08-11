@@ -53,9 +53,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     }
 
     /**
-     * Makes the listview, swipelayout and fills the list if there are any events
-     * It otherwise sends a message to the user to tell them to update the calendar.
-     * @param savedInstanceState the saved events in the calendar.
+     * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

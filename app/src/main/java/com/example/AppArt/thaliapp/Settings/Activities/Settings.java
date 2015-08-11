@@ -26,14 +26,19 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import static android.widget.Toast.LENGTH_SHORT;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * Class for the settings options
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Settings extends ActionBarActivity {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "Settings";
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +55,21 @@ public class Settings extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Getter for shared preference
+     *
+     * @return
+     */
     public SharedPreferences getSharedpreferences() {
         return sharedpreferences;
     }
 
-
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,11 +78,16 @@ public class Settings extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.menu1:
@@ -96,12 +116,21 @@ public class Settings extends ActionBarActivity {
         public ListFragment() {
         }
 
+        /**
+         * Decides what to do depending on what item had been clicked on
+         *
+         * @param l listview of the items
+         * @param v
+         * @param position of the item
+         * @param id
+         */
         public void onListItemClick(ListView l, View v, int position, long id) {
             super.onListItemClick(l, v, position, id);
             String s = l.getItemAtPosition(position).toString();
             switch (s) {
                 case "Notificaties":
                     Intent intent;
+                    //TODO:  wat is die fail comment hier?!
                     intent = new Intent(getActivity(), Notifications.class);
 /*Fail*/                    startActivity(intent);
                     break;
@@ -121,6 +150,13 @@ public class Settings extends ActionBarActivity {
             }
         }
 
+        /**
+         *
+         * @param inflater
+         * @param container
+         * @param savedInstanceState
+         * @return
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

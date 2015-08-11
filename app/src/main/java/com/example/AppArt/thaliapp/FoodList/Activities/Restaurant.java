@@ -65,7 +65,7 @@ public class Restaurant extends ActionBarActivity {
     }
 
     /**
-     * Makes the menu by inflating
+     * Inflate the menu; this adds items to the action bar if it is present.
      *
      * @param menu
      * @return whether it succeeded
@@ -79,16 +79,15 @@ public class Restaurant extends ActionBarActivity {
     }
 
     /**
-     * Decides what to do based on what is clicked
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
      *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.menu1:
@@ -181,7 +180,7 @@ public class Restaurant extends ActionBarActivity {
      *
      * @param v
      */
-    public void bedrag(View v) {
+    public void amount(View v) {
         name = editName.getText().toString();
         Intent intent = new Intent(this, Receipt.class);
         intent.putExtra("chosen", chosenToString());

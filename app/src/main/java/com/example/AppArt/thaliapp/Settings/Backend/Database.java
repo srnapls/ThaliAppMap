@@ -15,7 +15,7 @@ import java.util.List;
  * Makes parsed data accessible for every class in the project.
  * Data in three categories: Events, Products and Receipts
  *
- * Created by AppArt on 4-7-2015.
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 public class Database {
     private static Database database = null;
@@ -143,6 +143,8 @@ public class Database {
     }
 
     /**
+     * Getter for receipts
+     *
      * @return all currently stored Receipts
      */
     public List<String[]> getReceipts() {

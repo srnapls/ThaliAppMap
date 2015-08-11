@@ -11,13 +11,19 @@ import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 
 /**
+ * Fixes that the user gets the notification for the event on time
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    /**
+     * Builds the notification for the event
+     *
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         ThaliaEvent nextEvent = intent.getParcelableExtra("nextThaliaEvent");

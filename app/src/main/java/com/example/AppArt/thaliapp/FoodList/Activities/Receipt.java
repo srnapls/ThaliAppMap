@@ -23,6 +23,9 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
  */
 
 public class Receipt extends ActionBarActivity {
+    // TODO: zorg er voor dat je niet alleen een bon krijgt van de laatste categorie die
+    // je hebt aangeklikt, zodat je ook bijvoorbeeld friet met een frikandel speciaal
+    // kan bestellen.
     private String[] chosen;
     private Double amount;
     private String name;
@@ -40,7 +43,7 @@ public class Receipt extends ActionBarActivity {
         setContentView(R.layout.activity_bon);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new BonFragment())
+                    .add(R.id.container, new ReceiptFragment())
                     .commit();
         }
         Bundle extras = getIntent().getExtras();
@@ -108,10 +111,10 @@ public class Receipt extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class BonFragment extends ListFragment {
+    public static class ReceiptFragment extends ListFragment {
         private String[] all;
 
-        public BonFragment() {
+        public ReceiptFragment() {
         }
 
         @Override

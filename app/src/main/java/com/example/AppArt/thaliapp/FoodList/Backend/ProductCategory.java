@@ -3,8 +3,7 @@ package com.example.AppArt.thaliapp.FoodList.Backend;
 /**
  * Defines all possible categories that a product can have.
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public enum ProductCategory {
