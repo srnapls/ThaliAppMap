@@ -34,6 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder
                 = new NotificationCompat.Builder(context)
+                .setAutoCancel(true)
                 .setSmallIcon(nextEvent.getCatIcon())
                 .setContentTitle(nextEvent.getSummary())
                 .setContentText(nextEvent.getDescription())

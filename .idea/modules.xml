@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ThaliAppApp.iml" filepath="$PROJECT_DIR$/ThaliAppApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThaliAppMap.iml" filepath="$PROJECT_DIR$/ThaliAppMap.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
