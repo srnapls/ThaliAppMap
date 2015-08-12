@@ -67,10 +67,10 @@ public class Database {
      */
     public List<ThaliaEvent> getEvents() {
         GregorianCalendar nu = (GregorianCalendar) GregorianCalendar.getInstance();
-        if(events == null){
+        if (events == null) {
             return null;
         }
-        for(int i = 0; i< events.size(); i++){
+        for (int i = 0; i < events.size(); i++) {
             // Remove all events with an endDate in the past
             while (events.get(i).getEndDate().compareTo(nu) < 0) {
                 events.remove(i);
@@ -88,6 +88,12 @@ public class Database {
         System.out.println("updateEvents begin");
         EventParser eventParser = new EventParser();
         eventParser.execute(icalAddress);
+        try {
+            Thread.sleep(4000);
+            events = eventParser.getNewEvents();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         events = eventParser.getNewEvents();
         System.out.println("updateEvents end");
     }
@@ -98,15 +104,21 @@ public class Database {
      * ***************************************************************
      */
 
-    public List<Product> getProduct (ProductCategory cat){
-        switch(cat){
-            case PIZZA: return productsPizza;
-            case FRIES: return productsFries;
-            case SANDWICHES: return productsSandwich;
-            case SNACKS: return productsSnacks;
-            default: return null;
+    public List<Product> getProduct(ProductCategory cat) {
+        switch (cat) {
+            case PIZZA:
+                return productsPizza;
+            case FRIES:
+                return productsFries;
+            case SANDWICHES:
+                return productsSandwich;
+            case SNACKS:
+                return productsSnacks;
+            default:
+                return null;
         }
     }
+
     /**
      * Updates the lists of Products of all categories using the DummyDb
      */
