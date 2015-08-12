@@ -118,7 +118,6 @@ public class Notifications extends ActionBarActivity {
         editor.putBoolean("checkDefault", checkDefault);
         editor.putInt("tijd", amountOfTime);
         editor.commit();
-        //TODO Frank: Know how this can be done differently
         nextEventToWarn = select();
     }
 
@@ -140,7 +139,12 @@ public class Notifications extends ActionBarActivity {
         finish();
     }
 
-    //TODO Frank: javadoc
+    /**
+     * what happens when the back key is pressed
+     * @param keyCode, the key code
+     * @param event, the key event
+     * @return if action has succeeded
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
