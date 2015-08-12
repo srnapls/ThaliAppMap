@@ -58,7 +58,7 @@ public class Information extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_information, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -74,26 +74,24 @@ public class Information extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
+            case R.id.Calendar:
+                startActivity(new Intent(this, Calendar.class));
                 break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
+            case R.id.Restaurant:
+                startActivity(new Intent(this, Restaurant.class));
                 break;
-            case R.id.menu4:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
+            case R.id.Settings:
+                startActivity(new Intent(this, Settings.class));
                 break;
         }
         return true;
     }
+
     /**
      * Returns to calendar
      *
      * @param keyCode, the key code
-     * @param event, the event of the key
+     * @param event,   the event of the key
      * @return whether it succeeded
      */
     @Override
@@ -123,8 +121,9 @@ public class Information extends ActionBarActivity {
 
         /**
          * Creates the view of the fragment
-         * @param inflater inflater of the fragment
-         * @param container, the container where the fragment needs to go
+         *
+         * @param inflater            inflater of the fragment
+         * @param container,          the container where the fragment needs to go
          * @param savedInstanceState, the bundle that could possible been added
          * @return the view it created
          */

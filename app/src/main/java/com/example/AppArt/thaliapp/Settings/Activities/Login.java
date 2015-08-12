@@ -62,7 +62,7 @@ public class Login extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_login, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -78,15 +78,15 @@ public class Login extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
+            case R.id.Calendar:
                 Intent intent1 = new Intent(this, Calendar.class);
                 startActivity(intent1);
                 break;
-            case R.id.menu2:
+            case R.id.Restaurant:
                 Intent intent2 = new Intent(this, Restaurant.class);
                 startActivity(intent2);
                 break;
-            case R.id.menu4:
+            case R.id.Settings:
                 Intent intent4 = new Intent(this, Settings.class);
                 startActivity(intent4);
                 break;

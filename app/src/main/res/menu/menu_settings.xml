@@ -1,6 +1,7 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.AppArt.thaliapp.Settings.Activities.Notifications">
+    tools:context="com.example.AppArt.menu.Instellingen">
     <item
         android:id="@+id/Calendar"
         android:orderInCategory="1"
@@ -13,10 +14,4 @@
         android:title="@string/foodlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <item
-        android:id="@+id/Settings"
-        android:orderInCategory="3"
-        android:title="@string/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </menu>
