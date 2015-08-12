@@ -88,6 +88,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setTitle("Kalender");
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 

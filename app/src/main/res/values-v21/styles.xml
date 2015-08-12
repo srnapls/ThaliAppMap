@@ -7,4 +7,5 @@
         <item name="android:colorPrimaryDark">@color/darkpink</item>
         <item name="colorAccent">@color/lightpink</item>
     </style>
+
 </resources>
