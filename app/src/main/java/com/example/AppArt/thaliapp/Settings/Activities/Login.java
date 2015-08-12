@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
@@ -110,6 +111,10 @@ public class Login extends ActionBarActivity {
             Intent i = new Intent(this, Overview.class);
             startActivity(i);
             finish();
+        }
+        else {
+            Toast.makeText(this, "U heeft een foutieve combinatie van gebruikersnaam en wachtwoord. " +
+                    "Probeer opnieuw.", Toast.LENGTH_SHORT).show();
         }
     }
 }

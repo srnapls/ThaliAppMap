@@ -200,6 +200,7 @@ public class Notifications extends ActionBarActivity {
     // TODO Frank: Move this to a "confirm" button
     // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
     // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
+    // de huidige toast wordt niet geshowd, is dit de bedoeling?
     public void onSetNotification(View view) {
         if (minutesBefore.getText() == null) {
             amountOfTime = 60;
