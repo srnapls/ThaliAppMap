@@ -23,9 +23,6 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
  */
 
 public class Receipt extends ActionBarActivity {
-    // TODO: zorg er voor dat je niet alleen een bon krijgt van de laatste categorie die
-    // je hebt aangeklikt, zodat je ook bijvoorbeeld friet met een frikandel speciaal
-    // kan bestellen.
     private String[] chosen;
     private Double amount;
     private String name;

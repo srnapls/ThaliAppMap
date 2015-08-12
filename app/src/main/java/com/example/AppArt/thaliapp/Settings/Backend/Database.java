@@ -79,7 +79,6 @@ public class Database {
         return events;
     }
 
-    // TODO Frank: Kill the filthy Thread.sleep(4000);
     /**
      * Downloads a new list of ThaliaEvents using an AsyncTask named EventParser
      */

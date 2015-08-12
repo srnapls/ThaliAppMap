@@ -1,7 +1,5 @@
 package com.example.AppArt.thaliapp.Calendar.Backend;
 
-// TODO Frank: Show progress/show that there actually is activity instead of
-// just a boring loadingscreen
 // TODO Frank: dealing-with-asynctask-and-screen-orientation
 
 import android.os.AsyncTask;
