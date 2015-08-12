@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -83,7 +84,8 @@ public class Receipt extends ActionBarActivity {
      */
     public void send(View v) {
         Database.getDatabase().addReceipt(chosen);
-        Intent intent = getIntent();
+        Toast.makeText(this, "Uw gegevens zijn verzonden.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, Restaurant.class);
         intent.putExtra("chosen", (String[]) null);
         intent.putExtra("amount", 0.0);
         intent.putExtra("name", (String) null);
