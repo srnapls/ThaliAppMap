@@ -1,8 +1,5 @@
 package com.example.AppArt.thaliapp.Settings.Activities;
 
-// TODO Question: Why not prune ThaliaEvents that already happened during the
-// parsing? Serena did it in the Calendar already, but nevertheless I need to
-// do it here too -> double code -> more work -> not what we want
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -164,7 +161,7 @@ public class Notifications extends ActionBarActivity {
     /**
      * Inflate the menu; this adds items to the action bar if it is present.
      *
-     * @param menu
+     * @param menu, the menu that will be created
      * @return whether it succeeded
      */
     @Override
@@ -179,8 +176,8 @@ public class Notifications extends ActionBarActivity {
      * automatically handle clicks on the Home/Up button, so long
      * as you specify a parent activity in AndroidManifest.xml.
      *
-     * @param item
-     * @return
+     * @param item, that was clicked
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -312,8 +309,7 @@ public class Notifications extends ActionBarActivity {
         }
 
         // If there are no ThaliaEvents that meet the requirements, null is returned
-        //TODO Frank: Condition 'interestedEvents == null' is always false
-        if(interestedEvents == null || interestedEvents.size() == 0){
+        if(interestedEvents.size() == 0){
             return null;
         }else {
             return nextEventToWarn = interestedEvents.get(0);

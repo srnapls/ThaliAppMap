@@ -31,7 +31,7 @@ public class FoodList extends ListActivity {
     /**
      * Reads te foodlist and shows it
      *
-     * @param savedInstanceState
+     * @param savedInstanceState, the saved instances given to the class
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class FoodList extends ListActivity {
             }
             amount = extras.getDouble("amount", 0.0);
         }
+        assert list != null;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, list);
         setListAdapter(adapter);
@@ -59,8 +60,8 @@ public class FoodList extends ListActivity {
     /**
      * If you go back, go to restaurant
      *
-     * @param keyCode
-     * @param event
+     * @param keyCode, the key code
+     * @param event, the event of the key being pressed
      * @return whether this succeeded
      */
     @Override
@@ -79,14 +80,13 @@ public class FoodList extends ListActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    //TODO: waar zijn v en id voor?
     /**
      * Displays what food you chose by clicking on an item
      *
      * @param l listview of the foood
-     * @param v
+     * @param v the view of the list
      * @param position what item you chose
-     * @param id
+     * @param id , the id of the item that was clicked
      */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {

@@ -19,13 +19,19 @@ import com.example.AppArt.thaliapp.R;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-//TODO: Serena, Javadoc pl0x?
+
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Calendar activity;
     private EventCategory[] info;
 
+    /**
+     *
+     * @param calendar the calendar where it will be placed
+     * @param groups the groups of the list
+     * @param info ,information of the categories; needed for images
+     */
     public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groups, EventCategory[] info) {
         this.groups = groups;
         activity = calendar;
@@ -65,7 +71,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             text.setCompoundDrawablesWithIntrinsicBounds(picture(info[plaats]), 0, 0, 0);
         } else {
             text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.overigicoon, 0, 0, 0);
-        } //An onclicklistener when a child is pressed.
+        } //An onclicklistener when a child is pressed, to go to the Information
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

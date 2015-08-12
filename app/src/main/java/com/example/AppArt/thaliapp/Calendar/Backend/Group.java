@@ -8,7 +8,9 @@ import java.util.List;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-//TODO: SERENA, wil je de javadoc schrijven, Frank en ik snappen dit niet ;)
+/**
+ * Hulp class for MyExpendableListAdapter to make the view of calendar pleasing
+ */
 public class Group {
     public final List<String> children = new ArrayList<>();
     public String s;

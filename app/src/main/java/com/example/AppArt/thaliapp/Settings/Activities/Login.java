@@ -26,7 +26,7 @@ import com.example.AppArt.thaliapp.R;
  */
 
 public class Login extends ActionBarActivity {
-    // TODO: loguit?
+
     private final String inlog = "admin";
     private final String wachtwoord = "admin";
     private EditText name;
@@ -36,7 +36,7 @@ public class Login extends ActionBarActivity {
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState, the saved instances
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class Login extends ActionBarActivity {
     /**
      * Inflate the menu; this adds items to the action bar if it is present.
      *
-     * @param menu
+     * @param menu, the menu that needs to be created
      * @return whether it succeeded
      */
     @Override
@@ -70,8 +70,8 @@ public class Login extends ActionBarActivity {
      * automatically handle clicks on the Home/Up button, so long
      * as you specify a parent activity in AndroidManifest.xml.
      *
-     * @param item
-     * @return
+     * @param item, the item in the menu
+     * @return if the action succeeded
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

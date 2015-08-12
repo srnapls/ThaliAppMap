@@ -11,4 +11,8 @@
         android:id="@+id/action_clear"
         android:title="Clear"
         android:orderInCategory="2" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="Log uit"
+        android:orderInCategory="3"/>
 </menu>

@@ -23,9 +23,7 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
  */
 
 public class Receipt extends ActionBarActivity {
-    // TODO: zorg er voor dat je niet alleen een bon krijgt van de laatste categorie die
-    // je hebt aangeklikt, zodat je ook bijvoorbeeld friet met een frikandel speciaal
-    // kan bestellen.
+
     private String[] chosen;
     private Double amount;
     private String name;
@@ -35,7 +33,7 @@ public class Receipt extends ActionBarActivity {
     /**
      * Makes the receipt
      *
-     * @param savedInstanceState
+     * @param savedInstanceState, the saved instances
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class Receipt extends ActionBarActivity {
     /**
      * Sends the receipt to the database and wipes the current receipt
      *
-     * @param v
+     * @param v, the view of the activity
      */
     public void send(View v) {
         Database.getDatabase().addReceipt(chosen);
@@ -95,9 +93,9 @@ public class Receipt extends ActionBarActivity {
     /**
      * Return to restaurant when going back
      *
-     * @param keyCode
-     * @param event
-     * @return
+     * @param keyCode, the key code
+     * @param event, the event
+     * @return the boolean
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

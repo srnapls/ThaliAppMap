@@ -37,7 +37,7 @@ public class Settings extends ActionBarActivity {
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState, saved instanced
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class Settings extends ActionBarActivity {
     /**
      * Getter for shared preference
      *
-     * @return
+     * @return the preferences
      */
     public SharedPreferences getSharedpreferences() {
         return sharedpreferences;
@@ -67,7 +67,7 @@ public class Settings extends ActionBarActivity {
     /**
      * Inflate the menu; this adds items to the action bar if it is present.
      *
-     * @param menu
+     * @param menu, the menu that needs to be created
      * @return whether it succeeded
      */
     @Override
@@ -83,8 +83,8 @@ public class Settings extends ActionBarActivity {
      * automatically handle clicks on the Home/Up button, so long
      * as you specify a parent activity in AndroidManifest.xml.
      *
-     * @param item
-     * @return
+     * @param item, that was clicked
+     * @return if action succeeded
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,9 +120,9 @@ public class Settings extends ActionBarActivity {
          * Decides what to do depending on what item had been clicked on
          *
          * @param l listview of the items
-         * @param v
+         * @param v view of the fragment
          * @param position of the item
-         * @param id
+         * @param id of the item
          */
         public void onListItemClick(ListView l, View v, int position, long id) {
             super.onListItemClick(l, v, position, id);
@@ -130,9 +130,8 @@ public class Settings extends ActionBarActivity {
             switch (s) {
                 case "Notificaties":
                     Intent intent;
-                    //TODO:  wat is die fail comment hier?!
                     intent = new Intent(getActivity(), Notifications.class);
-/*Fail*/                    startActivity(intent);
+                    startActivity(intent);
                     break;
                 case "Login":
                     boolean b = sharedpreferences.getBoolean("access", false);
@@ -152,10 +151,10 @@ public class Settings extends ActionBarActivity {
 
         /**
          *
-         * @param inflater
-         * @param container
-         * @param savedInstanceState
-         * @return
+         * @param inflater, the inflater
+         * @param container, container where the frament needs to go
+         * @param savedInstanceState, the saved instances
+         * @return the view
          */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
