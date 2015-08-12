@@ -20,50 +20,37 @@ public class ProductParser {
     private List<Product> parsedSnacks = new ArrayList<>();
 
     /**
-     * Parses the dummyDb input on Fries
-     * @return List of all Fries Product objects in the dummyDb
+     * Parses the dummyDB on the category
+     * @param cat, the product category
+     * @return list of all foods
      */
-    public List<Product> getParsedFries() {
-        parsedFries.clear();
-        parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
-        return parsedFries;
-    }
-
-    /**
-     * Parses the dummyDb input on Pizza
-     * @return List of all Pizza Product objects in the dummyDb
-     */
-    public List<Product> getParsedPizza() {
-        parsedPizza.clear();
-        parsedPizza.addAll(PizzaParsing(Db.pizzaList));
-        return parsedPizza;
-    }
-
-    /**
-     * Parses the dummyDb input on Sandwich
-     * @return List of all Sandwich Product objects in the dummyDb
-     */
-    public List<Product> getParsedSandwich() {
-        parsedSandwich.clear();
-        parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
-        return parsedSandwich;
-    }
-
-    /**
-     * Parses the dummyDb input on Snacks
-     * @return List of all Snacks Product objects in the dummyDb
-     */
-    public List<Product> getParsedSnacks() {
-        parsedSnacks.clear();
-        parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
-        return parsedSnacks;
+    public List<Product> getParsed(ProductCategory cat) {
+        switch (cat) {
+            case PIZZA:
+                parsedPizza.clear();
+                parsedPizza.addAll(PizzaParsing(Db.pizzaList));
+                return parsedPizza;
+            case FRIES:
+                parsedFries.clear();
+                parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
+                return parsedFries;
+            case SNACKS:
+                parsedSnacks.clear();
+                parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
+                return parsedSnacks;
+            case SANDWICHES:
+                parsedSandwich.clear();
+                parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
+                return parsedSandwich;
+            default: return null;
+        }
     }
 
     /**
      * Parses the Sandwich-, Fries- and SnackLists into Product objects
      *
      * @param FSSList Descriptions of fries, sandwiches or snacks
-     * @param cat Category of the given list
+     * @param cat     Category of the given list
      * @return List of Product objects containing all information of FSSList
      */
     public List<Product> ProductParsing(String[] FSSList, ProductCategory cat) {

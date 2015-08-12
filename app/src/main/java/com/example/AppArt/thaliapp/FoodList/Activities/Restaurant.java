@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.FoodList.Backend.Product;
+import com.example.AppArt.thaliapp.FoodList.Backend.ProductCategory;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -58,9 +59,11 @@ public class Restaurant extends ActionBarActivity {
 
         // Connect to the database and update if necessary
         this.database = Database.getDatabase();
-        if(database.getProductsFries() == null || database.getProductsPizza() == null
-            || database.getProductsSandwiches() == null || database.getProductsSnacks() == null){
-            database.updateProducts();
+        for (ProductCategory s : ProductCategory.values()) {
+            if (database.getProduct(s) == null) {
+                database.updateProducts();
+                break;
+            }
         }
     }
 
@@ -110,12 +113,12 @@ public class Restaurant extends ActionBarActivity {
      */
     public void fries(View v) {
         Intent intentfriet = new Intent(this, FoodList.class);
-        if(database.getProductsFries() == null){
+        if (database.getProduct(ProductCategory.FRIES) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen frietjes.", Toast.LENGTH_LONG).show();
             return;
         }
         intentfriet.putExtra("chosen", chosenToString());
-        intentfriet.putExtra("foodlist", Product.toStringArray(database.getProductsFries()));
+        intentfriet.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.FRIES)));
         intentfriet.putExtra("amount", amount);
         startActivity(intentfriet);
     }
@@ -127,11 +130,11 @@ public class Restaurant extends ActionBarActivity {
      */
     public void pizza(View v) {
         Intent intentpizza = new Intent(this, FoodList.class);
-        if(database.getProductsPizza() == null){
+        if (database.getProduct(ProductCategory.PIZZA) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen pizza's.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentpizza.putExtra("foodlist", Product.toStringArray(database.getProductsPizza()));
+        intentpizza.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.PIZZA)));
         intentpizza.putExtra("chosen", chosenToString());
         intentpizza.putExtra("amount", amount);
         startActivity(intentpizza);
@@ -144,11 +147,11 @@ public class Restaurant extends ActionBarActivity {
      */
     public void snacks(View v) {
         Intent intentsnacks = new Intent(this, FoodList.class);
-        if(database.getProductsSnacks() == null){
+        if (database.getProduct(ProductCategory.SANDWICHES) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen snacks.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProductsSnacks()));
+        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SANDWICHES)));
         intentsnacks.putExtra("chosen", chosenToString());
         intentsnacks.putExtra("amount", amount);
         startActivity(intentsnacks);
@@ -161,12 +164,12 @@ public class Restaurant extends ActionBarActivity {
      */
     public void sandwiches(View v) {
         Intent intentbr = new Intent(this, FoodList.class);
-        if(database.getProductsSandwiches() == null){
+        if (database.getProduct(ProductCategory.SANDWICHES) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen broodjes.", Toast.LENGTH_LONG).show();
             return;
         }
         intentbr.putExtra("chosen", chosenToString());
-        intentbr.putExtra("foodlist", Product.toStringArray(database.getProductsSandwiches()));
+        intentbr.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SANDWICHES)));
         intentbr.putExtra("amount", amount);
         startActivity(intentbr);
     }

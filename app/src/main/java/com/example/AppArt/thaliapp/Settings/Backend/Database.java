@@ -3,6 +3,7 @@ package com.example.AppArt.thaliapp.Settings.Backend;
 import com.example.AppArt.thaliapp.Calendar.Backend.EventParser;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.FoodList.Backend.Product;
+import com.example.AppArt.thaliapp.FoodList.Backend.ProductCategory;
 import com.example.AppArt.thaliapp.FoodList.Backend.ProductParser;
 
 import java.util.ArrayList;
@@ -87,12 +88,7 @@ public class Database {
         System.out.println("updateEvents begin");
         EventParser eventParser = new EventParser();
         eventParser.execute(icalAddress);
-        try{
-            Thread.sleep(4000);
-            events = eventParser.getNewEvents();
-        } catch(InterruptedException ex){
-            ex.printStackTrace();
-        }
+        events = eventParser.getNewEvents();
         System.out.println("updateEvents end");
     }
 
@@ -102,30 +98,23 @@ public class Database {
      * ***************************************************************
      */
 
-    public List<Product> getProductsFries() {
-        return productsFries;
+    public List<Product> getProduct (ProductCategory cat){
+        switch(cat){
+            case PIZZA: return productsPizza;
+            case FRIES: return productsFries;
+            case SANDWICHES: return productsSandwich;
+            case SNACKS: return productsSnacks;
+            default: return null;
+        }
     }
-
-    public List<Product> getProductsPizza() {
-        return productsPizza;
-    }
-
-    public List<Product> getProductsSandwiches() {
-        return productsSandwich;
-    }
-
-    public List<Product> getProductsSnacks() {
-        return productsSnacks;
-    }
-
     /**
      * Updates the lists of Products of all categories using the DummyDb
      */
     public void updateProducts() {
-        productsFries = productParser.getParsedFries();
-        productsPizza = productParser.getParsedPizza();
-        productsSandwich = productParser.getParsedSandwich();
-        productsSnacks = productParser.getParsedSnacks();
+        productsFries = productParser.getParsed(ProductCategory.FRIES);
+        productsPizza = productParser.getParsed(ProductCategory.PIZZA);
+        productsSandwich = productParser.getParsed(ProductCategory.SANDWICHES);
+        productsSnacks = productParser.getParsed(ProductCategory.SNACKS);
     }
 
     /*****************************************************************
