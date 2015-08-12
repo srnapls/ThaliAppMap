@@ -36,7 +36,6 @@ public class Settings extends ActionBarActivity {
     public static final String MyPREFERENCES = "Settings";
 
     /**
-     *
      * @param savedInstanceState, saved instanced
      */
     @Override
@@ -74,7 +73,7 @@ public class Settings extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_settings, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -90,17 +89,11 @@ public class Settings extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
+            case R.id.Calendar:
+                startActivity(new Intent(this, Calendar.class));
                 break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
+            case R.id.Restaurant:
+                startActivity(new Intent(this, Restaurant.class));
                 break;
         }
         return true;
@@ -119,10 +112,10 @@ public class Settings extends ActionBarActivity {
         /**
          * Decides what to do depending on what item had been clicked on
          *
-         * @param l listview of the items
-         * @param v view of the fragment
+         * @param l        listview of the items
+         * @param v        view of the fragment
          * @param position of the item
-         * @param id of the item
+         * @param id       of the item
          */
         public void onListItemClick(ListView l, View v, int position, long id) {
             super.onListItemClick(l, v, position, id);
@@ -150,9 +143,8 @@ public class Settings extends ActionBarActivity {
         }
 
         /**
-         *
-         * @param inflater, the inflater
-         * @param container, container where the frament needs to go
+         * @param inflater,           the inflater
+         * @param container,          container where the frament needs to go
          * @param savedInstanceState, the saved instances
          * @return the view
          */

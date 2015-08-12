@@ -53,7 +53,7 @@ public class Restaurant extends ActionBarActivity {
             if (food != null) {
                 Collections.addAll(chosen, food);
             }
-            amount += extras.getDouble("chosenamount");
+            amount = extras.getDouble("chosenamount");
         }
 
         // Connect to the database and update if necessary
@@ -67,14 +67,14 @@ public class Restaurant extends ActionBarActivity {
     /**
      * Inflate the menu; this adds items to the action bar if it is present.
      *
-     * @param menu
+     * @param menu, the menu that is there
      * @return whether it succeeded
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_restaurant, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -83,22 +83,18 @@ public class Restaurant extends ActionBarActivity {
      * automatically handle clicks on the Home/Up button, so long
      * as you specify a parent activity in AndroidManifest.xml.
      *
-     * @param item
-     * @return
+     * @param item, that was clicked on
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
+            case R.id.Calendar:
                 Intent intent1 = new Intent(this, Calendar.class);
                 startActivity(intent1);
                 break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
+            case R.id.Settings:
                 Intent intent3 = new Intent(this, Settings.class);
                 startActivity(intent3);
                 break;
@@ -110,7 +106,7 @@ public class Restaurant extends ActionBarActivity {
      * When there are no fries and you chose fries, it says that there are no more fries
      * If there are fries, shows how many you've chosen of what fries
      *
-     * @param v
+     * @param v, view of the activity
      */
     public void fries(View v) {
         Intent intentfriet = new Intent(this, FoodList.class);
@@ -127,7 +123,7 @@ public class Restaurant extends ActionBarActivity {
     /**
      * Same as fries(), but for pizza
      *
-     * @param v
+     * @param v, view of the activity
      */
     public void pizza(View v) {
         Intent intentpizza = new Intent(this, FoodList.class);
@@ -144,7 +140,7 @@ public class Restaurant extends ActionBarActivity {
     /**
      * Same as fries(), but for snacks
      *
-     * @param v
+     * @param v, view of the activity
      */
     public void snacks(View v) {
         Intent intentsnacks = new Intent(this, FoodList.class);
@@ -178,7 +174,7 @@ public class Restaurant extends ActionBarActivity {
     /**
      * Saves the total amount together with your name and the food you've chosen
      *
-     * @param v
+     * @param v, view of the activity
      */
     public void amount(View v) {
         name = editName.getText().toString();

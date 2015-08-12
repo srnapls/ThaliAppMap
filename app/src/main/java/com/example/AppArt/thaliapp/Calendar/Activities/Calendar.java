@@ -53,7 +53,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     }
 
     /**
-     * @param savedInstanceState
+     * @param savedInstanceState, saved instances
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
                 R.color.thaliapink,
                 R.color.lightpink,
                 R.color.darkpink
-                );
+        );
 
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
@@ -95,7 +95,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     /**
      * Inflate the menu; this adds items to the action bar if it is present.
      *
-     * @param menu
+     * @param menu, menu that needs to be made
      * @return whether it succeeded
      */
     @Override
@@ -117,17 +117,11 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
+            case R.id.Food:
+                startActivity(new Intent(this, Restaurant.class));
                 break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
+            case R.id.Settings:
+                startActivity(new Intent(this, Settings.class));
                 break;
         }
         return true;

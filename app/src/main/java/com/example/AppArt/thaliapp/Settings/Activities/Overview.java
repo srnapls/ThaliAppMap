@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
@@ -62,7 +64,7 @@ public class Overview extends ActionBarActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_overzicht, menu);
+        getMenuInflater().inflate(R.menu.menu_overview, menu);
         return true;
     }
 
@@ -80,26 +82,25 @@ public class Overview extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
+            case R.id.Calendar:
+                startActivity(new Intent(this, Calendar.class));
+            case R.id.Restaurant:
+                startActivity(new Intent(this, Restaurant.class));
+                break;
             case R.id.action_settings:
-                Intent i1 = new Intent(this, Settings.class);
-                startActivity(i1);
+                startActivity(new Intent(this, Settings.class));
                 break;
             case R.id.action_clear:
                 Database.getDatabase().emptyReceipts();
-                Intent i2 = new Intent(this, Overview.class);
-                startActivity(i2);
+                startActivity(new Intent(this, Overview.class));
                 break;
             case R.id.action_logout:
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean("access", false);
                 editor.commit();
-                Intent i3 = new Intent(this, Settings.class);
-                startActivity(i3);
+                startActivity(new Intent(this, Settings.class));
                 break;
         }
-
-
-
             return super.onOptionsItemSelected(item);
     }
 
