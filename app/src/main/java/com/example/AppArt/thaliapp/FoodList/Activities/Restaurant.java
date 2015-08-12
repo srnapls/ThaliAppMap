@@ -147,11 +147,11 @@ public class Restaurant extends ActionBarActivity {
      */
     public void snacks(View v) {
         Intent intentsnacks = new Intent(this, FoodList.class);
-        if (database.getProduct(ProductCategory.SANDWICHES) == null) {
+        if (database.getProduct(ProductCategory.SNACKS) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen snacks.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SANDWICHES)));
+        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SNACKS)));
         intentsnacks.putExtra("chosen", chosenToString());
         intentsnacks.putExtra("amount", amount);
         startActivity(intentsnacks);
@@ -160,7 +160,7 @@ public class Restaurant extends ActionBarActivity {
     /**
      * Same as fries(), but for sandwiches
      *
-     * @param v
+     * @param v, the view of the activity
      */
     public void sandwiches(View v) {
         Intent intentbr = new Intent(this, FoodList.class);

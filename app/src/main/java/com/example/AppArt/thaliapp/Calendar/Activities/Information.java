@@ -105,6 +105,14 @@ public class Information extends ActionBarActivity {
     }
 
     /**
+     * returns to calendar
+     */
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this,Calendar.class));
+    }
+
+    /**
      * A placeholder fragment containing a simple view.
      */
     public static class EventFragment extends ListFragment {

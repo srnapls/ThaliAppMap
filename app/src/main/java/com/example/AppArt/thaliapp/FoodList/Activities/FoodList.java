@@ -26,7 +26,7 @@ public class FoodList extends ListActivity {
 
     private String[] list;
     private ArrayList<String> chosen = new ArrayList<>();
-    private double amount;
+    private double amount=0;
 
     /**
      * Reads te foodlist and shows it
@@ -38,9 +38,7 @@ public class FoodList extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodlist);
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            list = null;
-        } else {
+        if (extras != null) {
             list = extras.getStringArray("foodlist");
             String[] temp = extras.getStringArray("chosen");
             if (temp != null) {
@@ -52,9 +50,6 @@ public class FoodList extends ListActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, list);
         setListAdapter(adapter);
-
-        chosen = new ArrayList<>();
-        amount = 0;
     }
 
     /**

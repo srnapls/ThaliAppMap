@@ -61,7 +61,21 @@ public class Receipt extends ActionBarActivity {
         for (int i = 1; i < size - 1; i++) {
             all[i] = chosen != null ? chosen[i - 1] : null;
         }
-        all[size - 1] = Double.toString(amount);
+        String temp = Double.toString(amount);
+        if ((temp.charAt(1) == '.' || temp.charAt(2) == '.' || temp.charAt(3) == '.')
+                && temp.length() >= 6) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(all[size - 1].charAt(0));
+            sb.append(all[size - 1].charAt(1));
+            sb.append(all[size - 1].charAt(2));
+            sb.append(all[size - 1].charAt(3));
+            if (all[size - 1].charAt(2) == '.') {
+                sb.append(all[size - 1].charAt(4));
+            } else if (all[size - 1].charAt(3) == '.') {
+                sb.append(all[size - 1].charAt(5));
+            }
+            all[size - 1] = sb.toString();
+        }
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -96,7 +110,7 @@ public class Receipt extends ActionBarActivity {
      * Return to restaurant when going back
      *
      * @param keyCode, the key code
-     * @param event, the event
+     * @param event,   the event
      * @return the boolean
      */
     @Override
