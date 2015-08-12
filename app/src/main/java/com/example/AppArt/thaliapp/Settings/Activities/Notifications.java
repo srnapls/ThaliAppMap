@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -199,7 +200,7 @@ public class Notifications extends ActionBarActivity {
     // TODO Frank: Move this to a "confirm" button
     // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
     // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
-    public void onSetNotification() {
+    public void onSetNotification(View view) {
         if (minutesBefore.getText() == null) {
             amountOfTime = 60;
         } else {
