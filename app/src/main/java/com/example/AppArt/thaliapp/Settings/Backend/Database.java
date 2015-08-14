@@ -85,9 +85,14 @@ public class Database {
      */
     public void updateEvents() {
         // icalAddress
-        System.out.println("updateEvents begin");
         EventParser eventParser = new EventParser();
         eventParser.execute(icalAddress);
+        try{
+            Thread.sleep(4000);
+            events = eventParser.getNewEvents();
+        } catch(InterruptedException ex){
+            ex.printStackTrace();
+        }
         events = eventParser.getNewEvents();
         System.out.println("updateEvents end");
     }
