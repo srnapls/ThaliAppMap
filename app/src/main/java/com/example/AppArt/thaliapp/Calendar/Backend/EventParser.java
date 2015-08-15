@@ -24,14 +24,6 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
     private List<ThaliaEvent> newEvents;
 
-/*
-    @Override
-    protected void onPreExecute(){
-        super.onPreExecute();
-
-    }
-*/
-
     /**
      * Opens an URL stream with the given iCalendaradress and extracts a list of
      * ThaliaEvents out of it
