@@ -4,8 +4,7 @@ package com.example.AppArt.thaliapp.FoodList.Backend;
  * A dummy database for all products. This class and the ProductParser will be
  * substituted by an adequate parser once a real database is provided.
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class ProductDummyDb {

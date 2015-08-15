@@ -31,7 +31,7 @@
         <!-- Calendar -->
         <activity
             android:name=".Calendar.Activities.Calendar"
-            android:label="@string/calendar"
+            android:label="@string/app_name"
             android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter
                 android:label="@string/app_name">

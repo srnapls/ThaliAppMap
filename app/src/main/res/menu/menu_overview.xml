@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.AppArt.thaliapp.Settings.Activities.Notifications">
+    tools:context="com.example.AppArt.thaliapp.Settings.Activities.Overview">
     <item
         android:id="@+id/Calendar"
         android:orderInCategory="1"
@@ -14,9 +15,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <item
-        android:id="@+id/Settings"
-        android:orderInCategory="3"
+        android:id="@+id/action_settings"
         android:title="@string/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:orderInCategory="3"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_clear"
+        android:title="Clear"
+        android:orderInCategory="4" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="Log uit"
+        android:orderInCategory="5"/>
 </menu>

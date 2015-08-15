@@ -8,105 +8,49 @@ import java.util.Scanner;
  * Generates lists of products per category. This needs to be reworked once a
  * real database is provided.
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 public class ProductParser {
 
-    private final ProductDummyDb productDummyDb = new ProductDummyDb();
-
-    private List<List<Product>> parsedProducts = new ArrayList<>();
+    private final ProductDummyDb Db = new ProductDummyDb();
 
     private List<Product> parsedFries = new ArrayList<>();
     private List<Product> parsedPizza = new ArrayList<>();
     private List<Product> parsedSandwich = new ArrayList<>();
     private List<Product> parsedSnacks = new ArrayList<>();
 
-    /**************************************************************************
-     * Getters
-     *************************************************************************/
-
     /**
-     * Get a list with all products based on category.
-     * e.g. want a list with all the products of the FRIES category?
-     * parsedProducts.get(ProductCategory.FRIES.ordinal());
-     *
-     * @return List with for every ProductCategory a list of Products
+     * Parses the dummyDB on the category
+     * @param cat, the product category
+     * @return list of all foods
      */
-    public List<List<Product>> getParsedProducts(){
-        List<Product> parsedFries = new ArrayList<>();
-        parsedFries.clear();
-        parsedFries.addAll(ProductParsing(productDummyDb.friesList, ProductCategory.FRIES));
-        parsedProducts.set(ProductCategory.FRIES.ordinal(), parsedFries);
-
-        List<Product> parsedPizza = new ArrayList<>();
-        parsedPizza.clear();
-        parsedPizza.addAll(PizzaParsing(productDummyDb.pizzaList));
-        parsedProducts.set(ProductCategory.PIZZA.ordinal(), parsedPizza);
-
-        List<Product> parsedSandwiches = new ArrayList<>();
-        parsedSandwiches.clear();
-        parsedSandwiches.addAll(ProductParsing(productDummyDb.sandwichList, ProductCategory.SANDWICHES));
-        parsedProducts.set(ProductCategory.SANDWICHES.ordinal(), parsedSandwiches);
-
-        List<Product> parsedSnacks = new ArrayList<>();
-        parsedSnacks.clear();
-        parsedSnacks.addAll(ProductParsing(productDummyDb.snackList, ProductCategory.SNACKS));
-        parsedProducts.set(ProductCategory.SNACKS.ordinal(), parsedSnacks);
-
-        return parsedProducts;
+    public List<Product> getParsed(ProductCategory cat) {
+        switch (cat) {
+            case PIZZA:
+                parsedPizza.clear();
+                parsedPizza.addAll(PizzaParsing(Db.pizzaList));
+                return parsedPizza;
+            case FRIES:
+                parsedFries.clear();
+                parsedFries.addAll(ProductParsing(Db.friesList, ProductCategory.FRIES));
+                return parsedFries;
+            case SNACKS:
+                parsedSnacks.clear();
+                parsedSnacks.addAll(ProductParsing(Db.snackList, ProductCategory.SNACKS));
+                return parsedSnacks;
+            case SANDWICHES:
+                parsedSandwich.clear();
+                parsedSandwich.addAll(ProductParsing(Db.sandwichList, ProductCategory.SANDWICHES));
+                return parsedSandwich;
+            default: return null;
+        }
     }
-
-
-    /**
-     * Parses the dummyDb input on Pizza
-     * @return List of all Pizza Product objects in the dummyDb
-     */
-    public List<Product> getParsedFries() {
-        parsedFries.clear();
-        parsedFries.addAll(ProductParsing(productDummyDb.friesList, ProductCategory.FRIES));
-        return parsedFries;
-    }
-
-    /**
-     * Parses the dummyDb input on Pizza
-     * @return List of all Pizza Product objects in the dummyDb
-     */
-    public List<Product> getParsedPizza() {
-        parsedPizza.clear();
-        parsedPizza.addAll(PizzaParsing(productDummyDb.pizzaList));
-        return parsedPizza;
-    }
-
-    /**
-     * Parses the dummyDb input on Sandwich
-     * @return List of all Sandwich Product objects in the dummyDb
-     */
-    public List<Product> getParsedSandwich() {
-        parsedSandwich.clear();
-        parsedSandwich.addAll(ProductParsing(productDummyDb.sandwichList, ProductCategory.SANDWICHES));
-        return parsedSandwich;
-    }
-
-    /**
-     * Parses the dummyDb input on Snacks
-     * @return List of all Snacks Product objects in the dummyDb
-     */
-    public List<Product> getParsedSnacks() {
-        parsedSnacks.clear();
-        parsedSnacks.addAll(ProductParsing(productDummyDb.snackList, ProductCategory.SNACKS));
-        return parsedSnacks;
-    }
-
-    /**************************************************************************
-     * The Parsing
-     *************************************************************************/
 
     /**
      * Parses the Sandwich-, Fries- and SnackLists into Product objects
      *
      * @param FSSList Descriptions of fries, sandwiches or snacks
-     * @param cat Category of the given list
+     * @param cat     Category of the given list
      * @return List of Product objects containing all information of FSSList
      */
     public List<Product> ProductParsing(String[] FSSList, ProductCategory cat) {

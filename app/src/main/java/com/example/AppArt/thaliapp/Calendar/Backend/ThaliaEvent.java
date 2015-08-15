@@ -13,8 +13,7 @@ import java.util.Locale;
 /**
  * Withholds all knowledge of a ThaliaEvent
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
@@ -50,7 +49,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     /*****************************************************************
-     Functions to help initialise
+     Methods to help initialise
      *****************************************************************/
 
     /**
@@ -80,6 +79,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     }
 
     /**
+     * Returns the right drawable according to the category
+     *
      * @param cat the category of this event
      * @return A .png file that represents the category of this event
      */
@@ -173,6 +174,10 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return date.toString();
     }
 
+    /*****************************************************************
+     Default Methods
+     *****************************************************************/
+
     /**
      * A neat stringformat of the beginning and ending times
      *
@@ -198,12 +203,8 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         return sb.toString();
     }
 
-    /*****************************************************************
-     Default functions
-     *****************************************************************/
-
     /**
-     * Printfunction, useful when you're debugging
+     * Printmethod, useful when you're debugging
      *
      * @return a string of the event
      */

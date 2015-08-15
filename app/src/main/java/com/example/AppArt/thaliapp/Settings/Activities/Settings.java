@@ -26,14 +26,18 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import static android.widget.Toast.LENGTH_SHORT;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * Class for the settings options
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Settings extends ActionBarActivity {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "Settings";
 
+    /**
+     * @param savedInstanceState, saved instanced
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,37 +54,46 @@ public class Settings extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Getter for shared preference
+     *
+     * @return the preferences
+     */
     public SharedPreferences getSharedpreferences() {
         return sharedpreferences;
     }
 
-
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu, the menu that needs to be created
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_settings, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item, that was clicked
+     * @return if action succeeded
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
+            case R.id.Calendar:
+                startActivity(new Intent(this, Calendar.class));
                 break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
+            case R.id.Restaurant:
+                startActivity(new Intent(this, Restaurant.class));
                 break;
         }
         return true;
@@ -96,6 +109,14 @@ public class Settings extends ActionBarActivity {
         public ListFragment() {
         }
 
+        /**
+         * Decides what to do depending on what item had been clicked on
+         *
+         * @param l        listview of the items
+         * @param v        view of the fragment
+         * @param position of the item
+         * @param id       of the item
+         */
         public void onListItemClick(ListView l, View v, int position, long id) {
             super.onListItemClick(l, v, position, id);
             String s = l.getItemAtPosition(position).toString();
@@ -103,7 +124,7 @@ public class Settings extends ActionBarActivity {
                 case "Notificaties":
                     Intent intent;
                     intent = new Intent(getActivity(), Notifications.class);
-/*Fail*/                    startActivity(intent);
+                    startActivity(intent);
                     break;
                 case "Login":
                     boolean b = sharedpreferences.getBoolean("access", false);
@@ -121,6 +142,12 @@ public class Settings extends ActionBarActivity {
             }
         }
 
+        /**
+         * @param inflater,           the inflater
+         * @param container,          container where the frament needs to go
+         * @param savedInstanceState, the saved instances
+         * @return the view
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

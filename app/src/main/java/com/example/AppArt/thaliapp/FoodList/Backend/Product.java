@@ -8,8 +8,7 @@ import java.util.List;
  * Contains all information about a product. Has a name, price, a list of
  * ingredients and a category
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Product {

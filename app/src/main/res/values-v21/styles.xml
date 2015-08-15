@@ -6,13 +6,6 @@
         <item name="colorPrimary">@color/thaliapink</item>
         <item name="android:colorPrimaryDark">@color/darkpink</item>
         <item name="colorAccent">@color/lightpink</item>
-
-        <item name="actionBarStyle">@style/MyActionBar</item>
-    </style>
-
-    <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:colorBackground">#ED1B9B</item>
     </style>
 
 </resources>

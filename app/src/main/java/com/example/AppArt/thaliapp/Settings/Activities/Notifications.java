@@ -1,8 +1,5 @@
 package com.example.AppArt.thaliapp.Settings.Activities;
 
-// TODO Question: Why not prune ThaliaEvents that already happened during the
-// parsing? Serena did it in the Calendar already, but nevertheless I need to
-// do it here too -> double code -> more work -> not what we want
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -20,11 +17,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -39,8 +39,7 @@ import java.util.List;
  * notification is set for a ThaliaEvent. This can be done per category and a
  * certain amount of time beforehand.
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Notifications extends ActionBarActivity {
@@ -119,7 +118,6 @@ public class Notifications extends ActionBarActivity {
         editor.putBoolean("checkDefault", checkDefault);
         editor.putInt("tijd", amountOfTime);
         editor.commit();
-        //TODO Frank: Know how this can be done differently
         nextEventToWarn = select();
     }
 
@@ -141,7 +139,12 @@ public class Notifications extends ActionBarActivity {
         finish();
     }
 
-    //TODO Frank: javadoc
+    /**
+     * what happens when the back key is pressed
+     * @param keyCode, the key code
+     * @param event, the key event
+     * @return if action has succeeded
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -161,27 +164,45 @@ public class Notifications extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu, the menu that will be created
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_calendar, menu);
+        getMenuInflater().inflate(R.menu.menu_notifications, menu);
         return true;
     }
 
-    //TODO Frank: Javadoc
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item, that was clicked
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.Calendar:
+                Intent intent1 = new Intent(this, Calendar.class);
+                startActivity(intent1);
+                break;
+            case R.id.Restaurant:
+                Intent intent2 = new Intent(this, Restaurant.class);
+                startActivity(intent2);
+                break;
+            case R.id.Settings:
+                Intent intent4 = new Intent(this, Settings.class);
+                startActivity(intent4);
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     /**
@@ -190,7 +211,8 @@ public class Notifications extends ActionBarActivity {
     // TODO Frank: Move this to a "confirm" button
     // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
     // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
-    public void onSetNotification() {
+    // de huidige toast wordt niet geshowd, is dit de bedoeling?
+    public void onSetNotification(View view) {
         if (minutesBefore.getText() == null) {
             amountOfTime = 60;
         } else {
@@ -301,8 +323,7 @@ public class Notifications extends ActionBarActivity {
         }
 
         // If there are no ThaliaEvents that meet the requirements, null is returned
-        //TODO Frank: Condition 'interestedEvents == null' is always false
-        if(interestedEvents == null || interestedEvents.size() == 0){
+        if(interestedEvents.size() == 0){
             return null;
         }else {
             return nextEventToWarn = interestedEvents.get(0);

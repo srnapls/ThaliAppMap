@@ -24,8 +24,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * The menu in which you can chose what food to order or watch the receipt
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Restaurant extends ActionBarActivity {
@@ -53,41 +54,50 @@ public class Restaurant extends ActionBarActivity {
             if (food != null) {
                 Collections.addAll(chosen, food);
             }
-            amount += extras.getDouble("chosenamount");
+            amount = extras.getDouble("chosenamount");
         }
 
         // Connect to the database and update if necessary
         this.database = Database.getDatabase();
-        if(database.getProductsFries() == null || database.getProductsPizza() == null
-            || database.getProductsSandwiches() == null || database.getProductsSnacks() == null){
-            database.updateProducts();
+        for (ProductCategory s : ProductCategory.values()) {
+            if (database.getProduct(s) == null) {
+                database.updateProducts();
+                break;
+            }
         }
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu, the menu that is there
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
+        inflater.inflate(R.menu.menu_restaurant, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item, that was clicked on
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.menu1:
+            case R.id.Calendar:
                 Intent intent1 = new Intent(this, Calendar.class);
                 startActivity(intent1);
                 break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
+            case R.id.Settings:
                 Intent intent3 = new Intent(this, Settings.class);
                 startActivity(intent3);
                 break;
@@ -95,77 +105,81 @@ public class Restaurant extends ActionBarActivity {
         return true;
     }
 
-    /*******************************************************************/
     /**
-     * Stuff
-     * @param v something
-     * @param productCategory The productCategory for which the event is created
+     * When there are no fries and you chose fries, it says that there are no more fries
+     * If there are fries, shows how many you've chosen of what fries
+     *
+     * @param v, view of the activity
      */
-    public void product(View v, ProductCategory productCategory){
-        Intent intentProduct = new Intent(this, FoodList.class);
-        if(database.getProducts() == null){
-            Toast.makeText(this, "Jammer :( \nEr zijn geen " + productCategory
-                    + ".", Toast.LENGTH_LONG).show();
-            return;
-        }
-        intentProduct.putExtra("chosen", chosenToString());
-        String [] productsInText =
-                Product.toStringArray(database.getProducts(productCategory));
-        intentProduct.putExtra("foodlist", productsInText);
-        intentProduct.putExtra("amount", amount);
-        startActivity(intentProduct);
-    }
-    /*******************************************************************/
-
     public void fries(View v) {
         Intent intentfriet = new Intent(this, FoodList.class);
-        if(database.getProductsFries() == null){
+        if (database.getProduct(ProductCategory.FRIES) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen frietjes.", Toast.LENGTH_LONG).show();
             return;
         }
         intentfriet.putExtra("chosen", chosenToString());
-        intentfriet.putExtra("foodlist", Product.toStringArray(database.getProductsFries()));
+        intentfriet.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.FRIES)));
         intentfriet.putExtra("amount", amount);
         startActivity(intentfriet);
     }
 
+    /**
+     * Same as fries(), but for pizza
+     *
+     * @param v, view of the activity
+     */
     public void pizza(View v) {
         Intent intentpizza = new Intent(this, FoodList.class);
-        if(database.getProductsPizza() == null){
+        if (database.getProduct(ProductCategory.PIZZA) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen pizza's.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentpizza.putExtra("foodlist", Product.toStringArray(database.getProductsPizza()));
+        intentpizza.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.PIZZA)));
         intentpizza.putExtra("chosen", chosenToString());
         intentpizza.putExtra("amount", amount);
         startActivity(intentpizza);
     }
 
+    /**
+     * Same as fries(), but for snacks
+     *
+     * @param v, view of the activity
+     */
     public void snacks(View v) {
         Intent intentsnacks = new Intent(this, FoodList.class);
-        if(database.getProductsSnacks() == null){
+        if (database.getProduct(ProductCategory.SNACKS) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen snacks.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProductsSnacks()));
+        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SNACKS)));
         intentsnacks.putExtra("chosen", chosenToString());
         intentsnacks.putExtra("amount", amount);
         startActivity(intentsnacks);
     }
 
+    /**
+     * Same as fries(), but for sandwiches
+     *
+     * @param v, the view of the activity
+     */
     public void sandwiches(View v) {
         Intent intentbr = new Intent(this, FoodList.class);
-        if(database.getProductsSandwiches() == null){
+        if (database.getProduct(ProductCategory.SANDWICHES) == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen broodjes.", Toast.LENGTH_LONG).show();
             return;
         }
         intentbr.putExtra("chosen", chosenToString());
-        intentbr.putExtra("foodlist", Product.toStringArray(database.getProductsSandwiches()));
+        intentbr.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SANDWICHES)));
         intentbr.putExtra("amount", amount);
         startActivity(intentbr);
     }
 
-    public void bedrag(View v) {
+    /**
+     * Saves the total amount together with your name and the food you've chosen
+     *
+     * @param v, view of the activity
+     */
+    public void amount(View v) {
         name = editName.getText().toString();
         Intent intent = new Intent(this, Receipt.class);
         intent.putExtra("chosen", chosenToString());

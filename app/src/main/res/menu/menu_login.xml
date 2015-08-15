@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.AppArt.thaliapp.Settings.Activities.Notifications">
+    tools:context="com.example.AppArt.thaliapp.Settings.Activities.Login">
     <item
         android:id="@+id/Calendar"
         android:orderInCategory="1"

@@ -1,6 +1,8 @@
 package com.example.AppArt.thaliapp.Settings.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
@@ -22,16 +26,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * This class shows the overview of every order that has been made
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Overview extends ActionBarActivity {
 
+
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "Settings";
+
+    /**
+     * @param savedInstanceState, the saved instances
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overzicht);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -43,32 +56,52 @@ public class Overview extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu, the menu that needs to be created
+     * @return whether it succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_overzicht, menu);
+        getMenuInflater().inflate(R.menu.menu_overview, menu);
         return true;
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item, the item that is clicked
+     * @return if the action has succeeded
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
-            startActivity(i);
+        switch (id) {
+            case R.id.Calendar:
+                startActivity(new Intent(this, Calendar.class));
+            case R.id.Restaurant:
+                startActivity(new Intent(this, Restaurant.class));
+                break;
+            case R.id.action_settings:
+                startActivity(new Intent(this, Settings.class));
+                break;
+            case R.id.action_clear:
+                Database.getDatabase().emptyReceipts();
+                startActivity(new Intent(this, Overview.class));
+                break;
+            case R.id.action_logout:
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putBoolean("access", false);
+                editor.commit();
+                startActivity(new Intent(this, Settings.class));
+                break;
         }
-        if (id == R.id.action_clear) {
-            Database.getDatabase().emptyReceipts();
-            Intent i = new Intent(this, Overview.class);
-            startActivity(i);
-        }
-
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
     }
 
     /**

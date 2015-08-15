@@ -11,22 +11,29 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
+import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Information extends ActionBarActivity {
 
+    /**
+     * Creates the actionbar and fragments
+     *
+     * @param savedInstanceState saves set events
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,51 @@ public class Information extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu, menu that needs to be created
+     * @return whether it succeeded
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_information, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Handle action bar item clicks here. The action bar will automatically
+     * handle clicks on the Home/Up button, as long as you specify a parent
+     * activity in AndroidManifest.xml.
+     *
+     * @param item on which is clicked
+     * @return The action has prevailed!
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.Calendar:
+                startActivity(new Intent(this, Calendar.class));
+                break;
+            case R.id.Restaurant:
+                startActivity(new Intent(this, Restaurant.class));
+                break;
+            case R.id.Settings:
+                startActivity(new Intent(this, Settings.class));
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * Returns to calendar
+     *
+     * @param keyCode, the key code
+     * @param event,   the event of the key
+     * @return whether it succeeded
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -52,27 +104,12 @@ public class Information extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
+    /**
+     * returns to calendar
+     */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_information, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed(){
+        startActivity(new Intent(this,Calendar.class));
     }
 
     /**
@@ -84,9 +121,20 @@ public class Information extends ActionBarActivity {
         private String[] information;
         private Html htmlConverter;
 
+        /**
+         * empty constructor
+         */
         public EventFragment() {
         }
 
+        /**
+         * Creates the view of the fragment
+         *
+         * @param inflater            inflater of the fragment
+         * @param container,          the container where the fragment needs to go
+         * @param savedInstanceState, the bundle that could possible been added
+         * @return the view it created
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -106,10 +154,10 @@ public class Information extends ActionBarActivity {
          */
         private void fillString() {
             information = new String[4];
-            information[0] = htmlConverter.fromHtml(event.getSummary()).toString();
+            information[0] = Html.fromHtml(event.getSummary()).toString();
             information[1] = event.duration();
-            information[2] = htmlConverter.fromHtml(event.getLocation()).toString();
-            information[3] = htmlConverter.fromHtml(event.getDescription()).toString();
+            information[2] = Html.fromHtml(event.getLocation()).toString();
+            information[3] = Html.fromHtml(event.getDescription()).toString();
         }
     }
 }

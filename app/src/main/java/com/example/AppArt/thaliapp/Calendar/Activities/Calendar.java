@@ -34,8 +34,7 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
  * Calendar activity, shows a list of all currently known ThaliaEvents that
  * have yet to end.
  *
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -45,11 +44,17 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     private EventCategory[] kindOfEvent;
     private SwipeRefreshLayout mSwipeLayout;
 
+    /**
+     * calls this method on start
+     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
+    /**
+     * @param savedInstanceState, saved instances
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +67,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
                 R.color.thaliapink,
                 R.color.lightpink,
                 R.color.darkpink
-                );
+        );
 
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
@@ -83,9 +88,48 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setTitle("Kalender");
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu, menu that needs to be made
+     * @return whether it succeeded
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_calendar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Handle action bar item clicks here. The action bar will automatically
+     * handle clicks on the Home/Up button, as long as you specify a parent
+     * activity in AndroidManifest.xml.
+     *
+     * @param item on which is clicked
+     * @return The action has prevailed!
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.Food:
+                startActivity(new Intent(this, Restaurant.class));
+                break;
+            case R.id.Settings:
+                startActivity(new Intent(this, Settings.class));
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * Method to refresh the ArrayList when swiped up
+     */
     public void onRefresh() {
         Database.getDatabase().updateEvents();
         Toast.makeText(this, "Kalender geupdate", LENGTH_SHORT).show();
@@ -94,8 +138,9 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         startActivity(intent1);
         this.finish();
     }
+
     /**
-     * Function to fill the ArrayList, such that it is sorted on day
+     * Method to fill the ArrayList, such that it is sorted on day
      */
     private void createData() {
         int j = 0, i = 0;
@@ -111,41 +156,6 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
             groups.append(j, group);
             j++;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will automatically
-     * handle clicks on the Home/Up button, as long as you specify a parent
-     * activity in AndroidManifest.xml.
-     * @param item on which is clicked
-     * @return The action has prevailed!
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.menu1:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
-                break;
-            case R.id.menu2:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.menu4:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
-                break;
-        }
-        return true;
     }
 
     /**

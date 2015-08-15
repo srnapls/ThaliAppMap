@@ -17,24 +17,28 @@ import java.util.Collections;
 import java.util.Scanner;
 
 /**
- * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen
- *         (s4182804)
+ * Reads and shows the foodlist
+ *
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
 public class FoodList extends ListActivity {
 
     private String[] list;
     private ArrayList<String> chosen = new ArrayList<>();
-    private double amount;
+    private double amount=0;
 
+    /**
+     * Reads te foodlist and shows it
+     *
+     * @param savedInstanceState, the saved instances given to the class
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foodlist);
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            list = null;
-        } else {
+        if (extras != null) {
             list = extras.getStringArray("foodlist");
             String[] temp = extras.getStringArray("chosen");
             if (temp != null) {
@@ -42,14 +46,19 @@ public class FoodList extends ListActivity {
             }
             amount = extras.getDouble("amount", 0.0);
         }
+        assert list != null;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, list);
         setListAdapter(adapter);
-
-        chosen = new ArrayList<>();
-        amount = 0;
     }
 
+    /**
+     * If you go back, go to restaurant
+     *
+     * @param keyCode, the key code
+     * @param event, the event of the key being pressed
+     * @return whether this succeeded
+     */
     @Override
     public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -66,6 +75,14 @@ public class FoodList extends ListActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Displays what food you chose by clicking on an item
+     *
+     * @param l listview of the foood
+     * @param v the view of the list
+     * @param position what item you chose
+     * @param id , the id of the item that was clicked
+     */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);

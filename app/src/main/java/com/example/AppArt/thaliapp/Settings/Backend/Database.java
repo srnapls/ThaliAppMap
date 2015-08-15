@@ -16,7 +16,7 @@ import java.util.List;
  * Makes parsed data accessible for every class in the project.
  * Data in three categories: Events, Products and Receipts
  *
- * Created by AppArt on 4-7-2015.
+ * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 public class Database {
     private static Database database = null;
@@ -27,7 +27,6 @@ public class Database {
 
     private List<ThaliaEvent> events;
 
-    private List<List<Product>> products;
     private List<Product> productsFries;
     private List<Product> productsPizza;
     private List<Product> productsSandwich;
@@ -81,13 +80,11 @@ public class Database {
         return events;
     }
 
-    // TODO Frank: Kill the filthy Thread.sleep(4000);
     /**
      * Downloads a new list of ThaliaEvents using an AsyncTask named EventParser
      */
     public void updateEvents() {
         // icalAddress
-        System.out.println("updateEvents begin");
         EventParser eventParser = new EventParser();
         eventParser.execute(icalAddress);
         try{
@@ -96,6 +93,7 @@ public class Database {
         } catch(InterruptedException ex){
             ex.printStackTrace();
         }
+        events = eventParser.getNewEvents();
         System.out.println("updateEvents end");
     }
 
@@ -105,49 +103,23 @@ public class Database {
      * ***************************************************************
      */
 
-    /**
-     * Get a list with all products based on category.
-     * e.g. want a list with all the products of the FRIES category?
-     * parsedProducts.get(ProductCategory.FRIES.ordinal());
-
-     * @return List with for every ProductCategory a list of Products
-     */
-    public List<List<Product>> getProducts() {return products;}
-
-    /**
-     * @param productCategory the productCategory of which the list of Products
-     *                        is wanted
-     * @return the List with all products from the given productCategory
-     */
-    public List<Product> getProducts(ProductCategory productCategory){
-        return products.get(productCategory.ordinal());
+    public List<Product> getProduct (ProductCategory cat){
+        switch(cat){
+            case PIZZA: return productsPizza;
+            case FRIES: return productsFries;
+            case SANDWICHES: return productsSandwich;
+            case SNACKS: return productsSnacks;
+            default: return null;
+        }
     }
-
-    public List<Product> getProductsFries() {
-        return productsFries;
-    }
-
-    public List<Product> getProductsPizza() {
-        return productsPizza;
-    }
-
-    public List<Product> getProductsSandwiches() {
-        return productsSandwich;
-    }
-
-    public List<Product> getProductsSnacks() {
-        return productsSnacks;
-    }
-
     /**
      * Updates the lists of Products of all categories using the DummyDb
      */
     public void updateProducts() {
-        products = productParser.getParsedProducts();
-        productsFries = productParser.getParsedFries();
-        productsPizza = productParser.getParsedPizza();
-        productsSandwich = productParser.getParsedSandwich();
-        productsSnacks = productParser.getParsedSnacks();
+        productsFries = productParser.getParsed(ProductCategory.FRIES);
+        productsPizza = productParser.getParsed(ProductCategory.PIZZA);
+        productsSandwich = productParser.getParsed(ProductCategory.SANDWICHES);
+        productsSnacks = productParser.getParsed(ProductCategory.SNACKS);
     }
 
     /*****************************************************************
@@ -164,6 +136,8 @@ public class Database {
     }
 
     /**
+     * Getter for receipts
+     *
      * @return all currently stored Receipts
      */
     public List<String[]> getReceipts() {

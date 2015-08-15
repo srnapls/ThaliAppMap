@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:text="Zet notificatie"
         android:id="@+id/setNotification"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onSetNotification"/>
+        android:onClick="onSetNotification"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>
