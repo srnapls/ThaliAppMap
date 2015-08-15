@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
+import com.example.AppArt.thaliapp.Calendar.Activities.Information;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
 
@@ -31,9 +32,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         ThaliaEvent nextEvent = intent.getParcelableExtra("nextThaliaEvent");
 
-        PendingIntent pending = PendingIntent.getActivity(
-                context, 0,
-                new Intent(context, Calendar.class), 0);
+        Intent intentToStart = new Intent(context, Information.class);
+        intentToStart.putExtra("event", nextEvent);
+        PendingIntent pending = PendingIntent.getActivity(context, 0,
+                intentToStart, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setColor(context.getResources()

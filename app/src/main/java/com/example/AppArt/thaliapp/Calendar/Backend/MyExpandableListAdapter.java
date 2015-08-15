@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Calendar.Activities.Information;
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
  *
@@ -77,7 +78,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 int i = index(grouppos, childpos);
                 Intent intent = new Intent(v.getContext(), Information.class);
-                intent.putExtra("index", i);
+                intent.putExtra("event", Database.getDatabase().getEvents().get(i));
                 v.getContext().startActivity(intent);
             }
         });

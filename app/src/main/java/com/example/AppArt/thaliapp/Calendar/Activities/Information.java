@@ -139,8 +139,7 @@ public class Information extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             Bundle b = getActivity().getIntent().getExtras();
-            index = b.getInt("index");
-            event = Database.getDatabase().getEvents().get(index);
+            event = b.getParcelable("event");
             fillString();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,

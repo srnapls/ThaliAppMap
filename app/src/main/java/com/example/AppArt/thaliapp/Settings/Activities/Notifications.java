@@ -48,7 +48,7 @@ import java.util.TimeZone;
 
 public class Notifications extends ActionBarActivity {
     public static final String MyPREFERENCES = "Settings";
-    private EditText minutesBefore;
+    private EditText timeBefore;
     private int amountOfTime = 60;
     public boolean checkBorrel = true;
     public boolean checkLecture = true;
@@ -69,7 +69,7 @@ public class Notifications extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-        minutesBefore = (EditText) findViewById(R.id.time);
+        timeBefore = (EditText) findViewById(R.id.time);
         bbox = (CheckBox) findViewById(R.id.BoxBorrel);
         abox = (CheckBox) findViewById(R.id.BoxALV);
         pbox = (CheckBox) findViewById(R.id.BoxParty);
@@ -139,13 +139,15 @@ public class Notifications extends ActionBarActivity {
         nextEventToWarn = select();
     }
 
+    //TODO Serena: deze en de volgende functie zijn ambigu. Bovendien moeten ze
+    // geen notificatie zetten.
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (minutesBefore.getText() == null) {
+        if (timeBefore.getText() == null) {
             amountOfTime = 60;
         } else {
-            amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
+            amountOfTime = Integer.parseInt(timeBefore.getText().toString());
         }
         savePreferences();
         createNotification();
@@ -163,10 +165,10 @@ public class Notifications extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (minutesBefore.getText() == null || minutesBefore.getText().equals("")) {
+            if (timeBefore.getText() == null || timeBefore.getText().equals("")) {
                 amountOfTime = 60;
             } else {
-                amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
+                amountOfTime = Integer.parseInt(timeBefore.getText().toString());
             }
             createNotification();
             savePreferences();
@@ -222,15 +224,15 @@ public class Notifications extends ActionBarActivity {
     /**
      * When the setNotification button is clicked, a notification is set
      */
+    
     public void onSetNotification(View view) {
-        if (minutesBefore.getText() == null) {
+        if (timeBefore.getText() == null) {
             amountOfTime = 60;
         } else {
-            amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
+            amountOfTime = Integer.parseInt(timeBefore.getText().toString());
         }
         savePreferences();
         createNotification();
-        Toast.makeText(this, "set", Toast.LENGTH_SHORT);
     }
 
     /**
@@ -238,7 +240,7 @@ public class Notifications extends ActionBarActivity {
      * already displayed in minutes, when 1 the time is in hours, when 2 the time is in days.
      */
     private void calculateTime(){
-        int temp = Integer.parseInt(minutesBefore.getText().toString());
+        int temp = Integer.parseInt(timeBefore.getText().toString());
         switch(timespinner.getSelectedItemPosition()){
             case 0:
                 amountOfTime = temp;
@@ -269,7 +271,7 @@ public class Notifications extends ActionBarActivity {
         GregorianCalendar eventStart = nextEventToWarn.getStartDate();
         System.out.println("eventStart" + eventStart);
         GregorianCalendar now = new GregorianCalendar();
-        System.out.println("now" + now);
+        System.out.println("now " + now);
         int negMinutes = amountOfTime * (-1);
         System.out.println("amountOfTime: " + negMinutes);
         eventStart.add(java.util.Calendar.MINUTE, negMinutes);
@@ -291,8 +293,8 @@ public class Notifications extends ActionBarActivity {
         System.out.println("To be notified: " + nextEventToWarn);
 
         Toast.makeText(this, "Er is op " + timeToString(timeOfAlert) + " voor " +
-                nextEventToWarn.getSummary() + " gezet een notificatie gezet.",
-                Toast.LENGTH_SHORT).show();
+                nextEventToWarn.getSummary() + " een notificatie gezet.",
+                Toast.LENGTH_LONG).show();
     }
 
     /**

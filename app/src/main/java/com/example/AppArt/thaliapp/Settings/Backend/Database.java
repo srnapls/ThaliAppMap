@@ -22,7 +22,7 @@ public class Database {
     private static Database database = null;
 
     private final String icalAddress
-            = "https://thalia.nu/events/ical/feed.ics";
+            = "https://www.thalia.nu/events/ical/feed.ics";
 
     private final ProductParser productParser;
 
