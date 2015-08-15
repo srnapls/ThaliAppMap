@@ -85,13 +85,12 @@ public class Database {
      */
     public void updateEvents() {
         // icalAddress
-        System.out.println("updateEvents begin");
         EventParser eventParser = new EventParser();
         eventParser.execute(icalAddress);
-        try {
+        try{
             Thread.sleep(4000);
             events = eventParser.getNewEvents();
-        } catch (InterruptedException ex) {
+        } catch(InterruptedException ex){
             ex.printStackTrace();
         }
         events = eventParser.getNewEvents();
@@ -104,18 +103,13 @@ public class Database {
      * ***************************************************************
      */
 
-    public List<Product> getProduct(ProductCategory cat) {
-        switch (cat) {
-            case PIZZA:
-                return productsPizza;
-            case FRIES:
-                return productsFries;
-            case SANDWICHES:
-                return productsSandwich;
-            case SNACKS:
-                return productsSnacks;
-            default:
-                return null;
+    public List<Product> getProduct (ProductCategory cat){
+        switch(cat){
+            case PIZZA: return productsPizza;
+            case FRIES: return productsFries;
+            case SANDWICHES: return productsSandwich;
+            case SNACKS: return productsSnacks;
+            default: return null;
         }
     }
 
