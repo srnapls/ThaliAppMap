@@ -136,7 +136,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         if (Database.getDatabase().getEvents() == null) {
             Toast.makeText(this, "Er is een fout opgetreden, probeer later opniew", LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Kalender geupdate", LENGTH_SHORT).show();
+            Toast.makeText(this, "Kalender geüpdatet", LENGTH_SHORT).show();
         }
         mSwipeLayout.setRefreshing(false);
         Intent intent1 = new Intent(this, Calendar.class);
