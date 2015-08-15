@@ -21,7 +21,6 @@ import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
-import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
@@ -119,7 +118,6 @@ public class Information extends ActionBarActivity {
         private int index;
         private ThaliaEvent event;
         private String[] information;
-        private Html htmlConverter;
 
         /**
          * empty constructor
@@ -152,9 +150,11 @@ public class Information extends ActionBarActivity {
          * Fills the screen/ListActivity with the information given from Calendar
          */
         private void fillString() {
+            Html htmlConverter;
             information = new String[4];
             information[0] = Html.fromHtml(event.getSummary()).toString();
             information[1] = event.duration();
+            System.out.println("EoF fillString" + event.duration());
             information[2] = Html.fromHtml(event.getLocation()).toString();
             information[3] = Html.fromHtml(event.getDescription()).toString();
         }
