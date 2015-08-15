@@ -265,20 +265,16 @@ public class Notifications extends ActionBarActivity {
                     "eisen.\n Er is geen notificatie gemaakt.", Toast.LENGTH_SHORT).show();
             return;
         }
-
         calculateTime();
-
         GregorianCalendar eventStart = nextEventToWarn.getStartDate();
         System.out.println("eventStart" + eventStart);
-        GregorianCalendar now = new GregorianCalendar();
-        System.out.println("now " + now);
+
         int negMinutes = amountOfTime * (-1);
         System.out.println("amountOfTime: " + negMinutes);
-        eventStart.add(java.util.Calendar.MINUTE, negMinutes);
 
-        long miliseconds = eventStart.getTimeInMillis() - now.getTimeInMillis();
+        long msToWarn = eventStart.getTimeInMillis();
+        msToWarn += (negMinutes *60*1000);
 
-        System.out.println("milisec " + miliseconds);
         // Give the intent the values so that we can populate the notification
         // in the receiver
         Intent intent = new Intent(this, AlarmReceiver.class);
@@ -287,12 +283,10 @@ public class Notifications extends ActionBarActivity {
         // Schedule the alarm
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 36954, intent, 0);
-
-        long timeOfAlert = SystemClock.elapsedRealtime() + miliseconds;
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, timeOfAlert, alarmIntent);
+        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, msToWarn, alarmIntent);
         System.out.println("To be notified: " + nextEventToWarn);
 
-        Toast.makeText(this, "Er is op " + timeToString(timeOfAlert) + " voor " +
+        Toast.makeText(this, "Er is op " + timeToString(msToWarn) + " voor " +
                 nextEventToWarn.getSummary() + " een notificatie gezet.",
                 Toast.LENGTH_LONG).show();
     }
