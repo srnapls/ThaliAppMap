@@ -26,8 +26,6 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
 
     private List<ThaliaEvent> newEvents;
 
-    //TODO: Bepalen of dit weg kan, Frank?
-
 /*
     @Override
     protected void onPreExecute(){

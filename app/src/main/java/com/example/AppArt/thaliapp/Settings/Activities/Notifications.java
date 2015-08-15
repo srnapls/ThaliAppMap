@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Activity that handles the notifications. Through extensive input, a push
@@ -295,9 +297,34 @@ public class Notifications extends ActionBarActivity {
         long timeOfAlert = SystemClock.elapsedRealtime() + miliseconds;
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, timeOfAlert, alarmIntent);
         System.out.println("To be notified: " + nextEventToWarn);
-        // TODO Frank: Convert timeOfAlert to something readable
-        Toast.makeText(this, "Er is op " + timeOfAlert + " voor " +
-                nextEventToWarn.getSummary() + " gezet.", Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, "Er is op " + timeToString(timeOfAlert) + " voor " +
+                nextEventToWarn.getSummary() + " gezet een notificatie gezet.",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Dutch String representation of a time
+     *
+     * @param time a Long denoting a time
+     * @return "DAY om HOUR:MINUTE"
+     */
+    private String timeToString(Long time){
+        GregorianCalendar gregCal
+                = new GregorianCalendar(TimeZone.getTimeZone("CET"));
+        gregCal.setTimeInMillis(time);
+        StringBuilder timeString = new StringBuilder();
+        timeString.append(gregCal.getDisplayName(java.util.Calendar.DAY_OF_WEEK,
+                java.util.Calendar.LONG, Locale.getDefault()));
+        timeString.append(" om ");
+        timeString.append(gregCal.get(java.util.Calendar.HOUR_OF_DAY));
+        timeString.append(":");
+        if (gregCal.get(java.util.Calendar.MINUTE) == 0) {
+            timeString.append("00");
+        } else {
+            timeString.append(gregCal.get(java.util.Calendar.MINUTE));
+        }
+        return timeString.toString();
     }
 
     /**
