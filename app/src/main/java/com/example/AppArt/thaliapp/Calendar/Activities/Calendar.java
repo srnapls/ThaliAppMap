@@ -128,11 +128,16 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
     }
 
     /**
-     * Method to refresh the ArrayList when swiped up
+     * Method to refresh the ArrayList when swiped up, in case of refreshing and the events are still empty
+     * there has most likely been an error on the server side
      */
     public void onRefresh() {
         Database.getDatabase().updateEvents();
-        Toast.makeText(this, "Kalender geupdate", LENGTH_SHORT).show();
+        if (Database.getDatabase().getEvents() == null) {
+            Toast.makeText(this, "Er is een fout opgetreden, probeer later opniew", LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Kalender geupdate", LENGTH_SHORT).show();
+        }
         mSwipeLayout.setRefreshing(false);
         Intent intent1 = new Intent(this, Calendar.class);
         startActivity(intent1);
