@@ -18,8 +18,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
@@ -55,6 +57,8 @@ public class Notifications extends ActionBarActivity {
     public boolean checkWorkshop = true;
     public boolean checkDefault = true;
     private CheckBox bbox, abox, pbox, wbox, lbox, obox;
+    private Spinner timespinner;
+    public int chosennumber;
     SharedPreferences sharedpreferences;
 
     private final Database database = Database.getDatabase();
@@ -72,6 +76,14 @@ public class Notifications extends ActionBarActivity {
         wbox = (CheckBox) findViewById(R.id.BoxWorkshop);
         lbox = (CheckBox) findViewById(R.id.BoxLecture);
         obox = (CheckBox) findViewById(R.id.BoxDefault);
+        timespinner = (Spinner) findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter;
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.notifications_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timespinner.setAdapter(adapter);
+
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -91,12 +103,14 @@ public class Notifications extends ActionBarActivity {
         checkLecture = sharedpreferences.getBoolean("BoxLecture", true);
         checkDefault = sharedpreferences.getBoolean("BoxDefault", true);
         amountOfTime = sharedpreferences.getInt("tijd", 60);
+        chosennumber = sharedpreferences.getInt("sortTime", 0);
         bbox.setChecked(checkBorrel);
         abox.setChecked(checkALV);
         pbox.setChecked(checkParty);
         wbox.setChecked(checkWorkshop);
         lbox.setChecked(checkLecture);
         obox.setChecked(checkDefault);
+        timespinner.setSelection(chosennumber);
         nextEventToWarn = select();
     }
 
@@ -111,6 +125,7 @@ public class Notifications extends ActionBarActivity {
         checkParty = pbox.isChecked();
         checkLecture = lbox.isChecked();
         checkDefault = obox.isChecked();
+        chosennumber = timespinner.getSelectedItemPosition();
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putBoolean("checkBorrel", checkBorrel);
         editor.putBoolean("checkALV", checkALV);
@@ -119,13 +134,11 @@ public class Notifications extends ActionBarActivity {
         editor.putBoolean("checkLecture", checkLecture);
         editor.putBoolean("checkDefault", checkDefault);
         editor.putInt("tijd", amountOfTime);
+        editor.putInt("sortTime", chosennumber);
         editor.commit();
         nextEventToWarn = select();
     }
 
-    // TODO Frank: Move this to a "confirm" button
-    // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
-    // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -150,7 +163,6 @@ public class Notifications extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //TODO: frank: 'equals()' between objects of inconvertible types String and Editable
             if (minutesBefore.getText() == null || minutesBefore.getText().equals("")) {
                 amountOfTime = 60;
             } else {
@@ -210,10 +222,6 @@ public class Notifications extends ActionBarActivity {
     /**
      * When the setNotification button is clicked, a notification is set
      */
-    // TODO Frank: Move this to a "confirm" button
-    // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
-    // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
-    // de huidige toast wordt niet geshowd, is dit de bedoeling?
     public void onSetNotification(View view) {
         if (minutesBefore.getText() == null) {
             amountOfTime = 60;
@@ -223,6 +231,25 @@ public class Notifications extends ActionBarActivity {
         savePreferences();
         createNotification();
         Toast.makeText(this, "set", Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * Calculates what the amount of time is in minutes. If the spinner is selected on 0, the time is
+     * already displayed in minutes, when 1 the time is in hours, when 2 the time is in days.
+     */
+    private void calculateTime(){
+        int temp = Integer.parseInt(minutesBefore.getText().toString());
+        switch(timespinner.getSelectedItemPosition()){
+            case 0:
+                amountOfTime = temp;
+                break;
+            case 1:
+                amountOfTime = temp*60;
+                break;
+            case 2:
+                amountOfTime = temp*60*24;
+                break;
+        }
     }
 
     /**
@@ -237,7 +264,7 @@ public class Notifications extends ActionBarActivity {
             return;
         }
 
-        amountOfTime = Integer.parseInt(minutesBefore.getText().toString());
+        calculateTime();
 
         GregorianCalendar eventStart = nextEventToWarn.getStartDate();
         System.out.println("eventStart" + eventStart);
@@ -355,6 +382,5 @@ public class Notifications extends ActionBarActivity {
             return nextEventToWarn = interestedEvents.get(0);
         }
     }
-
 }
 
