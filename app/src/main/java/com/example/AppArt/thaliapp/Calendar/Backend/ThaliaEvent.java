@@ -200,6 +200,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         } else {
             sb.append(endDate.get(Calendar.MINUTE));
         }
+        System.out.println("EoF durationfunction: "+sb.toString());
         return sb.toString();
     }
 
@@ -243,7 +244,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(startDate.getTimeInMillis());
-        dest.writeLong(startDate.getTimeInMillis());
+        dest.writeLong(endDate.getTimeInMillis());
 
         dest.writeString(location);
         dest.writeString(description);
@@ -259,6 +260,7 @@ public class ThaliaEvent implements Comparable<ThaliaEvent>, Parcelable {
         public ThaliaEvent createFromParcel(Parcel parcel) {
             Long startDate = parcel.readLong();
             Long endDate = parcel.readLong();
+
             String location = parcel.readString();
             String description = parcel.readString();
             String summary = parcel.readString();
