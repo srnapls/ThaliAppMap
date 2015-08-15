@@ -72,7 +72,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
         events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
             Toast.makeText(this, "Er zijn geen evenementen. \n" +
-                    "Misschien moet je updaten.", Toast.LENGTH_SHORT).show();
+                    "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
             adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
             adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         } else {
