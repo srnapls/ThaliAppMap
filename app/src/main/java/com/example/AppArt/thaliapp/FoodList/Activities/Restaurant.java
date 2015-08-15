@@ -112,15 +112,12 @@ public class Restaurant extends ActionBarActivity {
      * @param v, view of the activity
      */
     public void fries(View v) {
-        Intent intentfriet = new Intent(this, FoodList.class);
-        if (database.getProduct(ProductCategory.FRIES) == null) {
-            Toast.makeText(this, "Jammer :( \nEr zijn geen frietjes.", Toast.LENGTH_LONG).show();
+        Intent i = productIntent(ProductCategory.FRIES);
+        if (i == null) {
+            Toast.makeText(this, "Jammer :( \nEr zijn geen frieten.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentfriet.putExtra("chosen", chosenToString());
-        intentfriet.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.FRIES)));
-        intentfriet.putExtra("amount", amount);
-        startActivity(intentfriet);
+        startActivity(i);
     }
 
     /**
@@ -129,15 +126,12 @@ public class Restaurant extends ActionBarActivity {
      * @param v, view of the activity
      */
     public void pizza(View v) {
-        Intent intentpizza = new Intent(this, FoodList.class);
-        if (database.getProduct(ProductCategory.PIZZA) == null) {
+        Intent i = productIntent(ProductCategory.PIZZA);
+        if (i == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen pizza's.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentpizza.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.PIZZA)));
-        intentpizza.putExtra("chosen", chosenToString());
-        intentpizza.putExtra("amount", amount);
-        startActivity(intentpizza);
+        startActivity(i);
     }
 
     /**
@@ -146,15 +140,12 @@ public class Restaurant extends ActionBarActivity {
      * @param v, view of the activity
      */
     public void snacks(View v) {
-        Intent intentsnacks = new Intent(this, FoodList.class);
-        if (database.getProduct(ProductCategory.SNACKS) == null) {
+        Intent i = productIntent(ProductCategory.SNACKS);
+        if (i == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen snacks.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentsnacks.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SNACKS)));
-        intentsnacks.putExtra("chosen", chosenToString());
-        intentsnacks.putExtra("amount", amount);
-        startActivity(intentsnacks);
+        startActivity(i);
     }
 
     /**
@@ -163,15 +154,26 @@ public class Restaurant extends ActionBarActivity {
      * @param v, the view of the activity
      */
     public void sandwiches(View v) {
-        Intent intentbr = new Intent(this, FoodList.class);
-        if (database.getProduct(ProductCategory.SANDWICHES) == null) {
+        Intent i = productIntent(ProductCategory.SANDWICHES);
+        if (i == null) {
             Toast.makeText(this, "Jammer :( \nEr zijn geen broodjes.", Toast.LENGTH_LONG).show();
             return;
         }
-        intentbr.putExtra("chosen", chosenToString());
-        intentbr.putExtra("foodlist", Product.toStringArray(database.getProduct(ProductCategory.SANDWICHES)));
-        intentbr.putExtra("amount", amount);
-        startActivity(intentbr);
+        startActivity(i);
+    }
+
+    /**
+     * Creates the intent that corresponds with the ProductCategory
+     * @param cat, the product category
+     * @return intent
+     */
+    public Intent productIntent(ProductCategory cat){
+        Intent intent = new Intent(this, FoodList.class);
+        if (database.getProduct(cat) == null) return null;
+        intent.putExtra("chosen", chosenToString());
+        intent.putExtra("foodlist", Product.toStringArray(database.getProduct(cat)));
+        intent.putExtra("amount", amount);
+        return intent;
     }
 
     /**

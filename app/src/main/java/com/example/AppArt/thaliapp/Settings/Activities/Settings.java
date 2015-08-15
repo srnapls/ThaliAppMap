@@ -103,7 +103,7 @@ public class Settings extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class ListFragment extends android.support.v4.app.ListFragment {
-        String[] lijst = new String[]{"Notificaties", "Login", "Update kalender"};
+        String[] lijst = new String[]{"Notificaties", "Login"};
         SharedPreferences sharedpreferences;
 
         public ListFragment() {
@@ -136,9 +136,6 @@ public class Settings extends ActionBarActivity {
                         startActivity(i);
                     }
                     break;
-                case "Update kalender":
-                    Database.getDatabase().updateEvents();
-                    Toast.makeText(this.getActivity(), "Kalender geupdate", LENGTH_SHORT).show();
             }
         }
 
