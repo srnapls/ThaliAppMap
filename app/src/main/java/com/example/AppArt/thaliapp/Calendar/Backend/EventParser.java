@@ -1,7 +1,5 @@
 package com.example.AppArt.thaliapp.Calendar.Backend;
 
-// TODO Frank: dealing-with-asynctask-and-screen-orientation
-
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -146,22 +144,6 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         CETime.setTimeInMillis(GMTime.getTimeInMillis());
         return CETime;
     }
-
-    //TODO: bepalen of dit weg kan, Frank?
-    /*
-    // http://stackoverflow.com/questions/3821423/background-task-progress-dialog-orientation-change-is-there-any-100-working/3821998#3821998
-    private void lockScreenOrientation() {
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-    }
-
-    private void unlockScreenOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-    }*/
 
     /**
      * Getter for new events

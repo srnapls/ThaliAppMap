@@ -22,7 +22,8 @@ public class Database {
     private static Database database = null;
 
     private final String icalAddress
-            = "https://www.thalia.nu/events/ical/feed.ics";
+            = "https://thalia.nu/events/ical/feed.ics";
+
     private final ProductParser productParser;
 
     private List<ThaliaEvent> events;

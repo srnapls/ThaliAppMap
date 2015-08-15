@@ -139,9 +139,6 @@ public class Notifications extends ActionBarActivity {
         nextEventToWarn = select();
     }
 
-    // TODO Frank: Move this to a "confirm" button
-    // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
-    // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -166,7 +163,6 @@ public class Notifications extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //TODO: frank: 'equals()' between objects of inconvertible types String and Editable
             if (minutesBefore.getText() == null || minutesBefore.getText().equals("")) {
                 amountOfTime = 60;
             } else {
@@ -226,10 +222,6 @@ public class Notifications extends ActionBarActivity {
     /**
      * When the setNotification button is clicked, a notification is set
      */
-    // TODO Frank: Move this to a "confirm" button
-    // TODO Frank: Add toast "Om [time] krijg je een notification voor [ThaliaEvent]"
-    // Or toast "Er zijn geen activiteiten waarover je gealarmeerd kan worden"
-    // de huidige toast wordt niet geshowd, is dit de bedoeling?
     public void onSetNotification(View view) {
         if (minutesBefore.getText() == null) {
             amountOfTime = 60;
