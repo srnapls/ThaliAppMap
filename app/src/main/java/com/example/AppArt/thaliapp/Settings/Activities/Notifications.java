@@ -131,7 +131,7 @@ public class Notifications extends ThaliappActivity {
         editor.putBoolean("checkDefault", checkDefault);
         editor.putInt("tijd", amountOfTime);
         editor.putInt("sortTime", chosennumber);
-        editor.commit();
+        editor.apply();
         nextEventToWarn = select();
     }
 

@@ -66,7 +66,7 @@ public class Login extends ThaliappActivity {
         if (s1.equals(inlog) && s2.equals(wachtwoord)) {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putBoolean("access", true);
-            editor.commit();
+            editor.apply();
             Intent i = new Intent(this, Overview.class);
             startActivity(i);
             finish();

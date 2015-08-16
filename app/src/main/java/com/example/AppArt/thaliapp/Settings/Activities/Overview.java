@@ -81,7 +81,7 @@ public class Overview extends ThaliappActivity {
             case R.id.action_logout:
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean("access", false);
-                editor.commit();
+                editor.apply();
                 startActivity(new Intent(this, Settings.class));
                 break;
             default:
