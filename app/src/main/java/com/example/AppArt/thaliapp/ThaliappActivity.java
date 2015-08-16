@@ -1,6 +1,7 @@
 package com.example.AppArt.thaliapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
-import com.example.AppArt.thaliapp.Settings.Activities.Settings;
+import com.example.AppArt.thaliapp.Settings.Activities.Overview;
+import com.example.AppArt.thaliapp.Settings.Activities.Login;
+import com.example.AppArt.thaliapp.Settings.Activities.Notifications;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ import java.util.ArrayList;
  */
 
 public class ThaliappActivity extends Activity {
+    public static final String MyPREFERENCES = "Settings";
 
     /**
      * @param savedInstanceState, saved instances
@@ -74,9 +78,20 @@ public class ThaliappActivity extends Activity {
             case R.id.Restaurant:
                 startActivity(new Intent(this, Restaurant.class));
                 break;
-            case R.id.Settings:
-                startActivity(new Intent(this, Settings.class));
+            case R.id.Notifications:
+                startActivity(new Intent(this, Notifications.class));
                 break;
+            case R.id.Overview: {
+                SharedPreferences p = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                boolean b = p.getBoolean("access", false);
+                if (b) {
+                    Intent i = new Intent(this, Overview.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(this, Login.class);
+                    startActivity(i);
+                }
+            } break;
         }
         return true;
     }

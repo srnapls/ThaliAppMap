@@ -15,10 +15,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/settings"
-        android:orderInCategory="3"
-        app:showAsAction="never" />
+        android:id="@+id/Notifications"
+        android:title="@string/notifications"
+        android:orderInCategory="4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <item
         android:id="@+id/action_clear"
         android:title="Leeg overzicht"

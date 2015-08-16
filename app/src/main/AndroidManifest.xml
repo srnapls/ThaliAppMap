@@ -67,10 +67,6 @@
             android:name="com.example.AppArt.thaliapp.Settings.Activities.Overview"
             android:label="@string/overview" >
         </activity>
-        <activity
-            android:name="com.example.AppArt.thaliapp.Settings.Activities.Settings"
-            android:label="@string/settings">
-        </activity>
 
         <receiver android:name="com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver"/>
     </application>

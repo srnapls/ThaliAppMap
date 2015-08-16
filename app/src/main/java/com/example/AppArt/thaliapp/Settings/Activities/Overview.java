@@ -80,7 +80,7 @@ public class Overview extends ThaliappActivity {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean("access", false);
                 editor.apply();
-                startActivity(new Intent(this, Settings.class));
+                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
