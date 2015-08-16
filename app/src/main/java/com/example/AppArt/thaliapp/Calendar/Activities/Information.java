@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.ListFragment;
-import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,13 +81,12 @@ public class Information extends ThaliappActivity {
          * Fills the screen/ListActivity with the information given from Calendar
          */
         private void fillString() {
-            Html htmlConverter;
             information = new String[4];
-            information[0] = Html.fromHtml(event.getSummary()).toString();
+            information[0] = event.getSummary();
             information[1] = event.duration();
             System.out.println("EoF fillString" + event.duration());
-            information[2] = Html.fromHtml(event.getLocation()).toString();
-            information[3] = Html.fromHtml(event.getDescription()).toString();
+            information[2] = event.getLocation();
+            information[3] = event.getDescription();
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.AppArt.thaliapp.Calendar.Backend;
 
 import android.os.AsyncTask;
+import android.text.Html;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -96,15 +97,15 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         String dump = "";
         // Injectionsensitive
         while (!dump.contains("DTSTAMP")) {
-            description = description.concat(dump);
+            description = description.concat(dump.replaceAll("^\\s+","")); // ltrim
             dump = scan.nextLine();
         }
 
         scan.findWithinHorizon("END:VEVENT", 50);
         Long startDateMS = getGregCalFormat(startDate).getTimeInMillis();
         Long endDateMS = getGregCalFormat(endDate).getTimeInMillis();
-        return (new ThaliaEvent(startDateMS, endDateMS, location, description,
-                summary));
+        return (new ThaliaEvent(startDateMS, endDateMS, fixIcal(location),
+            fixIcal(description), fixIcal(summary)));
     }
 
     /**
@@ -136,6 +137,13 @@ public class EventParser extends AsyncTask<String, Integer, List<ThaliaEvent>> {
         CETime.setTimeInMillis(GMTime.getTimeInMillis());
         return CETime;
     }
+
+    private String fixIcal(String input) {
+        return Html.fromHtml(input).toString()
+                .replace("\\,", ",")
+                .replace("\\n", "\n");
+    }
+
 
     /**
      * Getter for new events
