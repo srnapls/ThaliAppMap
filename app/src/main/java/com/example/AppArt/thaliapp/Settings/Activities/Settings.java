@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +41,7 @@ public class Settings extends ThaliappActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         setContentView(R.layout.activity_instellingen);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, new ListFragment())
                     .commit();
         }
@@ -61,7 +59,7 @@ public class Settings extends ThaliappActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class ListFragment extends android.support.v4.app.ListFragment {
+    public static class ListFragment extends android.app.ListFragment {
         String[] lijst = new String[]{"Notificaties", "Login"};
         SharedPreferences sharedpreferences;
 

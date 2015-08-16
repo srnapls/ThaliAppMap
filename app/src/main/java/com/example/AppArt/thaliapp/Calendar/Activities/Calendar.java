@@ -6,8 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.app.ActionBar;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,7 +84,7 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
         listView.setClickable(true);
         listView.setGroupIndicator(null);
 
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setTitle("Kalender");
     }

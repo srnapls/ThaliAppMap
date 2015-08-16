@@ -6,8 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,7 +44,7 @@ public class Login extends ThaliappActivity {
         name = (EditText) findViewById(R.id.Inlognaam);
         password = (EditText) findViewById(R.id.Wachtwoord);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setTitle("Log in");
     }
