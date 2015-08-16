@@ -25,7 +25,7 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 import com.example.AppArt.thaliapp.ThaliappActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Observer;
 import java.util.Observable;
 
@@ -43,14 +43,6 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
     private MyExpandableListAdapter adapter;
     private SwipeRefreshLayout mSwipeLayout;
     private ProgressDialog progress = null;
-
-    /**
-     * calls this method on start
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     /**
      * @param savedInstanceState, saved instances
@@ -71,7 +63,7 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
 
         Database.getDatabase().addObserver(this);
 
-        ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        List<ThaliaEvent> events = Database.getDatabase().getEvents();
         if (events == null) {
             //Toast.makeText(this, "Er zijn geen evenementen. \n" +
             //        "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
@@ -92,7 +84,7 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
     }
 
     /**
-     * Method to refresh the ArrayList when swiped up, in case of refreshing and the events are still empty
+     * Method to refresh the List when swiped up, in case of refreshing and the events are still empty
      * there has most likely been an error on the server side
      */
     public void onRefresh() {
@@ -109,14 +101,14 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
         if (progress != null) {
             progress.dismiss();
         }
-        ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        List<ThaliaEvent> events = Database.getDatabase().getEvents();
         adapter.setData(createData(events), makeCategories(events));
     }
 
     /**
-     * Method to fill the ArrayList, such that it is sorted on day
+     * Method to fill the List, such that it is sorted on day
      */
-    private SparseArray<Group> createData(ArrayList<ThaliaEvent> events) {
+    private SparseArray<Group> createData(List<ThaliaEvent> events) {
         SparseArray<Group> groups = new SparseArray<>();
         int j = 0, i = 0;
         while (i < events.size()) {
@@ -137,7 +129,7 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
     /**
      * Makes a stringarray and fills it with the Categories
      */
-    private EventCategory[] makeCategories(ArrayList<ThaliaEvent> events) {
+    private EventCategory[] makeCategories(List<ThaliaEvent> events) {
         EventCategory[] kindOfEvent = new EventCategory[events.size()];
         for (int i = 0; i < kindOfEvent.length; i++) {
             kindOfEvent[i] = events.get(i).getCategory();

@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
+import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
@@ -233,10 +234,11 @@ public class Notifications extends ThaliappActivity {
         timeString.append(" om ");
         timeString.append(gregCal.get(java.util.Calendar.HOUR_OF_DAY));
         timeString.append(":");
-        if (gregCal.get(java.util.Calendar.MINUTE) == 0) {
-            timeString.append("00");
+        int minute = gregCal.get(java.util.Calendar.MINUTE);
+        if (minute < 10) {
+            timeString.append("0" + minute);
         } else {
-            timeString.append(gregCal.get(java.util.Calendar.MINUTE));
+            timeString.append(minute);
         }
         return timeString.toString();
     }
@@ -259,39 +261,15 @@ public class Notifications extends ThaliappActivity {
         if (allEvents != null) {
             // Adding all possible ThaliaEvents that meet the requirements
             for (int i = 0; i < allEvents.size(); i++) {
-                switch (allEvents.get(i).getCategory()) {
-                    case BORREL:
-                        if (checkBorrel) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case LECTURE:
-                        if (checkLecture) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case ALV:
-                        if (checkALV) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case PARTY:
-                        if (checkParty) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case WORKSHOP:
-                        if (checkWorkshop) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case DEFAULT:
-                        if (checkDefault) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    default:
-                        break;
+                EventCategory c = allEvents.get(i).getCategory();
+                if ((c == EventCategory.BORREL   && checkBorrel)  ||
+                    (c == EventCategory.LECTURE  && checkLecture) ||
+                    (c == EventCategory.ALV      && checkALV)     ||
+                    (c == EventCategory.PARTY    && checkParty)   ||
+                    (c == EventCategory.WORKSHOP && checkWorkshop)||
+                    (c == EventCategory.DEFAULT  && checkDefault)) {
+
+                    interestedEvents.add(allEvents.get(i));
                 }
             }
             Collections.sort(interestedEvents);
