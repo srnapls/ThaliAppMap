@@ -41,9 +41,6 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
 
 public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnRefreshListener {
     private MyExpandableListAdapter adapter;
-    private SparseArray<Group> groups = new SparseArray<>();
-    private ArrayList<ThaliaEvent> events;
-    private EventCategory[] kindOfEvent;
     private SwipeRefreshLayout mSwipeLayout;
 
     /**
@@ -71,21 +68,18 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
                 R.color.darkpink
         );
 
-        events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
             Toast.makeText(this, "Er zijn geen evenementen. \n" +
                     "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
-            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+            adapter = new MyExpandableListAdapter(this, new SparseArray<Group>(), null);
         } else {
-            createData();
-            makeCategories();
-            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
-            listView.setAdapter(adapter);
-            listView.setClickable(true);
-            listView.setGroupIndicator(null);
+            adapter = new MyExpandableListAdapter(this, createData(events), makeCategories(events));
         }
+        adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+        listView.setGroupIndicator(null);
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
@@ -104,15 +98,15 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
             Toast.makeText(this, "Kalender geüpdatet", LENGTH_SHORT).show();
         }
         mSwipeLayout.setRefreshing(false);
-        Intent intent1 = new Intent(this, Calendar.class);
-        startActivity(intent1);
-        this.finish();
+        ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        adapter.setData(createData(events), makeCategories(events));
     }
 
     /**
      * Method to fill the ArrayList, such that it is sorted on day
      */
-    private void createData() {
+    private SparseArray<Group> createData(ArrayList<ThaliaEvent> events) {
+        SparseArray<Group> groups = new SparseArray<>();
         int j = 0, i = 0;
         while (i < events.size()) {
             ThaliaEvent t = events.get(i);
@@ -126,15 +120,17 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
             groups.append(j, group);
             j++;
         }
+        return groups;
     }
 
     /**
      * Makes a stringarray and fills it with the Categories
      */
-    private void makeCategories() {
-        kindOfEvent = new EventCategory[events.size()];
+    private EventCategory[] makeCategories(ArrayList<ThaliaEvent> events) {
+        EventCategory[] kindOfEvent = new EventCategory[events.size()];
         for (int i = 0; i < kindOfEvent.length; i++) {
             kindOfEvent[i] = events.get(i).getCategory();
         }
+        return kindOfEvent;
     }
 }
