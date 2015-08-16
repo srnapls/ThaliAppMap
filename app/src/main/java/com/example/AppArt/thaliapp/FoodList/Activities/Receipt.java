@@ -105,22 +105,6 @@ public class Receipt extends ThaliappActivity {
     }
 
     /**
-     * Return to restaurant when going back
-     *
-     * @param keyCode, the key code
-     * @param event,   the event
-     * @return the boolean
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            startActivity(new Intent(this, Restaurant.class));
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /**
      * A placeholder fragment containing a simple view.
      */
     public static class ReceiptFragment extends ListFragment {

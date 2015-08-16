@@ -46,31 +46,6 @@ public class Information extends ThaliappActivity {
     }
 
     /**
-     * Returns to calendar
-     *
-     * @param keyCode, the key code
-     * @param event,   the event of the key
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent i = new Intent(this, Calendar.class);
-            startActivity(i);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * returns to calendar
-     */
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(this,Calendar.class));
-    }
-
-    /**
      * A placeholder fragment containing a simple view.
      */
     public static class EventFragment extends ListFragment {

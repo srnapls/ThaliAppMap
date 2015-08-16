@@ -135,8 +135,7 @@ public class Notifications extends ThaliappActivity {
         nextEventToWarn = select();
     }
 
-    //TODO Serena: deze en de volgende functie zijn ambigu. Bovendien moeten ze
-    // geen notificatie zetten.
+    //TODO Serena: Deze functie moet misschien geen notificatie zetten
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -147,34 +146,8 @@ public class Notifications extends ThaliappActivity {
         }
         savePreferences();
         createNotification();
-        Intent i = new Intent(this, Settings.class);
-        startActivity(i);
-        finish();
     }
 
-    /**
-     * what happens when the back key is pressed
-     * @param keyCode, the key code
-     * @param event, the key event
-     * @return if action has succeeded
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (timeBefore.getText() == null || timeBefore.getText().equals("")) {
-                amountOfTime = 60;
-            } else {
-                amountOfTime = Integer.parseInt(timeBefore.getText().toString());
-            }
-            createNotification();
-            savePreferences();
-            Intent i = new Intent(this, Settings.class);
-            startActivity(i);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     /**
      * When the setNotification button is clicked, a notification is set

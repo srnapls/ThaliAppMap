@@ -54,25 +54,18 @@ public class FoodList extends ListActivity {
 
     /**
      * If you go back, go to restaurant
-     *
-     * @param keyCode, the key code
-     * @param event, the event of the key being pressed
-     * @return whether this succeeded
      */
     @Override
-    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            String[] all = new String[chosen.size()];
-            for (int i = 0; i < chosen.size(); i++) {
-                all[i] = chosen.get(i);
-            }
-            Intent i = new Intent(this, Restaurant.class);
-            i.putExtra("chosenfood", all);
-            i.putExtra("chosenamount", amount);
-            startActivity(i);
-            return true;
+    public void onBackPressed() {
+        String[] all = new String[chosen.size()];
+        for (int i = 0; i < chosen.size(); i++) {
+            all[i] = chosen.get(i);
         }
-        return super.onKeyDown(keyCode, event);
+        Intent i = new Intent(this, Restaurant.class);
+        i.putExtra("chosenfood", all);
+        i.putExtra("chosenamount", amount);
+        startActivity(i);
+        finish();
     }
 
     /**
