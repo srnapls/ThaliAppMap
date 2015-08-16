@@ -28,6 +28,8 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 import com.example.AppArt.thaliapp.ThaliappActivity;
 
 import java.util.ArrayList;
+import java.util.Observer;
+import java.util.Observable;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.AppArt.thaliapp.R.id.ListView;
@@ -39,7 +41,7 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnRefreshListener, Observer {
     private MyExpandableListAdapter adapter;
     private SwipeRefreshLayout mSwipeLayout;
 
@@ -68,6 +70,8 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
                 R.color.darkpink
         );
 
+        Database.getDatabase().addObserver(this);
+
         ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
             Toast.makeText(this, "Er zijn geen evenementen. \n" +
@@ -92,6 +96,9 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
      */
     public void onRefresh() {
         Database.getDatabase().updateEvents();
+    }
+
+    public void update(Observable db, Object r) {
         if (Database.getDatabase().getEvents() == null) {
             Toast.makeText(this, "Er is een fout opgetreden, probeer later opniew", LENGTH_SHORT).show();
         } else {
