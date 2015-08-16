@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +42,7 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
 public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnRefreshListener, Observer {
     private MyExpandableListAdapter adapter;
     private SwipeRefreshLayout mSwipeLayout;
+    private ProgressDialog progress = null;
 
     /**
      * calls this method on start
@@ -71,8 +73,10 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
 
         ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         if (events == null) {
-            Toast.makeText(this, "Er zijn geen evenementen. \n" +
-                    "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Er zijn geen evenementen. \n" +
+            //        "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
+            progress = ProgressDialog.show(this, null, "Evenementen aan het laden", true);
+            Database.getDatabase().updateEvents();
             adapter = new MyExpandableListAdapter(this, new SparseArray<Group>(), null);
         } else {
             adapter = new MyExpandableListAdapter(this, createData(events), makeCategories(events));
@@ -102,6 +106,9 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
             Toast.makeText(this, "Kalender geüpdatet", LENGTH_SHORT).show();
         }
         mSwipeLayout.setRefreshing(false);
+        if (progress != null) {
+            progress.dismiss();
+        }
         ArrayList<ThaliaEvent> events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
         adapter.setData(createData(events), makeCategories(events));
     }
