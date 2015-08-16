@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.ThaliappActivity;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
@@ -23,7 +24,7 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Receipt extends ActionBarActivity {
+public class Receipt extends ThaliappActivity {
 
     private String[] chosen;
     private Double amount;
@@ -77,10 +78,6 @@ public class Receipt extends ActionBarActivity {
         } else {
             all[size - 1] = Double.toString(amount);
         }
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
     /**

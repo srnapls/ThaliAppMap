@@ -25,6 +25,8 @@ import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
+import com.example.AppArt.thaliapp.ThaliappActivity;
+
 import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -37,7 +39,7 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnRefreshListener {
     private MyExpandableListAdapter adapter;
     private SparseArray<Group> groups = new SparseArray<>();
     private ArrayList<ThaliaEvent> events;
@@ -87,44 +89,7 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle("Kalender");
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, menu that needs to be made
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will automatically
-     * handle clicks on the Home/Up button, as long as you specify a parent
-     * activity in AndroidManifest.xml.
-     *
-     * @param item on which is clicked
-     * @return The action has prevailed!
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Food:
-                startActivity(new Intent(this, Restaurant.class));
-                break;
-            case R.id.Settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-        }
-        return true;
     }
 
     /**

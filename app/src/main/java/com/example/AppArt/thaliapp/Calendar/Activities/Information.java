@@ -17,16 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.example.AppArt.thaliapp.ThaliappActivity;
+
+
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 
 /**
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Information extends ActionBarActivity {
+public class Information extends ThaliappActivity {
 
     /**
      * Creates the actionbar and fragments
@@ -42,48 +43,6 @@ public class Information extends ActionBarActivity {
                     .add(R.id.container, new EventFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, menu that needs to be created
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_information, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will automatically
-     * handle clicks on the Home/Up button, as long as you specify a parent
-     * activity in AndroidManifest.xml.
-     *
-     * @param item on which is clicked
-     * @return The action has prevailed!
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Calendar:
-                startActivity(new Intent(this, Calendar.class));
-                break;
-            case R.id.Restaurant:
-                startActivity(new Intent(this, Restaurant.class));
-                break;
-            case R.id.Settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-        }
-        return true;
     }
 
     /**

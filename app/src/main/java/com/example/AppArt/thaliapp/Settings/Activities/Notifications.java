@@ -24,12 +24,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
+import com.example.AppArt.thaliapp.ThaliappActivity;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +46,7 @@ import java.util.TimeZone;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Notifications extends ActionBarActivity {
+public class Notifications extends ThaliappActivity {
     public static final String MyPREFERENCES = "Settings";
     private EditText timeBefore;
     private int amountOfTime = 60;
@@ -84,10 +84,6 @@ public class Notifications extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timespinner.setAdapter(adapter);
 
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
         setBoxes();
     }
 
@@ -178,47 +174,6 @@ public class Notifications extends ActionBarActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, the menu that will be created
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_notifications, menu);
-        return true;
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item, that was clicked
-     * @return true
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Calendar:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
-                break;
-            case R.id.Restaurant:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.Settings:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
-                break;
-        }
-        return true;
     }
 
     /**
