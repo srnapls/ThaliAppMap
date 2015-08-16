@@ -18,8 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
+import com.example.AppArt.thaliapp.ThaliappActivity;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
@@ -31,7 +30,7 @@ import static android.widget.Toast.LENGTH_SHORT;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Settings extends ActionBarActivity {
+public class Settings extends ThaliappActivity {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "Settings";
 
@@ -48,10 +47,6 @@ public class Settings extends ActionBarActivity {
                     .add(R.id.container, new ListFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
     /**
@@ -61,42 +56,6 @@ public class Settings extends ActionBarActivity {
      */
     public SharedPreferences getSharedpreferences() {
         return sharedpreferences;
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, the menu that needs to be created
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_settings, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item, that was clicked
-     * @return if action succeeded
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Calendar:
-                startActivity(new Intent(this, Calendar.class));
-                break;
-            case R.id.Restaurant:
-                startActivity(new Intent(this, Restaurant.class));
-                break;
-        }
-        return true;
     }
 
     /**
