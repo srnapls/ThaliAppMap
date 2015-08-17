@@ -40,6 +40,7 @@ public class Information extends ThaliappActivity {
                     .add(R.id.container, new EventFragment())
                     .commit();
         }
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /**

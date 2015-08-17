@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.ThaliappActivity;
+import com.example.AppArt.thaliapp.ThaliappDrawerActivity;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
@@ -28,7 +28,7 @@ import java.util.List;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Overview extends ThaliappActivity {
+public class Overview extends ThaliappDrawerActivity {
 
 
     SharedPreferences sharedpreferences;
@@ -47,6 +47,7 @@ public class Overview extends ThaliappActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        prepareDrawer();
     }
 
     /**
@@ -75,6 +76,7 @@ public class Overview extends ThaliappActivity {
             case R.id.action_clear:
                 Database.getDatabase().emptyReceipts();
                 startActivity(new Intent(this, Overview.class));
+                finish();
                 break;
             case R.id.action_logout:
                 SharedPreferences.Editor editor = sharedpreferences.edit();

@@ -15,7 +15,7 @@ import com.example.AppArt.thaliapp.FoodList.Backend.Product;
 import com.example.AppArt.thaliapp.FoodList.Backend.ProductCategory;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
-import com.example.AppArt.thaliapp.ThaliappActivity;
+import com.example.AppArt.thaliapp.ThaliappDrawerActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ import java.util.Collections;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Restaurant extends ThaliappActivity {
+public class Restaurant extends ThaliappDrawerActivity {
     private String name;
     private EditText editName;
     private ArrayList<String> chosen = new ArrayList<>();
@@ -57,6 +57,8 @@ public class Restaurant extends ThaliappActivity {
                 break;
             }
         }
+
+        prepareDrawer();
     }
 
     /**

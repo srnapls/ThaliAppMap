@@ -31,4 +31,7 @@
     <string name="amount">Totaalbedrag</string>
     <string name="Notificationsdeel1">Tijd voor ontvangen:</string>
     <string name="Notificationsdeel2">minuten</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

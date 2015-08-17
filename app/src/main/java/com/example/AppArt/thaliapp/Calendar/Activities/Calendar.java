@@ -23,7 +23,7 @@ import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
-import com.example.AppArt.thaliapp.ThaliappActivity;
+import com.example.AppArt.thaliapp.ThaliappDrawerActivity;
 
 import java.util.List;
 import java.util.Observer;
@@ -39,7 +39,7 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnRefreshListener, Observer {
+public class Calendar extends ThaliappDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, Observer {
     private MyExpandableListAdapter adapter;
     private SwipeRefreshLayout mSwipeLayout;
     private ProgressDialog progress = null;
@@ -81,6 +81,8 @@ public class Calendar extends ThaliappActivity implements SwipeRefreshLayout.OnR
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setTitle("Kalender");
+
+        prepareDrawer();
     }
 
     /**
