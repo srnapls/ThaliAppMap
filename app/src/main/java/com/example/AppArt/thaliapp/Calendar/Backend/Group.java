@@ -12,7 +12,7 @@ import java.util.List;
  * Hulp class for MyExpendableListAdapter to make the view of calendar pleasing
  */
 public class Group {
-    public final List<String> children = new ArrayList<>();
+    public final List<ThaliaEvent> children = new ArrayList<>();
     public String s;
 
     public Group(String string) {

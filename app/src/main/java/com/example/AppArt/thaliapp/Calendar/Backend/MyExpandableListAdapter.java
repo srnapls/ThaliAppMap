@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Calendar.Activities.Information;
@@ -25,24 +26,20 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Calendar activity;
-    private EventCategory[] info;
 
     /**
      *
      * @param calendar the calendar where it will be placed
      * @param groups the groups of the list
-     * @param info ,information of the categories; needed for images
      */
-    public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groups, EventCategory[] info) {
+    public MyExpandableListAdapter(Calendar calendar, SparseArray<Group> groups) {
         this.groups = groups;
         activity = calendar;
         inflater = calendar.getLayoutInflater();
-        this.info = info;
     }
 
-    public void setData(SparseArray<Group> groups, EventCategory[] info) {
+    public void setData(SparseArray<Group> groups) {
         this.groups = groups;
-        this.info = info;
         notifyDataSetChanged();
 
     }
@@ -57,35 +54,32 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getGroupId(int groupPosition) {
-        return 0;
+        return groupPosition << 16;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+        return (groupPosition << 16) | childPosition;
     }
 
     @Override
     public View getChildView(final int grouppos, final int childpos, boolean isLastChild, View convertView, final ViewGroup parent) {
-        final String children = (String) getChild(grouppos, childpos);
+        final ThaliaEvent children = (ThaliaEvent) getChild(grouppos, childpos);
         TextView text;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_details, null);
+            convertView = inflater.inflate(R.layout.listrow_details, parent, false);
         }
-        int plaats = index(grouppos, childpos);
+        final int plaats = index(grouppos, childpos);
         text = (TextView) convertView.findViewById(R.id.textView1);
-        text.setText(children);
-        if (info != null) {
-            text.setCompoundDrawablesWithIntrinsicBounds(picture(info[plaats]), 0, 0, 0);
-        } else {
-            text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.overigicoon, 0, 0, 0);
-        } //An onclicklistener when a child is pressed, to go to the Information
+        text.setText(children.makeSynopsis());
+        ImageView img = (ImageView) convertView.findViewById(R.id.rowicon);
+        img.setImageResource(children.getCatIcon());
+        //An onclicklistener when a child is pressed, to go to the Information
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int i = index(grouppos, childpos);
                 Intent intent = new Intent(v.getContext(), Information.class);
-                intent.putExtra("event", Database.getDatabase().getEvents().get(i));
+                intent.putExtra("event", Database.getDatabase().getEvents().get(plaats));
                 v.getContext().startActivity(intent);
             }
         });
@@ -108,23 +102,12 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public void onGroupCollapsed(int groupPosition) {
-        super.onGroupCollapsed(groupPosition);
-    }
-
-    @Override
-    public void onGroupExpanded(int groupPosition) {
-        super.onGroupExpanded(groupPosition);
-    }
-
-    @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_group, null);
+            convertView = inflater.inflate(R.layout.listrow_group, parent, false);
         }
         Group group = (Group) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(group.s);
-        ((CheckedTextView) convertView).setChecked(isExpanded);
+        ((TextView) convertView).setText(group.s);
         return convertView;
     }
 

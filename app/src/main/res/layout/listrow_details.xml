@@ -3,28 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="wrap_content"
     android:clickable="true"
-    android:orientation="vertical"
-    android:paddingLeft="40dp"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     tools:context=".Calendar">
     <ImageView
         android:id="@+id/rowicon"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginRight="6dip"/>
+        android:layout_marginRight="6dip"
+        android:src="@drawable/overigicoon" />
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@mipmap/ic_launcher"
-        android:drawablePadding="5dp"
         android:gravity="center_vertical"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
         android:textStyle="bold">
         </TextView>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"/>
 </LinearLayout>

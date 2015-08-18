@@ -69,14 +69,17 @@ public class Calendar extends ThaliappDrawerActivity implements SwipeRefreshLayo
             //        "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
             progress = ProgressDialog.show(this, null, "Evenementen aan het laden", true);
             Database.getDatabase().updateEvents();
-            adapter = new MyExpandableListAdapter(this, new SparseArray<Group>(), null);
+            adapter = new MyExpandableListAdapter(this, new SparseArray<Group>());
         } else {
-            adapter = new MyExpandableListAdapter(this, createData(events), makeCategories(events));
+            adapter = new MyExpandableListAdapter(this, createData(events));
         }
         adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
         listView.setAdapter(adapter);
         listView.setClickable(true);
         listView.setGroupIndicator(null);
+        for (int i = 0; i < adapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
 
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
@@ -104,7 +107,11 @@ public class Calendar extends ThaliappDrawerActivity implements SwipeRefreshLayo
             progress.dismiss();
         }
         List<ThaliaEvent> events = Database.getDatabase().getEvents();
-        adapter.setData(createData(events), makeCategories(events));
+        adapter.setData(createData(events));
+        ExpandableListView listView = (ExpandableListView) findViewById(ListView);
+        for (int i = 0; i < adapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
     }
 
     /**
@@ -116,10 +123,10 @@ public class Calendar extends ThaliappDrawerActivity implements SwipeRefreshLayo
         while (i < events.size()) {
             ThaliaEvent t = events.get(i);
             Group group = new Group(t.getDateString());
-            group.children.add(events.get(i).makeSynopsis());
+            group.children.add(events.get(i));
             i++;
             while (i < events.size() && events.get(i).getDateString().equals(t.getDateString())) {
-                group.children.add(events.get(i).makeSynopsis());
+                group.children.add(events.get(i));
                 i++;
             }
             groups.append(j, group);
@@ -128,14 +135,4 @@ public class Calendar extends ThaliappDrawerActivity implements SwipeRefreshLayo
         return groups;
     }
 
-    /**
-     * Makes a stringarray and fills it with the Categories
-     */
-    private EventCategory[] makeCategories(List<ThaliaEvent> events) {
-        EventCategory[] kindOfEvent = new EventCategory[events.size()];
-        for (int i = 0; i < kindOfEvent.length; i++) {
-            kindOfEvent[i] = events.get(i).getCategory();
-        }
-        return kindOfEvent;
-    }
 }
