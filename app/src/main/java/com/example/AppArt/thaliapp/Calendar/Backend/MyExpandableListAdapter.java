@@ -179,19 +179,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
      * @return the indexposition
      */
     private int index(int grouppos, int childpos) {
-        int i = 0, j = 0, p;
-        while (j < getGroupCount()) {
-            p = 0;
-            while (p < getChildrenCount(j)) {
-                if (j == grouppos && p == childpos) {
-                    break;
-                }
-                p++;
-                i++;
-            }
-            if (j == grouppos && p == childpos)
-                break;
-            j++;
+        int i = childpos;
+        for (int j = 0; j < grouppos; j++) {
+            i += getChildrenCount(j);
         }
         return i;
     }
