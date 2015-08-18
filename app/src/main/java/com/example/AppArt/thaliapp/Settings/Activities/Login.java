@@ -47,6 +47,7 @@ public class Login extends ThaliappActivity {
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setTitle("Log in");
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

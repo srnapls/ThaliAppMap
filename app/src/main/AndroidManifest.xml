@@ -63,7 +63,12 @@
         <!-- Settings -->
         <activity
             android:name="com.example.AppArt.thaliapp.Settings.Activities.Login"
-            android:label="@string/login" >
+            android:label="@string/login"
+            android:parentActivityName="com.example.AppArt.thaliapp.FoodList.Activities.Restaurant">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.AppArt.thaliapp.FoodList.Activities.Restaurant" />
         </activity>
         <activity
             android:name="com.example.AppArt.thaliapp.Settings.Activities.Notifications"
