@@ -10,7 +10,6 @@
     <string name="login">Inloggen</string>
     <string name="notifications">Notificaties</string>
     <string name="overview">Overzicht</string>
-    <string name="settings">Instellingen</string>
 
     <!-- Product categories -->
     <string name="fries">Friet</string>
@@ -32,4 +31,7 @@
     <string name="amount">Totaalbedrag</string>
     <string name="Notificationsdeel1">Tijd voor ontvangen:</string>
     <string name="Notificationsdeel2">minuten</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

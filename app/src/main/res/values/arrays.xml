@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="notifications_array">
-        <item>minuten</item>
+        <item>@string/Notificationsdeel2</item>
         <item>uren</item>
         <item>dagen</item>
     </string-array>

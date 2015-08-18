@@ -6,8 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,8 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
-import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
+import com.example.AppArt.thaliapp.ThaliappActivity;
+
 import com.example.AppArt.thaliapp.R;
 
 /**
@@ -25,7 +24,7 @@ import com.example.AppArt.thaliapp.R;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Login extends ActionBarActivity {
+public class Login extends ThaliappActivity {
 
     private final String inlog = "admin";
     private final String wachtwoord = "admin";
@@ -45,54 +44,12 @@ public class Login extends ActionBarActivity {
         name = (EditText) findViewById(R.id.Inlognaam);
         password = (EditText) findViewById(R.id.Wachtwoord);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getActionBar();
         assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle("Log in");
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, the menu that needs to be created
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_login, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item, the item in the menu
-     * @return if the action succeeded
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Calendar:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
-                break;
-            case R.id.Restaurant:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.Settings:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
-                break;
-        }
-        return true;
-    }
 
     /**
      * Function that is called when you click on the button Send,
@@ -108,7 +65,7 @@ public class Login extends ActionBarActivity {
         if (s1.equals(inlog) && s2.equals(wachtwoord)) {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putBoolean("access", true);
-            editor.commit();
+            editor.apply();
             Intent i = new Intent(this, Overview.class);
             startActivity(i);
             finish();

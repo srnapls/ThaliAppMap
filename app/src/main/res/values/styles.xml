@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style
-        parent="Theme.AppCompat.Light.DarkActionBar"
-        name="AppTheme">
-        <item name="actionBarStyle">@style/MyActionBar</item>
+    <style name="AppTheme"
+        parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
 
-    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:colorBackground">@color/thaliapink</item>
+    <style
+    	name="MyActionBar"
+    	parent="android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/thaliapink</item>
     </style>
 
 </resources>

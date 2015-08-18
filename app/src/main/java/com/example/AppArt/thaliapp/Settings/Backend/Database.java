@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import java.util.Observable;
+
 /**
  * Class using Singleton pattern that stores all parsed data.
  * Makes parsed data accessible for every class in the project.
@@ -18,7 +20,7 @@ import java.util.List;
  *
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
-public class Database {
+public class Database extends Observable {
     private static Database database = null;
 
     private final String icalAddress
@@ -86,16 +88,18 @@ public class Database {
      */
     public void updateEvents() {
         // icalAddress
-        EventParser eventParser = new EventParser();
+        EventParser eventParser = new DBEventGetter();
         eventParser.execute(icalAddress);
-        try{
-            Thread.sleep(4000);
-            events = eventParser.getNewEvents();
-        } catch(InterruptedException ex){
-            ex.printStackTrace();
+    }
+
+    class DBEventGetter extends EventParser {
+        @Override
+        protected void onPostExecute(List<ThaliaEvent> e) {
+            events = e;
+            setChanged();
+            notifyObservers();
+            clearChanged();
         }
-        events = eventParser.getNewEvents();
-        System.out.println("updateEvents end");
     }
 
     /**

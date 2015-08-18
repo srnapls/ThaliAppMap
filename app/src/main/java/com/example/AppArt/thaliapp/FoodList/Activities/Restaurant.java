@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,12 +11,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.FoodList.Backend.Product;
 import com.example.AppArt.thaliapp.FoodList.Backend.ProductCategory;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
+import com.example.AppArt.thaliapp.ThaliappDrawerActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +26,7 @@ import java.util.Collections;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Restaurant extends ActionBarActivity {
+public class Restaurant extends ThaliappDrawerActivity {
     private String name;
     private EditText editName;
     private ArrayList<String> chosen = new ArrayList<>();
@@ -40,11 +37,6 @@ public class Restaurant extends ActionBarActivity {
     protected void onCreate(Bundle savedInstancesharedpreferences) {
         super.onCreate(savedInstancesharedpreferences);
         setContentView(R.layout.activity_restaurant);
-
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
 
         editName = (EditText) findViewById(R.id.editText);
 
@@ -65,44 +57,8 @@ public class Restaurant extends ActionBarActivity {
                 break;
             }
         }
-    }
 
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, the menu that is there
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_restaurant, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item, that was clicked on
-     * @return true
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Calendar:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
-                break;
-            case R.id.Settings:
-                Intent intent3 = new Intent(this, Settings.class);
-                startActivity(intent3);
-                break;
-        }
-        return true;
+        prepareDrawer();
     }
 
     /**

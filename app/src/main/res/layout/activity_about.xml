@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="100dp"
+    android:background="@color/thaliapink"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_gravity="center"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/thalialogo"></ImageView>
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_gravity="center"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/appartlogo"></ImageView>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/Naam"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="ThaliApp" />
+        <TextView
+            android:id="@+id/Auteur"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Team AppArt" />
+        <TextView
+            android:id="@+id/Namen"
+            android:gravity="center"
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:textColor="@android:color/white"
+            android:text="Frank Gerlings\nLisa Kalse\nYorick van Pelt\nSerena Rietbergen" />
+        <TextView
+            android:id="@+id/Link"
+            android:gravity="center"
+            android:layout_height="20dp"
+            android:layout_width="match_parent"
+            android:autoLink="web"
+            android:textColor="@android:color/white"
+            android:text="http://github.com/srnapls/ThaliAppMap" />
+
+</LinearLayout>

@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.app.ListFragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.AppArt.thaliapp.R;
+import com.example.AppArt.thaliapp.ThaliappActivity;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 /**
@@ -23,7 +22,7 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Receipt extends ActionBarActivity {
+public class Receipt extends ThaliappActivity {
 
     private String[] chosen;
     private Double amount;
@@ -41,7 +40,7 @@ public class Receipt extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bon);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, new ReceiptFragment())
                     .commit();
         }
@@ -77,10 +76,6 @@ public class Receipt extends ActionBarActivity {
         } else {
             all[size - 1] = Double.toString(amount);
         }
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
     }
 
     /**
@@ -105,22 +100,6 @@ public class Receipt extends ActionBarActivity {
         intent.putExtra("amount", 0.0);
         intent.putExtra("name", (String) null);
         startActivity(intent);
-    }
-
-    /**
-     * Return to restaurant when going back
-     *
-     * @param keyCode, the key code
-     * @param event,   the event
-     * @return the boolean
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            startActivity(new Intent(this, Restaurant.class));
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     /**

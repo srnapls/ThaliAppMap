@@ -22,7 +22,7 @@ import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
-    private final SparseArray<Group> groups;
+    private SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Calendar activity;
     private EventCategory[] info;
@@ -38,6 +38,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         activity = calendar;
         inflater = calendar.getLayoutInflater();
         this.info = info;
+    }
+
+    public void setData(SparseArray<Group> groups, EventCategory[] info) {
+        this.groups = groups;
+        this.info = info;
+        notifyDataSetChanged();
+
     }
 
     /*****************************************************************

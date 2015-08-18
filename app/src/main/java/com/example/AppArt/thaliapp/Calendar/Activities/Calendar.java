@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +20,14 @@ import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.Calendar.Backend.Group;
 import com.example.AppArt.thaliapp.Calendar.Backend.MyExpandableListAdapter;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.R;
-import com.example.AppArt.thaliapp.Settings.Activities.Settings;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
-import java.util.ArrayList;
+import com.example.AppArt.thaliapp.ThaliappDrawerActivity;
+
+import java.util.List;
+import java.util.Observer;
+import java.util.Observable;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.AppArt.thaliapp.R.id.ListView;
@@ -37,20 +39,10 @@ import static com.example.AppArt.thaliapp.R.id.ListView;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Calendar extends ThaliappDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, Observer {
     private MyExpandableListAdapter adapter;
-    private SparseArray<Group> groups = new SparseArray<>();
-    private ArrayList<ThaliaEvent> events;
-    private EventCategory[] kindOfEvent;
     private SwipeRefreshLayout mSwipeLayout;
-
-    /**
-     * calls this method on start
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
+    private ProgressDialog progress = null;
 
     /**
      * @param savedInstanceState, saved instances
@@ -69,85 +61,57 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
                 R.color.darkpink
         );
 
-        events = (ArrayList<ThaliaEvent>) Database.getDatabase().getEvents();
+        Database.getDatabase().addObserver(this);
+
+        List<ThaliaEvent> events = Database.getDatabase().getEvents();
         if (events == null) {
-            Toast.makeText(this, "Er zijn geen evenementen. \n" +
-                    "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
-            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+            //Toast.makeText(this, "Er zijn geen evenementen. \n" +
+            //        "Swipe om te updaten.", Toast.LENGTH_SHORT).show();
+            progress = ProgressDialog.show(this, null, "Evenementen aan het laden", true);
+            Database.getDatabase().updateEvents();
+            adapter = new MyExpandableListAdapter(this, new SparseArray<Group>(), null);
         } else {
-            createData();
-            makeCategories();
-            adapter = new MyExpandableListAdapter(this, groups, kindOfEvent);
-            adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
-            listView.setAdapter(adapter);
-            listView.setClickable(true);
-            listView.setGroupIndicator(null);
+            adapter = new MyExpandableListAdapter(this, createData(events), makeCategories(events));
         }
+        adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+        listView.setGroupIndicator(null);
 
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getActionBar();
         assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle("Kalender");
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
+
+        prepareDrawer();
     }
 
     /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, menu that needs to be made
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_calendar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will automatically
-     * handle clicks on the Home/Up button, as long as you specify a parent
-     * activity in AndroidManifest.xml.
-     *
-     * @param item on which is clicked
-     * @return The action has prevailed!
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Food:
-                startActivity(new Intent(this, Restaurant.class));
-                break;
-            case R.id.Settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
-        }
-        return true;
-    }
-
-    /**
-     * Method to refresh the ArrayList when swiped up, in case of refreshing and the events are still empty
+     * Method to refresh the List when swiped up, in case of refreshing and the events are still empty
      * there has most likely been an error on the server side
      */
     public void onRefresh() {
         Database.getDatabase().updateEvents();
+    }
+
+    public void update(Observable db, Object r) {
         if (Database.getDatabase().getEvents() == null) {
             Toast.makeText(this, "Er is een fout opgetreden, probeer later opniew", LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Kalender geüpdatet", LENGTH_SHORT).show();
         }
         mSwipeLayout.setRefreshing(false);
-        Intent intent1 = new Intent(this, Calendar.class);
-        startActivity(intent1);
-        this.finish();
+        if (progress != null) {
+            progress.dismiss();
+        }
+        List<ThaliaEvent> events = Database.getDatabase().getEvents();
+        adapter.setData(createData(events), makeCategories(events));
     }
 
     /**
-     * Method to fill the ArrayList, such that it is sorted on day
+     * Method to fill the List, such that it is sorted on day
      */
-    private void createData() {
+    private SparseArray<Group> createData(List<ThaliaEvent> events) {
+        SparseArray<Group> groups = new SparseArray<>();
         int j = 0, i = 0;
         while (i < events.size()) {
             ThaliaEvent t = events.get(i);
@@ -161,15 +125,17 @@ public class Calendar extends ActionBarActivity implements SwipeRefreshLayout.On
             groups.append(j, group);
             j++;
         }
+        return groups;
     }
 
     /**
      * Makes a stringarray and fills it with the Categories
      */
-    private void makeCategories() {
-        kindOfEvent = new EventCategory[events.size()];
+    private EventCategory[] makeCategories(List<ThaliaEvent> events) {
+        EventCategory[] kindOfEvent = new EventCategory[events.size()];
         for (int i = 0; i < kindOfEvent.length; i++) {
             kindOfEvent[i] = events.get(i).getCategory();
         }
+        return kindOfEvent;
     }
 }

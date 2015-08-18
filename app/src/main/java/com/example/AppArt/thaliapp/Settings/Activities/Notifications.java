@@ -12,8 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,12 +22,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
+import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.AlarmReceiver;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
+import com.example.AppArt.thaliapp.ThaliappActivity;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +45,7 @@ import java.util.TimeZone;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Notifications extends ActionBarActivity {
+public class Notifications extends ThaliappActivity {
     public static final String MyPREFERENCES = "Settings";
     private EditText timeBefore;
     private int amountOfTime = 60;
@@ -84,10 +83,6 @@ public class Notifications extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timespinner.setAdapter(adapter);
 
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
         setBoxes();
     }
 
@@ -135,12 +130,11 @@ public class Notifications extends ActionBarActivity {
         editor.putBoolean("checkDefault", checkDefault);
         editor.putInt("tijd", amountOfTime);
         editor.putInt("sortTime", chosennumber);
-        editor.commit();
+        editor.apply();
         nextEventToWarn = select();
     }
 
-    //TODO Serena: deze en de volgende functie zijn ambigu. Bovendien moeten ze
-    // geen notificatie zetten.
+    //TODO Serena: Deze functie moet misschien geen notificatie zetten
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -151,75 +145,8 @@ public class Notifications extends ActionBarActivity {
         }
         savePreferences();
         createNotification();
-        Intent i = new Intent(this, Settings.class);
-        startActivity(i);
-        finish();
     }
 
-    /**
-     * what happens when the back key is pressed
-     * @param keyCode, the key code
-     * @param event, the key event
-     * @return if action has succeeded
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (timeBefore.getText() == null || timeBefore.getText().equals("")) {
-                amountOfTime = 60;
-            } else {
-                amountOfTime = Integer.parseInt(timeBefore.getText().toString());
-            }
-            createNotification();
-            savePreferences();
-            Intent i = new Intent(this, Settings.class);
-            startActivity(i);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu, the menu that will be created
-     * @return whether it succeeded
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_notifications, menu);
-        return true;
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item, that was clicked
-     * @return true
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.Calendar:
-                Intent intent1 = new Intent(this, Calendar.class);
-                startActivity(intent1);
-                break;
-            case R.id.Restaurant:
-                Intent intent2 = new Intent(this, Restaurant.class);
-                startActivity(intent2);
-                break;
-            case R.id.Settings:
-                Intent intent4 = new Intent(this, Settings.class);
-                startActivity(intent4);
-                break;
-        }
-        return true;
-    }
 
     /**
      * When the setNotification button is clicked, a notification is set
@@ -307,10 +234,11 @@ public class Notifications extends ActionBarActivity {
         timeString.append(" om ");
         timeString.append(gregCal.get(java.util.Calendar.HOUR_OF_DAY));
         timeString.append(":");
-        if (gregCal.get(java.util.Calendar.MINUTE) == 0) {
-            timeString.append("00");
+        int minute = gregCal.get(java.util.Calendar.MINUTE);
+        if (minute < 10) {
+            timeString.append("0" + minute);
         } else {
-            timeString.append(gregCal.get(java.util.Calendar.MINUTE));
+            timeString.append(minute);
         }
         return timeString.toString();
     }
@@ -333,39 +261,15 @@ public class Notifications extends ActionBarActivity {
         if (allEvents != null) {
             // Adding all possible ThaliaEvents that meet the requirements
             for (int i = 0; i < allEvents.size(); i++) {
-                switch (allEvents.get(i).getCategory()) {
-                    case BORREL:
-                        if (checkBorrel) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case LECTURE:
-                        if (checkLecture) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case ALV:
-                        if (checkALV) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case PARTY:
-                        if (checkParty) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case WORKSHOP:
-                        if (checkWorkshop) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    case DEFAULT:
-                        if (checkDefault) {
-                            interestedEvents.add(allEvents.get(i));
-                        }
-                        break;
-                    default:
-                        break;
+                EventCategory c = allEvents.get(i).getCategory();
+                if ((c == EventCategory.BORREL   && checkBorrel)  ||
+                    (c == EventCategory.LECTURE  && checkLecture) ||
+                    (c == EventCategory.ALV      && checkALV)     ||
+                    (c == EventCategory.PARTY    && checkParty)   ||
+                    (c == EventCategory.WORKSHOP && checkWorkshop)||
+                    (c == EventCategory.DEFAULT  && checkDefault)) {
+
+                    interestedEvents.add(allEvents.get(i));
                 }
             }
             Collections.sort(interestedEvents);

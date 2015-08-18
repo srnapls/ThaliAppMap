@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
-import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
+import com.example.AppArt.thaliapp.ThaliappDrawerActivity;
 import com.example.AppArt.thaliapp.R;
 import com.example.AppArt.thaliapp.Settings.Backend.Database;
 
@@ -31,7 +28,7 @@ import java.util.List;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Overview extends ActionBarActivity {
+public class Overview extends ThaliappDrawerActivity {
 
 
     SharedPreferences sharedpreferences;
@@ -46,14 +43,11 @@ public class Overview extends ActionBarActivity {
         setContentView(R.layout.activity_overzicht);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E61B9B")));
+        prepareDrawer();
     }
 
     /**
@@ -69,39 +63,31 @@ public class Overview extends ActionBarActivity {
     }
 
     /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
+     * Handle action bar item clicks here. The action bar will automatically
+     * handle clicks on the Home/Up button, as long as you specify a parent
+     * activity in AndroidManifest.xml.
      *
-     * @param item, the item that is clicked
-     * @return if the action has succeeded
+     * @param item on which is clicked
+     * @return The action has prevailed!
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case R.id.Calendar:
-                startActivity(new Intent(this, Calendar.class));
-            case R.id.Restaurant:
-                startActivity(new Intent(this, Restaurant.class));
-                break;
-            case R.id.action_settings:
-                startActivity(new Intent(this, Settings.class));
-                break;
+        switch (item.getItemId()) {
             case R.id.action_clear:
                 Database.getDatabase().emptyReceipts();
                 startActivity(new Intent(this, Overview.class));
+                finish();
                 break;
             case R.id.action_logout:
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean("access", false);
-                editor.commit();
-                startActivity(new Intent(this, Settings.class));
+                editor.apply();
+                finish();
                 break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-            return super.onOptionsItemSelected(item);
+        return true;
     }
 
     /**
