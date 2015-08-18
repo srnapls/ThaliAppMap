@@ -91,12 +91,12 @@ public class Notifications extends ThaliappActivity {
      */
     private void setBoxes() {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        checkBorrel = sharedpreferences.getBoolean("BoxBorrel", true);
-        checkALV = sharedpreferences.getBoolean("BoxALV", true);
-        checkParty = sharedpreferences.getBoolean("BoxParty", true);
-        checkWorkshop = sharedpreferences.getBoolean("BoxWorkshop", true);
-        checkLecture = sharedpreferences.getBoolean("BoxLecture", true);
-        checkDefault = sharedpreferences.getBoolean("BoxDefault", true);
+        checkBorrel = sharedpreferences.getBoolean("checkBorrel", true);
+        checkALV = sharedpreferences.getBoolean("checkALV", true);
+        checkParty = sharedpreferences.getBoolean("checkParty", true);
+        checkWorkshop = sharedpreferences.getBoolean("checkWorkshop", true);
+        checkLecture = sharedpreferences.getBoolean("checkLecture", true);
+        checkDefault = sharedpreferences.getBoolean("checkDefault", true);
         amountOfTime = sharedpreferences.getInt("tijd", 60);
         chosennumber = sharedpreferences.getInt("sortTime", 0);
         bbox.setChecked(checkBorrel);
