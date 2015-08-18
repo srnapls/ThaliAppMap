@@ -29,6 +29,7 @@ import com.example.AppArt.thaliapp.Calendar.Activities.Calendar;
 import com.example.AppArt.thaliapp.FoodList.Activities.Restaurant;
 import com.example.AppArt.thaliapp.Settings.Activities.Overview;
 import com.example.AppArt.thaliapp.Settings.Activities.Login;
+import com.example.AppArt.thaliapp.Settings.Activities.About;
 import com.example.AppArt.thaliapp.Settings.Activities.Notifications;
 
 
@@ -63,7 +64,7 @@ public class ThaliappDrawerActivity extends ThaliappActivity implements ListView
     }
 
     protected void prepareDrawer() {
-        String[] menuItems = {"Kalender", "Eetlijst", "Inloggen", "Notificaties"};
+        String[] menuItems = {"Kalender", "Eetlijst", "Inloggen", "Notificaties", "Over"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -123,6 +124,9 @@ public class ThaliappDrawerActivity extends ThaliappActivity implements ListView
                     startActivity(i);
                 }
             } break;
+            case 4:
+                startActivity(new Intent(this, About.class));
+                break;
         }
         mDrawerLayout.closeDrawers();
     }
