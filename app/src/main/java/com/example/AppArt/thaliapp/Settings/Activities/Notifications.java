@@ -19,9 +19,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CompoundButton;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.example.AppArt.thaliapp.Calendar.Backend.ThaliaEvent;
 import com.example.AppArt.thaliapp.Calendar.Backend.EventCategory;
 import com.example.AppArt.thaliapp.R;
@@ -45,7 +53,8 @@ import java.util.TimeZone;
  * @author Frank Gerlings (s4384873), Lisa Kalse (s4338340), Serena Rietbergen (s4182804)
  */
 
-public class Notifications extends ThaliappActivity {
+public class Notifications extends ThaliappActivity
+    implements OnCheckedChangeListener,OnItemSelectedListener,TextWatcher {
     public static final String MyPREFERENCES = "Settings";
     private EditText timeBefore;
     private int amountOfTime = 60;
@@ -57,8 +66,10 @@ public class Notifications extends ThaliappActivity {
     public boolean checkDefault = true;
     private CheckBox bbox, abox, pbox, wbox, lbox, obox;
     private Spinner timespinner;
+    private TextView nextNotif;
     public int chosennumber;
     SharedPreferences sharedpreferences;
+    private boolean settingBoxes = false;
 
     private final Database database = Database.getDatabase();
     private List<ThaliaEvent> allEvents = database.getEvents();
@@ -77,12 +88,29 @@ public class Notifications extends ThaliappActivity {
         obox = (CheckBox) findViewById(R.id.BoxDefault);
         timespinner = (Spinner) findViewById(R.id.spinner);
 
+        nextNotif = (TextView) findViewById(R.id.NextNotif);
+
         ArrayAdapter<CharSequence> adapter;
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.notifications_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timespinner.setAdapter(adapter);
 
+        bbox.setOnCheckedChangeListener(this);
+        abox.setOnCheckedChangeListener(this);
+        pbox.setOnCheckedChangeListener(this);
+        wbox.setOnCheckedChangeListener(this);
+        lbox.setOnCheckedChangeListener(this);
+        obox.setOnCheckedChangeListener(this);
+        timespinner.setOnItemSelectedListener(this);
+        timeBefore.addTextChangedListener(this);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setBoxes();
     }
 
@@ -90,6 +118,7 @@ public class Notifications extends ThaliappActivity {
      * Function to read all the stored values for the boxes and set the boxes accordingly.
      */
     private void setBoxes() {
+        settingBoxes = true;
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         checkBorrel = sharedpreferences.getBoolean("checkBorrel", true);
         checkALV = sharedpreferences.getBoolean("checkALV", true);
@@ -107,13 +136,45 @@ public class Notifications extends ThaliappActivity {
         obox.setChecked(checkDefault);
         timespinner.setSelection(chosennumber);
         nextEventToWarn = select();
+        settingBoxes = false;
     }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        savePreferences();
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+        savePreferences();
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parentView) {
+        savePreferences();
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+        savePreferences();
+    }
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
     /**
      * Save the state of the checkboxes after change and updates the
      * interestedEvents list
      */
     private void savePreferences() {
+        if (settingBoxes) return;
+        if (timeBefore.getText() == null) {
+            amountOfTime = 60;
+        } else {
+            try {
+                amountOfTime = Integer.parseInt(timeBefore.getText().toString());
+            } catch (NumberFormatException e) {
+                amountOfTime = 60;
+            }
+        }
         checkBorrel = bbox.isChecked();
         checkALV = abox.isChecked();
         checkWorkshop = wbox.isChecked();
@@ -132,42 +193,22 @@ public class Notifications extends ThaliappActivity {
         editor.putInt("sortTime", chosennumber);
         editor.apply();
         nextEventToWarn = select();
-    }
-
-    //TODO Serena: Deze functie moet misschien geen notificatie zetten
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (timeBefore.getText() == null) {
-            amountOfTime = 60;
-        } else {
-            amountOfTime = Integer.parseInt(timeBefore.getText().toString());
-        }
-        savePreferences();
         createNotification();
     }
 
 
-    /**
-     * When the setNotification button is clicked, a notification is set
-     */
-    
-    public void onSetNotification(View view) {
-        if (timeBefore.getText() == null) {
-            amountOfTime = 60;
-        } else {
-            amountOfTime = Integer.parseInt(timeBefore.getText().toString());
-        }
-        savePreferences();
-        createNotification();
-    }
 
     /**
      * Calculates what the amount of time is in minutes. If the spinner is selected on 0, the time is
      * already displayed in minutes, when 1 the time is in hours, when 2 the time is in days.
      */
     private void calculateTime(){
-        int temp = Integer.parseInt(timeBefore.getText().toString());
+        int temp;
+        try {
+            temp = Integer.parseInt(timeBefore.getText().toString());
+        } catch (NumberFormatException e) {
+            temp = 60;
+        }
         switch(timespinner.getSelectedItemPosition()){
             case 0:
                 amountOfTime = temp;
@@ -188,8 +229,8 @@ public class Notifications extends ThaliappActivity {
     public void createNotification() {
         // There is no event to notify
         if(nextEventToWarn == null){
-            Toast.makeText(this, "Er zijn geen activiteiten die voldoen aan de " +
-                    "eisen.\n Er is geen notificatie gemaakt.", Toast.LENGTH_SHORT).show();
+            nextNotif.setText("Er zijn geen activiteiten die voldoen aan de " +
+                     "eisen.\n Er is geen notificatie gemaakt.");
             return;
         }
         calculateTime();
@@ -213,9 +254,8 @@ public class Notifications extends ThaliappActivity {
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, msToWarn, alarmIntent);
         System.out.println("To be notified: " + nextEventToWarn);
 
-        Toast.makeText(this, "Er is op " + timeToString(msToWarn) + " voor " +
-                nextEventToWarn.getSummary() + " een notificatie gezet.",
-                Toast.LENGTH_LONG).show();
+        nextNotif.setText("Er is op " + timeToString(msToWarn) + " voor " +
+                 nextEventToWarn.getSummary() + " een notificatie gezet.");
     }
 
     /**
