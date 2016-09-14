@@ -1,6 +1,8 @@
 # ThaliAppMap
 
-The ThaliApp is the app for the studentassociation Thalia. This app is made for
+_For the official ThaliApp please see [Thalia's Technicie Gitlab page](https://gitlab.science.ru.nl/thalia/thaliapp)_
+
+This ThaliApp is the app for the studentassociation Thalia. This app is made for
 the subject Research and Development '14/15 at the Radboud University Nijmegen.
 
 Requirements:
